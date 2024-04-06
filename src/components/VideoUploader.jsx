@@ -10,7 +10,22 @@ export const VideoUploader = () => {
     const handleChange = (newFile) => {
         setFile(newFile)
     }
-    //, '& .MuiInputBase-root.Mui-focused': { borderColor: 'rgb(98, 65, 83)'}
+    
+    socket.onopen = () => {
+        console.log('Conexión establecida con el servidor WebSocket');
+      };
+  
+      socket.onmessage = (event) => {
+        console.log('Mensaje recibido:', event.data);
+      };
+  
+      socket.onerror = (error) => {
+        console.error('Error en la conexión WebSocket:', error);
+      };
+  
+      socket.onclose = () => {
+        console.log('Conexión WebSocket cerrada');
+      };
     const handleUpload = () => {
         if (file) {
             const reader = new FileReader();
