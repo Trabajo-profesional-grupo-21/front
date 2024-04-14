@@ -1,0 +1,15 @@
+.y{
+    background: rgb(35, 35, 35);
+    width: 1px;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+  }
+  
+  .y:before {
+    content: "Y";
+    top: -8%;
+    left: 100%;
+    transform: translate(-50%, 0);
+    position: absolute;
+  }

@@ -3,8 +3,7 @@ import React from 'react'
 import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
 
-export const VideoUploader = () => {
-    const [file, setFile] = React.useState(null)
+export const VideoUploader = ({file, setFile}) => {
     const socket = new WebSocket('ws://localhost:8000/video_entire');
 
     const handleChange = (newFile) => {
@@ -54,7 +53,7 @@ export const VideoUploader = () => {
                         }
                     }
                 }}
-                sx={{ color: 'rgb(251, 214, 164)' }}
+                sx={{ color: 'rgb(251, 214, 164)' , maxWidth:"100%" }}
                 onChange={handleChange}
             />
             {file && (
@@ -69,6 +68,5 @@ export const VideoUploader = () => {
                 </div>
             )}
         </>
-
     );
 }
