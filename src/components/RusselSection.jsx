@@ -2,6 +2,7 @@ import React from 'react'
 import Grid from '@mui/material/Grid';
 import { Typography } from "@mui/material";
 import { Chart } from "react-google-charts";
+import { ScatterPlot } from './ScatterPlotInfo';
 
 
 export const data = [
@@ -53,13 +54,7 @@ export const RusselSection = () => {
                 </Typography>
             </Grid>
             <Grid item xs = {12}>
-            <Chart
-                chartType="Scatter"
-                width="80%"
-                height="400px"
-                data={data}
-                options={options}
-            />
+            <ScatterPlot></ScatterPlot>
             </Grid>
         </Grid>
     )
