@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { VideoSection } from '../components/VideoSection';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { CartesianPlane } from "../components/CartesianPlane";
-import { styled } from '@mui/material/styles';
+import { ResultsSection } from '../components/ResultsSection';
 
 export const Main = (props) => {
 
@@ -23,11 +20,11 @@ export const Main = (props) => {
                     spacing={2}
                     alignItems="center"
                     >
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                         <VideoSection />
                     </Grid>
-                    <Grid item justifyContent="center" alignItems="center" xs={6}>
-                        <CartesianPlane />
+                    <Grid item justifyContent="center" alignItems="center" xs={8}>
+                        <ResultsSection/>
                     </Grid>
                 </Grid>
             </Grid>   
