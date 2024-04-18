@@ -76,7 +76,31 @@ export const ScatterPlot = () => {
                         min: -5,
                         max: 5,
                     }
-                }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                // configuracion que remueve la grilla
+               /*  scales: {
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        position: 'center',
+                        min: -1,
+                        max: 1,
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        position: 'center',
+                        min: -5,
+                        max: 5,
+                    }
+                } */
             },
             plugins: [scatterLabels]
         };
