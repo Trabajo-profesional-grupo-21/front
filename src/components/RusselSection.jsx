@@ -28,7 +28,8 @@ export const data = [
 
 
 
-export const RusselSection = () => {
+export const RusselSection = ({valenceArousalData}) => {
+    console.log("info de valence y arousal: ", valenceArousalData);
     var valence = 0.3
     var arousal = 0.3
     return (
@@ -50,7 +51,7 @@ export const RusselSection = () => {
             </Grid>
             <Grid item xs = {6}>
                 <Typography>
-                    Aorusal {arousal}
+                    Arousal {arousal}
                 </Typography>
             </Grid>
             <Grid item xs = {12}>

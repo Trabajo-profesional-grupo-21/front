@@ -43,11 +43,53 @@ export const ScatterPlot = () => {
 
                 const emotions = [
                     {
-                        name: 'emotion', 
-                        xPos: left + 5, 
-                        yPos: top + 15, 
+                        name: 'Negativo', 
+                        xPos: left + 2, 
+                        yPos: bottom - 110, 
                         textAlign: 'left',
                     },
+                    {
+                        name: 'Positvo', 
+                        xPos: right - 43, 
+                        yPos: bottom - 110, 
+                        textAlign: 'left',
+                    },
+                    {
+                        name: 'Alta', 
+                        xPos: right - 235, 
+                        yPos: top + 10, 
+                        textAlign: 'left',
+                    },
+                    {
+                        name: 'Baja', 
+                        xPos: right - 235, 
+                        yPos: bottom - 5 , 
+                        textAlign: 'left',
+                    },
+                    {
+                        name: 'ENOJADO', 
+                        xPos: right - 400, 
+                        yPos: top + 57 , 
+                        textAlign: 'left',
+                    },
+                    {
+                        name: 'FELIZ', 
+                        xPos: right - 100, 
+                        yPos: top + 57 , 
+                        textAlign: 'left',
+                    },
+                    {
+                        name: 'TRISTE', 
+                        xPos: right - 400, 
+                        yPos: bottom - 50, 
+                        textAlign: 'left',
+                    },
+                    {
+                        name: 'RELAJADO', 
+                        xPos: right - 100, 
+                        yPos: bottom - 50, 
+                        textAlign: 'left',
+                    }
                 ]
                 emotions.forEach((item) => {
                     showEmotion(item.name, item.xPos, item.yPos, item.textAlign)

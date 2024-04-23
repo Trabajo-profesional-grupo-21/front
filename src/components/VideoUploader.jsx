@@ -3,28 +3,12 @@ import React from 'react'
 import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
 
-export const VideoUploader = ({file, setFile}) => {
-    const socket = new WebSocket('ws://localhost:8000/video_entire');
+export const VideoUploader = ({file, setFile, socket}) => {
 
     const handleChange = (newFile) => {
         setFile(newFile)
     }
     
-    socket.onopen = () => {
-        console.log('Conexión establecida con el servidor WebSocket');
-      };
-  
-      socket.onmessage = (event) => {
-        console.log('Mensaje recibido:', event.data);
-      };
-  
-      socket.onerror = (error) => {
-        console.error('Error en la conexión WebSocket:', error);
-      };
-  
-      socket.onclose = () => {
-        console.log('Conexión WebSocket cerrada');
-      };
     const handleUpload = () => {
         if (file) {
             const reader = new FileReader();

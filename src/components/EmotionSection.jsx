@@ -3,16 +3,7 @@ import { Chart } from "react-google-charts";
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 
-export const data = [
-    ["Emociones", "Emociones"],
-    ["HAPPY", 0.03],
-    ["SADNESS", 0.23],
-    ["FEAR", 0.4],
-    ["ANGRY", 0.6],
-    ["DISGUST", 0.03],
-    ["SURPRISE", 0.3],
-    ["NEUTRAL", 0.1],
-  ];
+
   
   export const options = {
     chart: {
@@ -25,8 +16,21 @@ export const data = [
     backgroundColor: "rgb(170,126,169)"
   };
 
+  export const data = [
+    ["Emociones", "Emociones"],
+    ["HAPPY", 0.03],
+    ["SADNESS", 0.23],
+    ["FEAR", 0.4],
+    ["ANGRY", 0.6],
+    ["DISGUST", 0.03],
+    ["SURPRISE", 0.3],
+    ["NEUTRAL", 0.1],
+  ];
+  
 
-export const EmotionSection = () => {
+
+export const EmotionSection = ({emotionsData}) => {
+    console.log("info de emcoiones: ", emotionsData);
     return (
         <Grid container 
             justifyContent="center" 
