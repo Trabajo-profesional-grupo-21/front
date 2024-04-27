@@ -2,17 +2,16 @@
 import React from 'react'
 import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
-import { useCustomWebSocket } from './CustomWebSocketProvider'; 
 
 
-export const VideoUploader = ({file, setFile}) => {
-    const socket = useCustomWebSocket();
+
+export const VideoUploader = ({file, setFile, socket}) => {
     const handleChange = (newFile) => {
         setFile(newFile)
     }
     
     const handleUpload = () => {
-        if (file) {
+        if (file && socket.readyState === WebSocket.OPEN) {
             const reader = new FileReader();
             reader.onload = function (event) {
                 const videoData = event.target.result;
@@ -20,6 +19,8 @@ export const VideoUploader = ({file, setFile}) => {
             };
             reader.readAsArrayBuffer(file);
             console.log('Archivo cargado:', file);
+        } else {
+            console.log('El archivo no está listo o el socket aún no está conectado.');
         }
 
     };

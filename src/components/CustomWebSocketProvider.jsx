@@ -1,12 +1,17 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-const CustomWebSocketContext = createContext(null);
+const CustomWebSocketContext = createContext({});
 
-export const CustomWebSocketProvider = ({ endpoint, children }) => {
-  const [socket, setSocket] = useState(null);
+export const CustomWebSocketProvider = ({ children }) => {
+  const [socket, setSocket] = useState({});
 
-  useEffect(() => {
+  const getSocket = (endpoint) => {
+    return socket[endpoint];
+  };
+
+  const createSocket = (endpoint) => {
     const newSocket = new WebSocket(endpoint);
+    const newSockets = { ...socket, [endpoint]: newSocket };
 
     newSocket.onopen = () => {
       console.log('Conexión establecida con el servidor WebSocket cuyo enpoint es ', endpoint);
@@ -15,23 +20,25 @@ export const CustomWebSocketProvider = ({ endpoint, children }) => {
     newSocket.onerror = (error) => {
       console.error('Error en la conexión WebSocket para el endpoint:', error, endpoint);
     };
-    newSocket.onmessage = (event) => {
-        console.log('Mensaje recibido del enpoint :', endpoint, event.data);
-    };
 
     newSocket.onclose = () => {
-      console.log('Conexión WebSocket cerrada para el endpoint ', endpoint);
+      console.log('Conexión WebSocket cerrada para el endpoint:', endpoint);
+      // Eliminar el socket cerrado del estado
+      setSocket((prevSockets) => {
+        const { [endpoint]: removedSocket, ...rest } = prevSockets;
+        return rest;
+      });
     };
 
-    setSocket(newSocket);
+    setSocket(newSockets);
 
-    return () => {
-      newSocket.close();
-    };
-  }, [endpoint]);
+    return newSocket;
+  };
+
+  const value = { getSocket, createSocket };
 
   return (
-    <CustomWebSocketContext.Provider value={socket}>
+    <CustomWebSocketContext.Provider value={value}>
       {children}
     </CustomWebSocketContext.Provider>
   );

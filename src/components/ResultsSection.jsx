@@ -5,15 +5,14 @@ import { RusselSection } from './RusselSection';
 import { useCustomWebSocket } from './CustomWebSocketProvider'; 
 
 
-export const ResultsSection = ({currentFrameIndex}) =>{
+export const ResultsSection = ({socket, currentFrameIndex}) =>{
     const [emotionsData, setEmotionsData] = useState([]);
     const [valenceArousalData, setValenceArousalData] = useState([]);
-    const socket = useCustomWebSocket();
-
+   
     useEffect(() => {
         if (socket) {
         socket.onmessage = (event) => {
-            console.log('Mensaje recibido:', event.data);
+            console.log('Mensaje EN RESULT SECCTION:', event.data);
             const messageData = JSON.parse(event.data);
             const batchData = messageData.batch;
 
