@@ -2,7 +2,7 @@ import React, { useEffect, useState }  from 'react'
 import Grid from '@mui/material/Grid';
 import { EmotionSection } from './EmotionSection';
 import { RusselSection } from './RusselSection';
-import { useCustomWebSocket } from './CustomWebSocketProvider'; 
+
 
 
 export const ResultsSection = ({socket, currentFrameIndex}) =>{

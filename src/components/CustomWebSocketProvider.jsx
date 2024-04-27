@@ -3,18 +3,14 @@ import React, { createContext, useContext, useState } from 'react';
 const CustomWebSocketContext = createContext({});
 
 export const CustomWebSocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState({});
-
-  const getSocket = (endpoint) => {
-    return socket[endpoint];
-  };
+  const [sockets, setSockets] = useState({});
 
   const createSocket = (endpoint) => {
     const newSocket = new WebSocket(endpoint);
-    const newSockets = { ...socket, [endpoint]: newSocket };
+    const newSockets = { ...sockets, [endpoint]: newSocket };
 
     newSocket.onopen = () => {
-      console.log('Conexión establecida con el servidor WebSocket cuyo enpoint es ', endpoint);
+      console.log('Conexión establecida con el servidor WebSocket cuyo endpoint es ', endpoint);
     };
 
     newSocket.onerror = (error) => {
@@ -24,18 +20,18 @@ export const CustomWebSocketProvider = ({ children }) => {
     newSocket.onclose = () => {
       console.log('Conexión WebSocket cerrada para el endpoint:', endpoint);
       // Eliminar el socket cerrado del estado
-      setSocket((prevSockets) => {
+      setSockets((prevSockets) => {
         const { [endpoint]: removedSocket, ...rest } = prevSockets;
         return rest;
       });
     };
 
-    setSocket(newSockets);
+    setSockets(newSockets);
 
     return newSocket;
   };
 
-  const value = { getSocket, createSocket };
+  const value = { sockets, createSocket };
 
   return (
     <CustomWebSocketContext.Provider value={value}>
