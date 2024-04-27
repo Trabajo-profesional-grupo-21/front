@@ -2,13 +2,13 @@ import React, { useEffect, useState }  from 'react'
 import Grid from '@mui/material/Grid';
 import { EmotionSection } from './EmotionSection';
 import { RusselSection } from './RusselSection';
-import { useWebSocket } from './WebSocketContext';
+import { useCustomWebSocket } from './CustomWebSocketProvider'; 
 
 
-export const ResultsSection = () =>{
+export const ResultsSection = ({currentFrameIndex}) =>{
     const [emotionsData, setEmotionsData] = useState([]);
     const [valenceArousalData, setValenceArousalData] = useState([]);
-    const socket = useWebSocket();
+    const socket = useCustomWebSocket();
 
     useEffect(() => {
         if (socket) {

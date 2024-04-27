@@ -2,11 +2,10 @@ import React from 'react'
 import Grid from '@mui/material/Grid';
 import { VideoUploader } from './VideoUploader';
 import {VideoPlayer} from './VideoPlayer';
-import { useWebSocket } from './WebSocketContext';
+import { CustomWebSocketProvider } from '../components/CustomWebSocketProvider';
 
 export const VideoSection = () => {
     const [videoFile, setFile] = React.useState(null)
-    const socket = useWebSocket();
     return (
         <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
         justifyContent="center" 
@@ -20,12 +19,16 @@ export const VideoSection = () => {
                     borderRadius: 2,
                     boxShadow: 2
             }}>
-                   <VideoUploader file={videoFile} setFile={setFile} socket={socket} />
+                <CustomWebSocketProvider endpoint="ws://localhost:8000/video_entire">
+                   <VideoUploader file={videoFile} setFile={setFile} />
+                </CustomWebSocketProvider>
             </Grid>
             <Grid item xs={12} sx={{ textAlign: 'center' }}>
                 <div>
                     {videoFile && (
-                        <VideoPlayer videoUrl={videoFile} />
+                         <CustomWebSocketProvider endpoint="ws://localhost:8000/video_info">
+                            <VideoPlayer videoFile={videoFile} />
+                         </CustomWebSocketProvider>   
                     )}
                 </div>
             </Grid>

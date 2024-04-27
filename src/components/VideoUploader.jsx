@@ -2,9 +2,11 @@
 import React from 'react'
 import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
+import { useCustomWebSocket } from './CustomWebSocketProvider'; 
 
-export const VideoUploader = ({file, setFile, socket}) => {
 
+export const VideoUploader = ({file, setFile}) => {
+    const socket = useCustomWebSocket();
     const handleChange = (newFile) => {
         setFile(newFile)
     }
