@@ -5,45 +5,34 @@ import { useCustomWebSocket } from './CustomWebSocketProvider';
 
 
 
-export const VideoPlayer = ({ videoFile, socket }) => {
-    const [currentVideoUrl, setCurrentVideoUrl] = useState(null);
-    const [videoDuration, setVideoDuration] = useState(null);
+export const VideoPlayer = ({ videoFile, socket, setCurrentFrameIndex }) => {
+    const [videoUrl, setVideoUrl] = useState(null);
     const [frameRates, setFramesRate] = useState(0);
     const [totalFrames, setTotalFrames] = useState(0);
+
+    const sendVideoToServer = (video) => {
+        if (socket && socket.readyState === WebSocket.OPEN && video) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const videoData = event.target.result;
+                socket.send(videoData);
+            };
+            reader.readAsArrayBuffer(video);
+            console.log('Archivo cargado:', video);
+        }
+    };
+
+    useEffect(() => {
+        sendVideoToServer(videoFile);
+    }, [videoFile, socket]);
+
     useEffect(() => {
         if (socket) {
-            if (socket.readyState === WebSocket.OPEN) {
-                if (videoFile) {
-                    const reader = new FileReader();
-                    reader.onload = function (event) {
-                        const videoData = event.target.result;
-                        socket.send(videoData);
-                    };
-                    reader.readAsArrayBuffer(videoFile);
-                    console.log('Archivo cargado:', videoFile);
-                }
-            } else {
-                socket.onopen = () => {
-                    console.log('Conexión WebSocket establecida, enviando datos...');
-                    if (videoFile) {
-                        const reader = new FileReader();
-                        reader.onload = function (event) {
-                            const videoData = event.target.result;
-                            socket.send(videoData); 
-                        };
-                        reader.readAsArrayBuffer(videoFile);
-                        console.log('Archivo cargado:', videoFile);
-                    }
-                };
-            }
-
             socket.onmessage = (event) => {
-                
                 console.log('Respuesta recibida de info del video:', event.data);
                 const messageData = JSON.parse(event.data);
                 setFramesRate(messageData.fps);
                 setTotalFrames(messageData.frame_count);
-
             };
         }
     }, [socket]);
@@ -51,11 +40,10 @@ export const VideoPlayer = ({ videoFile, socket }) => {
     useEffect(() => {
         if (videoFile) {
             const url = URL.createObjectURL(videoFile);
-            setCurrentVideoUrl(url);
+            setVideoUrl(url);
         }
     }, [videoFile]);
 
-    const url = URL.createObjectURL(videoFile);
     const handleProgress = (state) => {
         const currentTime = state.playedSeconds;
         if (!currentTime) return -1
@@ -63,13 +51,14 @@ export const VideoPlayer = ({ videoFile, socket }) => {
         console.log("frame rate", frameRates);
         const currentFrame = Math.floor(currentTime * frameRates);
         console.log("current FRAME: ", currentFrame);
+        setCurrentFrameIndex(currentFrame);
         return currentFrame;
     }
     const interval = 1000 /* ms */ / frameRates /* fps */
     return (
         <Card sx={{ maxWidth: "100%"}}>
             <ReactPlayer
-        url={url}
+        url={videoUrl}
         controls={true}
         width="100%"
         height="100%"

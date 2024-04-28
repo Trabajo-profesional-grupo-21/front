@@ -44,10 +44,10 @@ export const ResultsSection = ({socket, currentFrameIndex}) =>{
             direction="rows"
         >
             <Grid item xs={6}>
-                <EmotionSection emotionsData={emotionsData}></EmotionSection>
+                <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
             </Grid>
             <Grid item xs = {6}>
-                <RusselSection valenceArousalData={valenceArousalData}></RusselSection>
+                <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
             </Grid>
         </Grid>
     );

@@ -4,7 +4,7 @@ import { useCustomWebSocket } from './CustomWebSocketProvider';
 import { VideoUploader } from './VideoUploader';
 import {VideoPlayer} from './VideoPlayer';
 
-export const VideoSection = ({uploaderSocket, playerSocket}) => {
+export const VideoSection = ({uploaderSocket, playerSocket, setCurrentFrameIndex}) => {
     const [videoFile, setFile] = React.useState(null)
     const { getSocket } = useCustomWebSocket();
     return (
@@ -25,7 +25,7 @@ export const VideoSection = ({uploaderSocket, playerSocket}) => {
             <Grid item xs={12} sx={{ textAlign: 'center' }}>
                 <div>
                     {videoFile && (
-                            <VideoPlayer videoFile={videoFile} socket={playerSocket} />
+                            <VideoPlayer videoFile={videoFile} socket={playerSocket} setCurrentFrameIndex={setCurrentFrameIndex} />
                     )}
                 </div>
             </Grid>

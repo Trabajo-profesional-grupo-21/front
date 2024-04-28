@@ -7,7 +7,8 @@ import { Box } from '@mui/material';
 
 
 export const Main = (props) => {
-    
+    const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
+
     const createSocket = (endpoint) => {
         const newSocket = new WebSocket(endpoint);
 
@@ -52,10 +53,10 @@ export const Main = (props) => {
                             alignItems="center"
                             >
                             <Grid item xs={4}>
-                                <VideoSection uploaderSocket={uploaderSocket} playerSocket={playerSocket}/>
+                                <VideoSection uploaderSocket={uploaderSocket} playerSocket={playerSocket} setCurrentFrameIndex={setCurrentFrameIndex}/>
                             </Grid>
                             <Grid item justifyContent="center" alignItems="center" xs={8}>             
-                                    <ResultsSection socket={uploaderSocket}/>
+                                    <ResultsSection socket={uploaderSocket} currentFrameIndex={currentFrameIndex}/>
                             </Grid>
                         </Grid>
                     </Grid>   
