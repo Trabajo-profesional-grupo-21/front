@@ -16,21 +16,13 @@ import { Typography } from '@mui/material';
     backgroundColor: "rgb(170,126,169)"
   };
 
-  export const data = [
-    ["Emociones", "Emociones"],
-    ["HAPPY", 0.03],
-    ["SADNESS", 0.23],
-    ["FEAR", 0.4],
-    ["ANGRY", 0.6],
-    ["DISGUST", 0.03],
-    ["SURPRISE", 0.3],
-    ["NEUTRAL", 0.1],
-  ];
-  
-
 
 export const EmotionSection = ({emotionsData}) => {
     console.log("info de emcoiones: ", emotionsData);
+
+   
+    console.log("DATA PREPROCESADA ", emotionsData)
+
     return (
         <Grid container 
             justifyContent="center" 
@@ -47,7 +39,7 @@ export const EmotionSection = ({emotionsData}) => {
                 <Chart
                     chartType="ColumnChart"
                     width="100%"
-                    data={data}
+                    data={emotionsData}
                     options={options}
                 />
             </Grid>
