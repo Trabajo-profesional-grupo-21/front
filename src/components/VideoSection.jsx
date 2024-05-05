@@ -19,7 +19,11 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData}) => {
                     borderRadius: 2,
                     boxShadow: 2
             }}>
-                   <VideoUploader file={videoFile} setFile={setFile} setFrameRate={setFrameRate}/>
+                   <VideoUploader   file={videoFile} 
+                                    setFile={setFile} 
+                                    setFrameRate={setFrameRate}
+                                    setBatchData={setBatchData}
+                                    />
             </Grid>
             <Grid item xs={12} sx={{ textAlign: 'center' }}>
                 <div>

@@ -9,6 +9,7 @@ import { Box } from '@mui/material';
 export const Main = (props) => {
     const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
     const [batchData, setBatchData] = useState({});
+
     return (
             <Box style={{ background: "rgb(170,126,169)"}} minHeight="100vh" p={2}>
                 <Grid container style={{ background: "rgb(170,126,169)" }} spacing={3}>

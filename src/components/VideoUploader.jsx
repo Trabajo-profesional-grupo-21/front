@@ -5,9 +5,30 @@ import { Button } from '@mui/material'
 
 
 
-export const VideoUploader = ({file, setFile, setFrameRate}) => {
+export const VideoUploader = ({file, setFile, setFrameRate, setBatchData}) => {
+    const APIURL = "http://localhost:8000";
     const handleChange = (newFile) => {
         setFile(newFile)
+    }
+
+    const getVideoData = async (currentTime) => {
+        console.log("BUSCO INFO DEL VIDEO AL BACK");
+        try {
+            const user_id = localStorage.getItem('user');
+            const url = `${APIURL}/batch_data_time/${user_id}/${currentTime}`;
+            const paramsApi = {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            };
+            const response = await fetch(url, paramsApi);
+            const jsonResponse = await response.json();
+            let batchinfo = JSON.parse(jsonResponse.data);
+            setBatchData(batchinfo['batch']);    
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
     
     const handleUpload = async () => {
@@ -33,7 +54,11 @@ export const VideoUploader = ({file, setFile, setFrameRate}) => {
     
                     if (response.status === 200) {
                         localStorage.setItem("user", jsonResponse['user_id']);
-                        setFrameRate(jsonResponse['fps'])
+                        setFrameRate(jsonResponse['fps']);
+                        // Buscamos el primero y el segundo. 
+                        getVideoData(0);
+                        getVideoData(10);
+
                     }
                 } catch (error) {
                     console.error('Error:', error);
