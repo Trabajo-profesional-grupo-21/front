@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
-export const ScatterPlot = () => {
+export const ScatterPlot = ({xpos, ypos}) => {
     const chartRef = useRef(null);
     const [chartVersion, setChartVersion] = useState(null);
     const chartInstanceRef = useRef(null);
 
     useEffect(() => {
-        const data = {
+        var data = {
             datasets: [{
                 label: 'Arousal',
                 data: [
-                    { x: -4.5, y: 0.9 }
+                    { x: xpos, y: ypos }
                 ],
                 backgroundColor: [
                     'rgba(255, 26, 104, 0.2)',
@@ -110,13 +110,13 @@ export const ScatterPlot = () => {
                 scales: {
                     y: {
                         position: 'center',
-                        min: -1,
-                        max: 1,
+                        min: 5,
+                        max: 0,
                     },
                     x: {
                         position: 'center',
-                        min: -5,
-                        max: 5,
+                        min: -1,
+                        max: 1,
                     }
                 },
                 plugins: {
@@ -164,7 +164,7 @@ export const ScatterPlot = () => {
             }
         };
 
-    }, []);
+    }, [xpos, ypos]);
 
     return (
         <div>
