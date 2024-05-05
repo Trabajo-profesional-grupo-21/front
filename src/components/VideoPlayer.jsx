@@ -18,7 +18,6 @@ export const VideoPlayer = ({ videoFile, socket, setCurrentFrameIndex }) => {
                 socket.send(videoData);
             };
             reader.readAsArrayBuffer(video);
-            console.log('Archivo cargado:', video);
         }
     };
 
@@ -47,8 +46,6 @@ export const VideoPlayer = ({ videoFile, socket, setCurrentFrameIndex }) => {
     const handleProgress = (state) => {
         const currentTime = state.playedSeconds;
         if (!currentTime) return -1
-        console.log("current time", currentTime);
-        console.log("frame rate", frameRates);
         const currentFrame = Math.floor(currentTime * frameRates);
         console.log("current FRAME: ", currentFrame);
         setCurrentFrameIndex(currentFrame);

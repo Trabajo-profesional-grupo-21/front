@@ -18,11 +18,6 @@ import { Typography } from '@mui/material';
 
 
 export const EmotionSection = ({emotionsData}) => {
-    console.log("info de emcoiones: ", emotionsData);
-
-   
-    console.log("DATA PREPROCESADA ", emotionsData)
-
     return (
         <Grid container 
             justifyContent="center" 

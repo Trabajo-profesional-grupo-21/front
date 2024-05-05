@@ -50,9 +50,6 @@ export const ResultsSection = ({socket, currentFrameIndex}) =>{
         };
         }
     }, [socket, setEmotionsData, setValenceArousalData]);
-    console.log("Current frame id ", currentFrameIndex);
-    console.log("Info emociones: ", emotionsData[currentFrameIndex]);
-    console.log("Info arousal and valencia ", valenceArousalData[currentFrameIndex]);
     return (
         <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
