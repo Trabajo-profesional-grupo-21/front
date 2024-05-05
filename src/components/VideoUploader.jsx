@@ -5,22 +5,41 @@ import { Button } from '@mui/material'
 
 
 
-export const VideoUploader = ({file, setFile, socket}) => {
+export const VideoUploader = ({file, setFile, setFrameRate}) => {
     const handleChange = (newFile) => {
         setFile(newFile)
     }
     
-    const handleUpload = () => {
-        if (file && socket.readyState === WebSocket.OPEN) {
+    const handleUpload = async () => {
+        console.log("entreee");
+        if (file) {
+            console.log("fileee ", file);
             const reader = new FileReader();
-            reader.onload = function (event) {
-                const videoData = event.target.result;
-                socket.send(videoData); 
+            reader.onload = async () => {
+                try {
+                    const APIURL = 'http://localhost:8000/upload/';
+                    const formData = new FormData();
+                    formData.append('file', file, reader.result);
+                    const response = await fetch(APIURL, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'accept': 'application/json',
+                        },
+                    });
+    
+                    const jsonResponse = await response.json();
+                    console.log(jsonResponse);
+    
+                    if (response.status === 200) {
+                        localStorage.setItem("user", jsonResponse['user_id']);
+                        setFrameRate(jsonResponse['fps'])
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             };
-            reader.readAsArrayBuffer(file);
-            console.log('Archivo cargado:', file);
-        } else {
-            console.log('El archivo no está listo o el socket aún no está conectado.');
+            reader.readAsDataURL(file);
         }
 
     };

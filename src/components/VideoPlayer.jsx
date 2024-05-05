@@ -3,39 +3,36 @@ import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import ReactPlayer from 'react-player';
 import { useCustomWebSocket } from './CustomWebSocketProvider'; 
 
-
-
-export const VideoPlayer = ({ videoFile, socket, setCurrentFrameIndex }) => {
+export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_batches, setBatchData }) => {
     const [videoUrl, setVideoUrl] = useState(null);
-    const [frameRates, setFramesRate] = useState(0);
-    const [totalFrames, setTotalFrames] = useState(0);
-
-    const sendVideoToServer = (video) => {
-        if (socket && socket.readyState === WebSocket.OPEN && video) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                const videoData = event.target.result;
-                socket.send(videoData);
+    const [isLastBatch, setIsLastBatch] = useState(false);
+    const [lastCall, setLastCall] =  useState(0); 
+    const APIURL = "http://localhost:8000";
+    
+    const getVideoData = async (currentTime) => {
+        console.log("BUSCO INFO DEL VIDEO AL BACK");
+        try {
+            const user_id = localStorage.getItem('user');
+            const url = `${APIURL}/batch_data_time/${user_id}/${currentTime}`;
+            const paramsApi = {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             };
-            reader.readAsArrayBuffer(video);
+            const response = await fetch(url, paramsApi);
+            const jsonResponse = await response.json();
+            console.log(jsonResponse);
+            const isLastBatch = (currentBatch) => {return currentBatch == total_batches -1} 
+            if (jsonResponse && isLastBatch(jsonResponse.batch)) {
+                setIsLastBatch(true);
+            }
+            setBatchData(jsonResponse.batch)    
+        } catch (error) {
+            console.error('Error:', error);
         }
-    };
-
-    useEffect(() => {
-        sendVideoToServer(videoFile);
-    }, [videoFile, socket]);
-
-    useEffect(() => {
-        if (socket) {
-            socket.onmessage = (event) => {
-                console.log('Respuesta recibida de info del video:', event.data);
-                const messageData = JSON.parse(event.data);
-                setFramesRate(messageData.fps);
-                setTotalFrames(messageData.frame_count);
-            };
-        }
-    }, [socket]);
-
+    }
+    
     useEffect(() => {
         if (videoFile) {
             const url = URL.createObjectURL(videoFile);
@@ -46,12 +43,20 @@ export const VideoPlayer = ({ videoFile, socket, setCurrentFrameIndex }) => {
     const handleProgress = (state) => {
         const currentTime = state.playedSeconds;
         if (!currentTime) return -1
-        const currentFrame = Math.floor(currentTime * frameRates);
+        const currentFrame = Math.floor(currentTime * frameRate);
         console.log("current FRAME: ", currentFrame);
         setCurrentFrameIndex(currentFrame);
+        console.log("time actual ", currentTime);
+        const floorCurrentTime = Math.floor(currentTime)
+        if (floorCurrentTime > lastCall && floorCurrentTime % 5 === 0 && !isLastBatch) { 
+            setTimeout(() => {
+                getVideoData(floorCurrentTime);
+            }, 5000);
+            setLastCall(floorCurrentTime)
+        }
         return currentFrame;
     }
-    const interval = 1000 /* ms */ / frameRates /* fps */
+    const interval = 1000 /* ms */ / frameRate /* fps */
     return (
         <Card sx={{ maxWidth: "100%"}}>
             <ReactPlayer

@@ -14,11 +14,11 @@ const data_init = [
     ["NEUTRAL", 0.1],
   ];
 
-export const ResultsSection = ({socket, currentFrameIndex}) =>{
+export const ResultsSection = ({currentFrameIndex}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
    
-    useEffect(() => {
+    /*useEffect(() => {
         if (socket) {
         socket.onmessage = (event) => {
             console.log('Mensaje EN RESULT SECCTION:', event.data);
@@ -49,7 +49,7 @@ export const ResultsSection = ({socket, currentFrameIndex}) =>{
                 }
         };
         }
-    }, [socket, setEmotionsData, setValenceArousalData]);
+    }, [socket, setEmotionsData, setValenceArousalData]);*/
     return (
         <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
