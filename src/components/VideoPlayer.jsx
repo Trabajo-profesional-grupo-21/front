@@ -27,7 +27,8 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
             if (jsonResponse && isLastBatch(jsonResponse.batch)) {
                 setIsLastBatch(true);
             }
-            setBatchData(jsonResponse.data.batch)    
+            let batchinfo = JSON.parse(jsonResponse.data);
+            setBatchData(batchinfo['batch']);     
         } catch (error) {
             console.error('Error:', error);
         }
@@ -48,9 +49,9 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
         setCurrentFrameIndex(currentFrame);
         console.log("time actual ", currentTime);
         const floorCurrentTime = Math.floor(currentTime)
-        console.log("porcentual ", floorCurrentTime % 5 === 0)
+       /*  console.log("porcentual ", floorCurrentTime % 5 === 0)
         console.log("floor time actual ", floorCurrentTime);
-        console.log("last call ", lastCall);
+        console.log("last call ", lastCall); */
         if (floorCurrentTime % 10 === 0 && floorCurrentTime !== lastCall && !isLastBatch) { 
             setTimeout(() => {
                 getVideoData(floorCurrentTime + 10);

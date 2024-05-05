@@ -17,7 +17,7 @@ const data_init = [
 export const ResultsSection = ({currentFrameIndex, batchData}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
-    console.log(" batch data",  batchData);
+
     useEffect(() => {
 
         for (const frameId in batchData) {
@@ -31,18 +31,32 @@ export const ResultsSection = ({currentFrameIndex, batchData}) =>{
             formattedEmotions.unshift(["Emociones", "Porcentaje"]);
             setEmotionsData(prevEmotionsData => ({
                 ...prevEmotionsData,
-                [frameId]: formattedEmotions
+                [parseInt(frameId)]: formattedEmotions
             }));
 
             const valence = frameData.valence;
             const arousal = frameData.arousal;
             setValenceArousalData(prevValenceArousalData => ({
                 ...prevValenceArousalData,
-                [frameId]: { valence, arousal }
+                [parseInt(frameId)]: { valence, arousal }
             }));
             }
     }, [batchData])
-  
+    
+    const getActualFrame = () => {
+        const filteredIndex = Object.keys(valenceArousalData).
+        map(key => parseInt(key)).
+        filter(number => number <= currentFrameIndex).
+        reduce((acc, curr) => {
+            return curr > acc ? curr : acc;
+        }, Number.NEGATIVE_INFINITY);
+        return filteredIndex;
+    }
+    let actualFrame = getActualFrame();
+    console.log("frames que tenemos en el dict ", Object.keys(valenceArousalData).map(key => parseInt(key)));
+    console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
+    console.log("NOW ACTUAL FRAME IS ", actualFrame);
+    
     return (
         <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
@@ -51,10 +65,10 @@ export const ResultsSection = ({currentFrameIndex, batchData}) =>{
             direction="rows"
         >
             <Grid item xs={6}>
-                <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
+                <EmotionSection emotionsData={emotionsData[actualFrame]}></EmotionSection>
             </Grid>
             <Grid item xs = {6}>
-                <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
+                <RusselSection valenceArousalData={valenceArousalData[actualFrame]}></RusselSection>
             </Grid>
         </Grid>
     );

@@ -34,7 +34,6 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData}) => {
     const handleUpload = async () => {
         console.log("entreee");
         if (file) {
-            console.log("fileee ", file);
             const reader = new FileReader();
             reader.onload = async () => {
                 try {
@@ -57,7 +56,9 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData}) => {
                         setFrameRate(jsonResponse['fps']);
                         // Buscamos el primero y el segundo. 
                         getVideoData(0);
-                        getVideoData(10);
+                        if (jsonResponse['total_batches'] > 1) {
+                            getVideoData(10);
+                        }
 
                     }
                 } catch (error) {
