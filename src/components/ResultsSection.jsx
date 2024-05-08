@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import { EmotionSection } from './EmotionSection';
 import { RusselSection } from './RusselSection';
 import {TableComponent} from './TableComponent';
+import SimpleAccordion from './AccordionComponent';
 
 const data_init = [
     ["Emociones", "Emociones"],
@@ -96,7 +97,9 @@ export const ResultsSection = ({socket, currentFrameIndex}) =>{
                 </Grid>
             </Grid>
             <Grid item xs={6}>
-            <TableComponent data={data}/>
+                <SimpleAccordion component={<TableComponent data={data}/>}>
+                   
+                </SimpleAccordion>
             </Grid>
         </Grid>
     );
