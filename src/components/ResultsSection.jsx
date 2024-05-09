@@ -84,9 +84,8 @@ export const ResultsSection = ({socket, currentFrameIndex}) =>{
         <Grid container direction="column">
             <Grid item xs={6}>
                 <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
-                    /* justifyContent="center" 
-                    spacing={2} 
-                    alignItems="center" */
+                    justifyContent="center" 
+                    alignItems="stretch"
                     direction="rows">
                         <Grid item xs={12} sm={6}>
                             <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>

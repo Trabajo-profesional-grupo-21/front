@@ -20,13 +20,14 @@ import { Typography } from '@mui/material';
 export const EmotionSection = ({emotionsData}) => {
     return (
         <Grid container 
+            style={{  textAlign: "center", background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
-            alignItems="center"
+            alignItems="stretch"
             direction="column"
             spacing={1} 
         >
            <Grid item xs = {12}>
-                <Typography variant="h4" style={{ textAlign: "center", fontWeight: "bold", color: "gray" }}>
+                <Typography variant="h4" style={{ textAlign: "center", fontWeight: "bold", color: "black" }}>
                     Modelo de Ekman
                 </Typography>
             </Grid> 

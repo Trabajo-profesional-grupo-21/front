@@ -32,23 +32,23 @@ export const RusselSection = ({valenceArousalData}) => {
     var valence = valenceArousalData["valence"]; 
     var arousal = valenceArousalData["arousal"];
     return (
-        <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
-            justifyContent="space-around" 
-            alignItems="center"
+        <Grid container style={{ textAlign: "center", background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
+            justifyContent="center" 
+            alignItems="stretch"
             direction="rows"
             spacing={1} 
         >
             <Grid item xs = {12}>
-                <Typography variant="h4" style={{ fontWeight: "bold", color: "gray" }}>
+                <Typography variant="h4" style={{ fontWeight: "bold", color: "black" }}>
                     Modelo de Russel
                 </Typography>
             </Grid>
-            <Grid item xs = {6}>
+            <Grid item xs={6}>
                 <Typography>
                     Valencia {valence}
                 </Typography>
             </Grid>
-            <Grid item xs = {6}>
+            <Grid item xs={6}>
                 <Typography>
                     Arousal {arousal}
                 </Typography>
