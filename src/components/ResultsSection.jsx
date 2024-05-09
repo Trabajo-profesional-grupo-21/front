@@ -4,6 +4,7 @@ import { EmotionSection } from './EmotionSection';
 import { RusselSection } from './RusselSection';
 import {TableComponent} from './TableComponent';
 import SimpleAccordion from './AccordionComponent';
+import { Box } from '@material-ui/core';
 
 const data_init = [
     ["Emociones", "Emociones"],
@@ -98,7 +99,9 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
                             <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
                         </Grid>
                         <Grid item xs={12} sm={6}>
+                        <Box alignItems="center">
                            <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
+                           </Box>
                         </Grid>
                 </Grid>
             </Grid>
