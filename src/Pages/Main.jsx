@@ -12,7 +12,10 @@ export const Main = (props) => {
 
     return (
             <Box style={{ background: "rgb(170,126,169)"}} minHeight="100vh" p={2}>
-                <Grid container style={{ background: "rgb(170,126,169)" }} spacing={3}>
+                <Grid container
+                style={{ background: "rgb(170,126,169)" }}
+                spacing={3}
+                alignItems="flex-start">
                     <Grid item xs = {12}>
                         <Typography style={{ color: "rgba(0, 0, 0, 0.59)" }} variant="h4" align="center" fontWeight='bold'>
                             Detección de emociones
