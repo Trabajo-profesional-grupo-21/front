@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import { Typography } from "@mui/material";
 import { Chart } from "react-google-charts";
 import { ScatterPlot } from './ScatterPlotInfo';
-
+import { Box } from '@material-ui/core';
 
 export const data = [
     ["Valence", "Arousal"],
@@ -32,6 +32,13 @@ export const RusselSection = ({valenceArousalData}) => {
     var valence = valenceArousalData["valence"]; 
     var arousal = valenceArousalData["arousal"];
     return (
+        <Box             
+            my={4}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            gap={4}
+            p={2}>
         <Grid container style={{ textAlign: "center", background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
             alignItems="stretch"
@@ -53,9 +60,19 @@ export const RusselSection = ({valenceArousalData}) => {
                     Arousal {arousal}
                 </Typography>
             </Grid>
-            <Grid item xs = {12}>
-            <ScatterPlot xpos={valence} ypos={arousal}></ScatterPlot>
-            </Grid>
         </Grid>
+            <Box
+                height={200}
+                width={50}
+                my={4}
+                display="flex"
+                alignItems="center"
+                justifyContent="flex-end"
+                gap={4}
+                p={2}
+                sx={{ border: '2px solid grey' }}>
+                <ScatterPlot xpos={valence} ypos={arousal}></ScatterPlot>
+            </Box>
+        </Box>
     )
 };
