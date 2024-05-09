@@ -7,13 +7,13 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData}) => {
     const [videoFile, setFile] = React.useState(null)
     const [frameRate, setFrameRate] = React.useState(0)
     return (
-        <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
+        <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10 }} 
         justifyContent="center" 
         spacing={2} 
         alignItems="center"
         >
             <Grid item xs={12} sx={{
-                    backgroundColor: 'rgb(251, 214, 164)',
+                    backgroundColor: 'rgba(170,126,169, 0.3)',
                     color: 'white',
                     padding: 3,
                     borderRadius: 2,

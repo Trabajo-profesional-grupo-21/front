@@ -11,9 +11,9 @@ export const Main = (props) => {
     const [batchData, setBatchData] = useState({});
 
     return (
-            <Box style={{ background: "rgb(170,126,169)"}} minHeight="100vh" p={2}>
+            <Box style={{ background: "rgba(248, 244, 244)"}} minHeight="100vh" p={2}>
                 <Grid container
-                style={{ background: "rgb(170,126,169)" }}
+                style={{ background: "rgba(248, 244, 244)"}}
                 spacing={3}
                 alignItems="flex-start">
                     <Grid item xs = {12}>
@@ -23,7 +23,7 @@ export const Main = (props) => {
                     </Grid>
                     <Grid item xs = {12}>
                         <Grid container direction="row"
-                            style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 15, height: '100%' }}
+                            style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 15, height: '100%' }}
                             justifyContent="space-around"
                             spacing={2}
                             alignItems="center"

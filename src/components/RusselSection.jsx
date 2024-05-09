@@ -5,6 +5,7 @@ import { Chart } from "react-google-charts";
 import { ScatterPlot } from './ScatterPlotInfo';
 import { Box } from '@material-ui/core';
 
+const background = 'rgb(170,126,169)'
 export const data = [
     ["Valence", "Arousal"],
     [-5, 0],
@@ -27,7 +28,6 @@ export const data = [
   };
 
 
-
 export const RusselSection = ({valenceArousalData}) => {
     var valence = valenceArousalData["valence"]; 
     var arousal = valenceArousalData["arousal"];
@@ -39,7 +39,7 @@ export const RusselSection = ({valenceArousalData}) => {
             justifyContent="space-between"
             gap={4}
             p={2}>
-        <Grid container style={{ textAlign: "center", background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
+        <Grid container style={{ textAlign: "center", background: background, borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
             alignItems="stretch"
             direction="rows"

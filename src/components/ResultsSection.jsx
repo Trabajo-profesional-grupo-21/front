@@ -5,7 +5,9 @@ import { RusselSection } from './RusselSection';
 import {TableComponent} from './TableComponent';
 import SimpleAccordion from './AccordionComponent';
 import { Box } from '@material-ui/core';
+    //"rgb(170,126,169)" violeta lindo
 
+const backgroundForResults = 'rgb(170,126,169)'
 const data_init = [
     ["Emociones", "Emociones"],
     ["HAPPY", 0.03],
@@ -87,11 +89,10 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
     console.log("frames que tenemos en el dict ", Object.keys(valenceArousalData).map(key => parseInt(key)));
     console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
     console.log("NOW ACTUAL FRAME IS ", actualFrame);
-    
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
-                <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
+                <Grid container style={{ background: backgroundForResults, borderRadius: 15, padding: 10 }} 
                     justifyContent="center" 
                     alignItems="stretch"
                     direction="rows">

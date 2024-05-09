@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const accordionStyle = {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(170,126,169, 0.3)',
 };
 
 const typographyStyle = {

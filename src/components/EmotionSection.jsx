@@ -4,6 +4,9 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import { Box } from '@material-ui/core';
  
+const background = 'rgb(170,126,169)'
+const barColors = '#49005B'
+// violeta lindo tamb #8c6890
 export const options = {
     chart: {
       title: "Modelo de Ekman",
@@ -11,10 +14,9 @@ export const options = {
     legend: { position: 'bottom', alignment: 'center', textStyle: { fontSize: 14 } },
     height: 400,
     width: 500,
-    colors: ['#49005B'],
-    backgroundColor: "rgb(170,126,169)",
+    colors: [barColors],
+    backgroundColor: background,
     vAxis: {
-        title: 'No of Memes',
         viewWindowMode: 'explicit',
         viewWindow: {
             max: 1,
@@ -35,7 +37,7 @@ export const EmotionSection = ({emotionsData}) => {
             gap={4}
             p={2}>
         <Grid container 
-            style={{  textAlign: "center", background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
+            style={{  textAlign: "center", background: background, borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
             alignItems="stretch"
             direction="column"
