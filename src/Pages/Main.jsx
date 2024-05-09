@@ -52,10 +52,10 @@ export const Main = (props) => {
                             spacing={2}
                             alignItems="center"
                             >
-                            <Grid item xs={4}>
+                            <Grid item xs={3}>
                                 <VideoSection uploaderSocket={uploaderSocket} playerSocket={playerSocket} setCurrentFrameIndex={setCurrentFrameIndex}/>
                             </Grid>
-                            <Grid item justifyContent="center" alignItems="center" xs={8}>             
+                            <Grid item justifyContent="center" alignItems="center" xs={9}>             
                                     <ResultsSection socket={uploaderSocket} currentFrameIndex={currentFrameIndex}/>
                             </Grid>
                         </Grid>

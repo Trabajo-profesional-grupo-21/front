@@ -84,22 +84,20 @@ export const ResultsSection = ({socket, currentFrameIndex}) =>{
         <Grid container direction="column">
             <Grid item xs={6}>
                 <Grid container style={{ background: "rgb(170,126,169)", borderRadius: 15, padding: 10 }} 
-                    justifyContent="center" 
+                    /* justifyContent="center" 
                     spacing={2} 
-                    alignItems="center"
+                    alignItems="center" */
                     direction="rows">
-                    <Grid item xs={6}>
-                        <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
-                    </Grid>
-                    <Grid item xs = {6}>
-                        <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
-                    </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                           <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
+                        </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={6}>
-                <SimpleAccordion component={<TableComponent data={data}/>}>
-                   
-                </SimpleAccordion>
+                <SimpleAccordion component={<TableComponent data={data}/>}/>
             </Grid>
         </Grid>
     );
