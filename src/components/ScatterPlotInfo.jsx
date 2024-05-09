@@ -5,7 +5,7 @@ export const ScatterPlot = ({xpos, ypos}) => {
     const chartRef = useRef(null);
     const [chartVersion, setChartVersion] = useState(null);
     const chartInstanceRef = useRef(null);
-
+    
     useEffect(() => {
         var data = {
             datasets: [{
@@ -158,7 +158,19 @@ export const ScatterPlot = ({xpos, ypos}) => {
         // Set Chart.js version
         setChartVersion(Chart.version);
 
+        const resizeChart = () => {
+            const chartContainer = chartRef.current.parentNode;
+            if (chartContainer) {
+                const width = chartContainer.offsetWidth;
+                const height = chartContainer.offsetHeight;
+                chartInstanceRef.current.resize(width, height);
+            }
+        };
+        resizeChart();
+        window.addEventListener('resize', resizeChart);
+
         return () => {
+            window.removeEventListener('resize', resizeChart);
             if (chartInstanceRef.current) {
                 chartInstanceRef.current.destroy();
             }
@@ -166,13 +178,28 @@ export const ScatterPlot = ({xpos, ypos}) => {
 
     }, [xpos, ypos]);
 
+    const chartBoxStyle = {
+        width: '100%',
+        height: 'auto',
+        paddingBottom: '50%', // Example aspect ratio
+        position: 'relative',
+    };
+
+    const canvasStyle = {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
+    };
+
     return (
         <div>
-            <div className="chartCard">
-                <div className="chartBox">
-                    <canvas ref={chartRef} id="myChart"></canvas>
-                </div>
+        <div className="chartCard">
+            <div className="chartBox" style={chartBoxStyle}>
+                <canvas ref={chartRef} id="myChart" style={canvasStyle}></canvas>
             </div>
         </div>
+    </div>
     );
 };
