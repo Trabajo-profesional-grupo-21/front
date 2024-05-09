@@ -107,6 +107,7 @@ export const ScatterPlot = ({xpos, ypos}) => {
             type: 'scatter',
             data: data,
             options: {
+                animation: false,
                 scales: {
                     y: {
                         position: 'center',

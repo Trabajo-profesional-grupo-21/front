@@ -43,43 +43,50 @@ const actionUnits = [
     { actionUnit: 'A24', actionUnitValue: 0.0 },
 ]
 
-export const ResultsSection = ({socket, currentFrameIndex}) =>{
+export const ResultsSection = ({batchData, currentFrameIndex}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [data, setData] = useState(actionUnits);
    
     useEffect(() => {
-        if (socket) {
-        socket.onmessage = (event) => {
-            console.log('Mensaje EN RESULT SECCTION:', event.data);
-            const messageData = JSON.parse(event.data);
-            const batchData = messageData.batch;
 
-            // Procesar emociones y valencia/arousal
-            for (const frameId in batchData) {
-                const frameData = batchData[frameId];
-                const emotions = frameData.emotions;
+        for (const frameId in batchData) {
+            const frameData = batchData[frameId];
+            const emotions = frameData.emotions;
 
-                const formattedEmotions = Object.entries(emotions).map(([emotion, value]) => {
-                    return [emotion.toUpperCase(), parseFloat(value)];
-                });
+            const formattedEmotions = Object.entries(emotions).map(([emotion, value]) => {
+                return [emotion.toUpperCase(), parseFloat(value)];
+            });
 
-                formattedEmotions.unshift(["Emociones", "Porcentaje"]);
-                setEmotionsData(prevEmotionsData => ({
-                    ...prevEmotionsData,
-                    [frameId]: formattedEmotions
-                }));
+            formattedEmotions.unshift(["Emociones", "Porcentaje"]);
+            setEmotionsData(prevEmotionsData => ({
+                ...prevEmotionsData,
+                [parseInt(frameId)]: formattedEmotions
+            }));
 
-                const valence = frameData.valence;
-                const arousal = frameData.arousal;
-                setValenceArousalData(prevValenceArousalData => ({
-                    ...prevValenceArousalData,
-                    [frameId]: { valence, arousal }
-                }));
-                }
-        };
-        }
-    }, [socket, setEmotionsData, setValenceArousalData]);
+            const valence = frameData.valence;
+            const arousal = frameData.arousal;
+            setValenceArousalData(prevValenceArousalData => ({
+                ...prevValenceArousalData,
+                [parseInt(frameId)]: { valence, arousal }
+            }));
+            }
+    }, [batchData])
+    
+    const getActualFrame = () => {
+        const filteredIndex = Object.keys(valenceArousalData).
+        map(key => parseInt(key)).
+        filter(number => number <= currentFrameIndex).
+        reduce((acc, curr) => {
+            return curr > acc ? curr : acc;
+        }, Number.NEGATIVE_INFINITY);
+        return filteredIndex;
+    }
+    let actualFrame = getActualFrame();
+    console.log("frames que tenemos en el dict ", Object.keys(valenceArousalData).map(key => parseInt(key)));
+    console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
+    console.log("NOW ACTUAL FRAME IS ", actualFrame);
+    
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
