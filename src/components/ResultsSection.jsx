@@ -42,7 +42,7 @@ const actionUnits = [
 export const ResultsSection = ({batchData, currentFrameIndex}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
-    const [unitAcctionsData, setUnitActions] = useState(actionUnits);
+    const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
    
     useEffect(() => {
         console.log(batchData);
@@ -72,7 +72,10 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
             unitActionsInfo.forEach(unit => {
                 unit.Intensity = unit.Intensity.toFixed(2);
             });
-            setUnitActions(unitActionsInfo);
+            setUnitActions(prevUnitActions => ({
+                ...prevUnitActions, 
+                [parseInt(frameId)]: unitActionsInfo
+            }));
             }
 
             
@@ -91,6 +94,7 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
     console.log("frames que tenemos en el dict ", Object.keys(valenceArousalData).map(key => parseInt(key)));
     console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
     console.log("NOW ACTUAL FRAME IS ", actualFrame);
+    console.log("Emociones", emotionsData);
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
@@ -99,17 +103,17 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
                     alignItems="stretch"
                     direction="rows">
                         <Grid item xs={12} sm={6}>
-                            <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
+                            <EmotionSection emotionsData={emotionsData[actualFrame]}></EmotionSection>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                         <Box alignItems="center">
-                           <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
+                           <RusselSection valenceArousalData={valenceArousalData[actualFrame]}></RusselSection>
                            </Box>
                         </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={6}>
-                <SimpleAccordion component={<TableComponent data={unitAcctionsData}/>}/>
+                <SimpleAccordion component={<TableComponent data={unitAcctionsData[actualFrame]}/>}/>
             </Grid>
         </Grid>
     );
