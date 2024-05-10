@@ -20,42 +20,36 @@ const data_init = [
   ];
 
 const actionUnits = [
-    { actionUnit: 'A1', actionUnitValue: 0.0 },
-    { actionUnit: 'A2', actionUnitValue: 0.0 },
-    { actionUnit: 'A3', actionUnitValue: 0.0 },
-    { actionUnit: 'A4', actionUnitValue: 0.0 },
-    { actionUnit: 'A5', actionUnitValue: 0.0 },
-    { actionUnit: 'A6', actionUnitValue: 0.0 },
-    { actionUnit: 'A7', actionUnitValue: 0.0 },
-    { actionUnit: 'A8', actionUnitValue: 0.0 },
-    { actionUnit: 'A9', actionUnitValue: 0.0 },
-    { actionUnit: 'A10', actionUnitValue: 0.0 },
-    { actionUnit: 'A11', actionUnitValue: 0.0 },
-    { actionUnit: 'A12', actionUnitValue: 0.0 },
-    { actionUnit: 'A13', actionUnitValue: 0.0 },
-    { actionUnit: 'A14', actionUnitValue: 0.0 },
-    { actionUnit: 'A15', actionUnitValue: 0.0 },
-    { actionUnit: 'A16', actionUnitValue: 0.0 },
-    { actionUnit: 'A17', actionUnitValue: 0.0 },
-    { actionUnit: 'A18', actionUnitValue: 0.0 },
-    { actionUnit: 'A19', actionUnitValue: 0.0 },
-    { actionUnit: 'A20', actionUnitValue: 0.0 },
-    { actionUnit: 'A21', actionUnitValue: 0.0 },
-    { actionUnit: 'A22', actionUnitValue: 0.0 },
-    { actionUnit: 'A23', actionUnitValue: 0.0 },
-    { actionUnit: 'A24', actionUnitValue: 0.0 },
+    { AUName: 'AU1', Intensity: 0.0 },
+    { AUName: 'AU2', Intensity: 0.0 },
+    { AUName: 'AU4', Intensity: 0.0 },
+    { AUName: 'AU5', Intensity: 0.0 },
+    { AUName: 'AU6', Intensity: 0.0 },
+    { AUName: 'AU7', Intensity: 0.0 },
+    { AUName: 'AU9', Intensity: 0.0 },
+    { AUName: 'AU10', Intensity: 0.0 },
+    { AUName: 'AU12', Intensity: 0.0 },
+    { AUName: 'AU14', Intensity: 0.0 },
+    { AUName: 'AU15', Intensity: 0.0 },
+    { AUName: 'AU17', Intensity: 0.0 },
+    { AUName: 'AU20', Intensity: 0.0 },
+    { AUName: 'AU23', Intensity: 0.0 },
+    { AUName: 'AU25', Intensity: 0.0 },
+    { AUName: 'AU26', Intensity: 0.0 },
+    { AUName: 'AU45', Intensity: 0.0 }
 ]
 
 export const ResultsSection = ({batchData, currentFrameIndex}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
-    const [data, setData] = useState(actionUnits);
+    const [unitAcctionsData, setUnitActions] = useState(actionUnits);
    
     useEffect(() => {
-
+        console.log(batchData);
         for (const frameId in batchData) {
             const frameData = batchData[frameId];
             const emotions = frameData.emotions;
+            const unitActionsInfo = frameData.ActionUnit;
 
             const formattedEmotions = Object.entries(emotions).map(([emotion, value]) => {
                 return [emotion.toUpperCase(), parseFloat(value)];
@@ -73,7 +67,15 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
                 ...prevValenceArousalData,
                 [parseInt(frameId)]: { valence, arousal }
             }));
+
+            unitActionsInfo.sort((a, b) => b.Intensity - a.Intensity);
+            unitActionsInfo.forEach(unit => {
+                unit.Intensity = unit.Intensity.toFixed(2);
+            });
+            setUnitActions(unitActionsInfo);
             }
+
+            
     }, [batchData])
     
     const getActualFrame = () => {
@@ -107,7 +109,7 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
                 </Grid>
             </Grid>
             <Grid item xs={6}>
-                <SimpleAccordion component={<TableComponent data={data}/>}/>
+                <SimpleAccordion component={<TableComponent data={unitAcctionsData}/>}/>
             </Grid>
         </Grid>
     );

@@ -3,204 +3,95 @@ import Chart from 'chart.js/auto';
 
 export const ScatterPlot = ({xpos, ypos}) => {
     const chartRef = useRef(null);
-    const [chartVersion, setChartVersion] = useState(null);
-    const chartInstanceRef = useRef(null);
-    
+    const [chartInstance, setChartInstance] = useState(null);
+
     useEffect(() => {
-        var data = {
-            datasets: [{
-                label: 'Arousal',
-                data: [
-                    { x: xpos, y: ypos }
-                ],
-                backgroundColor: [
-                    'rgba(255, 26, 104, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(0, 0, 0, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 26, 104, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(0, 0, 0, 1)'
-                ],
-                borderWidth: 1
-            }]
-        };
+        const ctx = chartRef.current.getContext('2d');
 
         const scatterLabels = {
             id: 'scatterLabels',
-            beforeDatasetsDraw: ((chart, args, plugins) => {
+            beforeDatasetsDraw: (chart, args, plugins) => {
                 const {ctx, data, chartArea: {left, right, top, bottom}} = chart;
                 ctx.save();
 
                 const emotions = [
-                    {
-                        name: 'Negativo', 
-                        xPos: left + 2, 
-                        yPos: bottom - 110, 
-                        textAlign: 'left',
-                    },
-                    {
-                        name: 'Positvo', 
-                        xPos: right - 43, 
-                        yPos: bottom - 110, 
-                        textAlign: 'left',
-                    },
-                    {
-                        name: 'Alta', 
-                        xPos: right - 235, 
-                        yPos: top + 10, 
-                        textAlign: 'left',
-                    },
-                    {
-                        name: 'Baja', 
-                        xPos: right - 235, 
-                        yPos: bottom - 5 , 
-                        textAlign: 'left',
-                    },
-                    {
-                        name: 'ENOJADO', 
-                        xPos: right - 400, 
-                        yPos: top + 57 , 
-                        textAlign: 'left',
-                    },
-                    {
-                        name: 'FELIZ', 
-                        xPos: right - 100, 
-                        yPos: top + 57 , 
-                        textAlign: 'left',
-                    },
-                    {
-                        name: 'TRISTE', 
-                        xPos: right - 400, 
-                        yPos: bottom - 50, 
-                        textAlign: 'left',
-                    },
-                    {
-                        name: 'RELAJADO', 
-                        xPos: right - 100, 
-                        yPos: bottom - 50, 
-                        textAlign: 'left',
-                    }
-                ]
-                emotions.forEach((item) => {
-                    showEmotion(item.name, item.xPos, item.yPos, item.textAlign)
-                })
+                    { name: 'Negativo', xPos: left + 2, yPos: bottom - 110, textAlign: 'left' },
+                    { name: 'Positvo', xPos: right - 43, yPos: bottom - 110, textAlign: 'left' },
+                    { name: 'Alta', xPos: right - 235, yPos: top + 10, textAlign: 'left' },
+                    { name: 'Baja', xPos: right - 235, yPos: bottom - 5 , textAlign: 'left' },
+                    { name: 'ENOJADO', xPos: right - 400, yPos: top + 57 , textAlign: 'left' },
+                    { name: 'FELIZ', xPos: right - 100, yPos: top + 57 , textAlign: 'left' },
+                    { name: 'TRISTE', xPos: right - 400, yPos: bottom - 50, textAlign: 'left' },
+                    { name: 'RELAJADO', xPos: right - 100, yPos: bottom - 50, textAlign: 'left' }
+                ];
 
-                function showEmotion(emotion, positionX, positionY, textAlign) {
+                emotions.forEach(item => {
                     ctx.font = '12px sans-serif';
-                    ctx.textAlign = textAlign;
-                    ctx.fillText(emotion, positionX, positionY)
-                }
-            })
-        }
+                    ctx.textAlign = item.textAlign;
+                    ctx.fillText(item.name, item.xPos, item.yPos);
+                });
+
+                ctx.restore();
+            }
+        };
 
         const config = {
             type: 'scatter',
-            data: data,
+            data: {
+                datasets: [{
+                    label: 'Arousal',
+                    data: [{ x: xpos, y: ypos }],
+                    backgroundColor: 'rgba(255, 26, 104, 0.2)',
+                    borderColor: 'rgba(255, 26, 104, 1)',
+                    borderWidth: 1
+                }]
+            },
             options: {
                 animation: false,
                 scales: {
                     y: {
                         position: 'center',
                         min: 5,
-                        max: 0,
+                        max: 0
                     },
                     x: {
                         position: 'center',
                         min: -1,
-                        max: 1,
+                        max: 1
                     }
                 },
                 plugins: {
                     legend: {
                         display: false
                     }
-                },
-                // configuracion que remueve la grilla
-               /*  scales: {
-                    y: {
-                        grid: {
-                            display: false
-                        },
-                        position: 'center',
-                        min: -1,
-                        max: 1,
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        position: 'center',
-                        min: -5,
-                        max: 5,
-                    }
-                } */
+                }
             },
             plugins: [scatterLabels]
         };
 
-        if (chartInstanceRef.current) {
-            chartInstanceRef.current.destroy();
+        if (chartInstance) {
+            chartInstance.destroy();
         }
 
-        if (chartRef.current) {
-            chartInstanceRef.current = new Chart(chartRef.current, config);
-        }
-
-        // Set Chart.js version
-        setChartVersion(Chart.version);
+        const newChartInstance = new Chart(ctx, config);
+        setChartInstance(newChartInstance);
 
         const resizeChart = () => {
-            const chartContainer = chartRef.current.parentNode;
-            if (chartContainer) {
-                const width = chartContainer.offsetWidth;
-                const height = chartContainer.offsetHeight;
-                chartInstanceRef.current.resize(width, height);
-            }
+            newChartInstance.resize();
         };
+
         resizeChart();
         window.addEventListener('resize', resizeChart);
 
         return () => {
             window.removeEventListener('resize', resizeChart);
-            if (chartInstanceRef.current) {
-                chartInstanceRef.current.destroy();
-            }
+            newChartInstance.destroy();
         };
-
     }, [xpos, ypos]);
 
-    const chartBoxStyle = {
-        width: '100%',
-        height: 'auto',
-        paddingBottom: '50%', // Example aspect ratio
-        position: 'relative',
-    };
-
-    const canvasStyle = {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        top: 0,
-        left: 0,
-    };
-
     return (
-        <div>
-        <div className="chartCard">
-            <div className="chartBox" style={chartBoxStyle}>
-                <canvas ref={chartRef} id="myChart" style={canvasStyle}></canvas>
-            </div>
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}></canvas>
         </div>
-    </div>
     );
 };

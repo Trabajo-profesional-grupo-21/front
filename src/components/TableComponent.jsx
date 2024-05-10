@@ -10,6 +10,8 @@ const gridItemStyle = {
   backgroundColor: 'rgba(50, 0, 45, 0.3)', // Transparent background color
 };
 
+
+
 export const TableComponent = ({data}) => {
   return (
     <Grid container spacing={2}>
@@ -17,8 +19,8 @@ export const TableComponent = ({data}) => {
         <Grid item xs={6} sm={3} md={2} lg={1.5} key={index}>
           <Paper style={gridItemStyle}>
             {/* Render your data inside the grid item */}
-            <div>{item.actionUnit}</div>
-            <div>{item.actionUnitValue}</div>
+            <div>{item.AUName}</div>
+            <div>{item.Intensity}</div>
           </Paper>
         </Grid>
       ))}

@@ -15,7 +15,8 @@ export const Main = (props) => {
                 <Grid container
                 style={{ background: "rgba(248, 244, 244)"}}
                 spacing={3}
-                alignItems="flex-start">
+                alignItems="flex-start"
+                justifyContent="flex-end">
                     <Grid item xs = {12}>
                         <Typography style={{ color: "rgba(0, 0, 0, 0.59)" }} variant="h4" align="center" fontWeight='bold'>
                             Detección de emociones
@@ -28,7 +29,7 @@ export const Main = (props) => {
                             spacing={2}
                             alignItems="center"
                             >
-                            <Grid item xs={3}>
+                            <Grid item xs={3} justifyContent="flex-end" >
                                 <VideoSection  setCurrentFrameIndex={setCurrentFrameIndex}
                                                 setBatchData={setBatchData}
                                 />

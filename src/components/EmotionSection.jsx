@@ -12,8 +12,8 @@ export const options = {
       title: "Modelo de Ekman",
     },
     legend: { position: 'bottom', alignment: 'center', textStyle: { fontSize: 14 } },
-    height: 400,
-    width: 500,
+    height:  '510',
+    width: '100%',
     colors: [barColors],
     backgroundColor: background,
     vAxis: {
@@ -28,18 +28,11 @@ export const options = {
 
 
 export const EmotionSection = ({emotionsData}) => {
+    console.log("EMOCIONES", emotionsData);
     return (
-        <Box 
-            my={4}
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            gap={4}
-            p={2}>
         <Grid container 
             style={{  textAlign: "center", background: background, borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
-            alignItems="stretch"
             direction="column"
             spacing={1} 
         >
@@ -48,12 +41,14 @@ export const EmotionSection = ({emotionsData}) => {
                     Modelo de Ekman
                 </Typography>
             </Grid> 
+            <Grid item xs = {12}>
+                <Chart
+                    chartType="ColumnChart"
+                    width="100%"
+                    data={emotionsData}
+                    options={options}/>
+            </Grid>
         </Grid>
-        <Chart
-            chartType="ColumnChart"
-            width="100%"
-            data={emotionsData}
-            options={options}/>
-        </Box>
+    
     );
 }

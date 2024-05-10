@@ -31,14 +31,8 @@ export const data = [
 export const RusselSection = ({valenceArousalData}) => {
     var valence = valenceArousalData["valence"]; 
     var arousal = valenceArousalData["arousal"];
+    console.log("valence and arousal", valenceArousalData);
     return (
-        <Box             
-            my={4}
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            gap={4}
-            p={2}>
         <Grid container style={{ textAlign: "center", background: background, borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
             alignItems="stretch"
@@ -60,19 +54,17 @@ export const RusselSection = ({valenceArousalData}) => {
                     Arousal {arousal}
                 </Typography>
             </Grid>
+            <Grid item xs={12}>
+                <Box 
+                    height="auto"
+                    width="100%"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    <ScatterPlot xpos={valence} ypos={arousal}></ScatterPlot>
+                </Box>
+            </Grid>
         </Grid>
-            <Box
-                height={200}
-                width={50}
-                my={4}
-                display="flex"
-                alignItems="center"
-                justifyContent="flex-end"
-                gap={4}
-                p={2}
-                sx={{ border: '2px solid grey' }}>
-                <ScatterPlot xpos={valence} ypos={arousal}></ScatterPlot>
-            </Box>
-        </Box>
     )
 };
