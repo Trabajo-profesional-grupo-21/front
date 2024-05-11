@@ -26,9 +26,8 @@ fontSize: '1.2rem',
 };
   
 
-export default function SimpleAccordion({component}) {
+export default function SimpleAccordion({component, name}) {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <Accordion style={accordionStyle}>
@@ -36,7 +35,9 @@ export default function SimpleAccordion({component}) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading} style={typographyStyle}>Action units</Typography>
+          <Typography className={classes.heading} style={typographyStyle}>
+              {name}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           {component}

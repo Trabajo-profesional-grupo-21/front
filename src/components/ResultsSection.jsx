@@ -1,8 +1,9 @@
-import React, { useEffect, useState }  from 'react'
+import React, { useEffect, useState, forwardRef  }  from 'react'
 import Grid from '@mui/material/Grid';
 import { EmotionSection } from './EmotionSection';
 import { RusselSection } from './RusselSection';
 import {TableComponent} from './TableComponent';
+import { TimeLineInfo } from './TimeLineInfo';
 import SimpleAccordion from './AccordionComponent';
 import { Box } from '@material-ui/core';
     //"rgb(170,126,169)" violeta lindo
@@ -38,12 +39,19 @@ const actionUnits = [
     { AUName: 'AU26', Intensity: 0.0 },
     { AUName: 'AU45', Intensity: 0.0 }
 ]
+const timeLineVA = [
+    ["Tiempo", "arousal", "valence"],
+    ["0.5", 1000, 400],
+    ["1.4", 1170, 460],
+    ["5.4", 660, 1120],
+    ["7.8", 1030, 540],
+  ];
 
-export const ResultsSection = ({batchData, currentFrameIndex}) =>{
+export const ResultsSection = ({batchData, currentFrameIndex }) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
-   
+    const [timeLineVAData, setTimeLineVAData] = useState({0:timeLineVA});
     useEffect(() => {
         console.log(batchData);
         for (const frameId in batchData) {
@@ -95,6 +103,7 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
     console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
     console.log("NOW ACTUAL FRAME IS ", actualFrame);
     console.log("Emociones", emotionsData);
+    console.log("babababa", timeLineVAData[actualFrame]);
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
@@ -113,7 +122,14 @@ export const ResultsSection = ({batchData, currentFrameIndex}) =>{
                 </Grid>
             </Grid>
             <Grid item xs={6}>
-                <SimpleAccordion component={<TableComponent data={unitAcctionsData[actualFrame]}/>}/>
+                <SimpleAccordion 
+                    component={<TableComponent data={unitAcctionsData[actualFrame]}/>} 
+                    name="Action Units"/>
+            </Grid>
+            <Grid item xs={6}>
+                <SimpleAccordion 
+                    component={<TimeLineInfo timeLineData={timeLineVAData[actualFrame]}/>} 
+                    name="Time Line Modelo Russell"/>
             </Grid>
         </Grid>
     );
