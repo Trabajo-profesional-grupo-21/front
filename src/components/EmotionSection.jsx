@@ -2,42 +2,53 @@ import React from 'react'
 import { Chart } from "react-google-charts";
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
-
-
-  
-  export const options = {
+import { Box } from '@material-ui/core';
+ 
+const background = 'rgb(170,126,169)'
+const barColors = '#49005B'
+// violeta lindo tamb #8c6890
+export const options = {
     chart: {
       title: "Modelo de Ekman",
     },
     legend: { position: 'bottom', alignment: 'center', textStyle: { fontSize: 14 } },
-    height: 400,
-    width: 500,
-    colors: ['#49005B'],
-    backgroundColor: "rgb(170,126,169)"
-  };
+    height:  '510',
+    width: '100%',
+    colors: [barColors],
+    backgroundColor: background,
+    vAxis: {
+        viewWindowMode: 'explicit',
+        viewWindow: {
+            max: 1,
+            min: 0,
+            interval: 1,
+        },
+    }
+};
 
 
 export const EmotionSection = ({emotionsData}) => {
+    console.log("EMOCIONES", emotionsData);
     return (
         <Grid container 
+            style={{  textAlign: "center", background: background, borderRadius: 15, padding: 10 }} 
             justifyContent="center" 
-            alignItems="center"
             direction="column"
             spacing={1} 
         >
            <Grid item xs = {12}>
-                <Typography variant="h4" style={{ textAlign: "center", fontWeight: "bold", color: "gray" }}>
+                <Typography variant="h4" style={{ textAlign: "center", fontWeight: "bold", color: "black" }}>
                     Modelo de Ekman
                 </Typography>
             </Grid> 
-            <Grid item xs ={12}>
+            <Grid item xs = {12}>
                 <Chart
                     chartType="ColumnChart"
                     width="100%"
                     data={emotionsData}
-                    options={options}
-                />
+                    options={options}/>
             </Grid>
-        </Grid>    
+        </Grid>
+    
     );
 }
