@@ -45,13 +45,13 @@ export const RusselSection = ({valenceArousalData}) => {
                 </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Typography>
+                <Typography variant="h6">
                     Valencia {valence}
                 </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Typography>
-                    Arousal {arousal}
+                <Typography variant="h6">
+                    Exitacion {arousal}
                 </Typography>
             </Grid>
             <Grid item xs={12}>

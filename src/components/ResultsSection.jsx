@@ -9,14 +9,27 @@ import { Box } from '@material-ui/core';
     //"rgb(170,126,169)" violeta lindo
 
 const backgroundForResults = 'rgb(170,126,169)'
+
+const emotionsDictionary = {
+    'HAPPY': 'FELIZ',
+    'HAPPYNESS': 'FELIZ',
+    'SAD': 'TRISTEZA',
+    'SADNESS': 'TRISTEZA',
+    'FEAR': 'MIEDO',
+    'ANGRY': 'ENOJADO',
+    'DISGUST': 'ASCO',
+    'SURPRISE': 'SORPRESA',
+    'NEUTRAL': 'NEUTRAL'
+};
+
 const data_init = [
     ["Emociones", "Emociones"],
-    ["HAPPY", 0.03],
-    ["SADNESS", 0.23],
-    ["FEAR", 0.4],
-    ["ANGRY", 0.6],
-    ["DISGUST", 0.03],
-    ["SURPRISE", 0.3],
+    ["FELIZ", 0.03],
+    ["TRISTEZA", 0.23],
+    ["MIEDO", 0.4],
+    ["ENOJADO", 0.6],
+    ["ASCO", 0.03],
+    ["SOPRESA", 0.3],
     ["NEUTRAL", 0.1],
   ];
 
@@ -60,7 +73,10 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
             const unitActionsInfo = frameData.ActionUnit;
 
             const formattedEmotions = Object.entries(emotions).map(([emotion, value]) => {
-                return [emotion.toUpperCase(), parseFloat(value)];
+                
+                const translatedEmotion = emotionsDictionary[emotion];
+                const emotionName = translatedEmotion ? translatedEmotion : emotion.toUpperCase();
+                return [emotionName, parseFloat(value)];
             });
 
             formattedEmotions.unshift(["Emociones", "Porcentaje"]);
@@ -69,8 +85,8 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
                 [parseInt(frameId)]: formattedEmotions
             }));
 
-            const valence = frameData.valence;
-            const arousal = frameData.arousal;
+            const valence = parseFloat(frameData.valence).toFixed(3);
+            const arousal = parseFloat(frameData.arousal).toFixed(3);
             setValenceArousalData(prevValenceArousalData => ({
                 ...prevValenceArousalData,
                 [parseInt(frameId)]: { valence, arousal }
