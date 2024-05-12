@@ -2,7 +2,6 @@ import React from 'react'
 import { Chart } from "react-google-charts";
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
-import { Box } from '@material-ui/core';
  
 const background = 'rgb(170,126,169)'
 const barColors = '#49005B'
