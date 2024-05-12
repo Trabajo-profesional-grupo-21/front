@@ -4,9 +4,9 @@ import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
 
 
-
-export const VideoUploader = ({file, setFile, setFrameRate, setBatchData}) => {
+export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading}) => {
     const APIURL = "http://localhost:8000";
+    
     const handleChange = (newFile) => {
         setFile(newFile)
     }
@@ -34,6 +34,7 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData}) => {
     const handleUpload = async () => {
         console.log("entreee");
         if (file) {
+            setLoading(true)
             const reader = new FileReader();
             reader.onload = async () => {
                 try {
@@ -59,10 +60,12 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData}) => {
                         if (jsonResponse['total_batches'] > 1) {
                             getVideoData(10);
                         }
-
                     }
+                setLoading(false)
                 } catch (error) {
                     console.error('Error:', error);
+                    //TODO: manage error
+                    setLoading(false)
                 }
             };
             reader.readAsDataURL(file);
