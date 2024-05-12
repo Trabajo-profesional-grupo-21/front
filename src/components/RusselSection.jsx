@@ -1,8 +1,7 @@
 import React from 'react'
 import Grid from '@mui/material/Grid';
 import { Typography } from "@mui/material";
-import { Chart } from "react-google-charts";
-import { ScatterPlot } from './ScatterPlotInfo';
+import { ScatterPlot } from '../charts/ScatterPlotInfo';
 import { Box } from '@material-ui/core';
 
 const background = 'rgb(170,126,169)'

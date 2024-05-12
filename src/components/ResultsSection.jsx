@@ -1,12 +1,12 @@
-import React, { useEffect, useState, forwardRef  }  from 'react'
+import React, { useEffect, useState }  from 'react'
 import Grid from '@mui/material/Grid';
-import { EmotionSection } from './EmotionSection';
+import { EmotionSection } from '../charts/EmotionSection';
 import { RusselSection } from './RusselSection';
 import {TableComponent} from './TableComponent';
 import { TimeLineInfo } from './TimeLineInfo';
 import SimpleAccordion from './AccordionComponent';
 import { Box } from '@material-ui/core';
-    //"rgb(170,126,169)" violeta lindo
+//"rgb(170,126,169)" violeta lindo
 
 const backgroundForResults = 'rgb(170,126,169)'
 

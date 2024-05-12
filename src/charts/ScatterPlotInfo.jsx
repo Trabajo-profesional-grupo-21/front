@@ -18,19 +18,28 @@ export const ScatterPlot = ({xpos, ypos}) => {
                 ctx.save();
                 ctx.fillStyle = plotLabelsColor
 
-                const emotions = [
+                const valueReferences = [
                     { name: 'Negativo', xPos: left + 2, yPos: bottom - 110, textAlign: 'left' },
                     { name: 'Positvo', xPos: right - 43, yPos: bottom - 110, textAlign: 'left' },
                     { name: 'Alta', xPos: right - 235, yPos: top + 10, textAlign: 'left' },
                     { name: 'Baja', xPos: right - 235, yPos: bottom - 5 , textAlign: 'left' },
+                ]
+
+                const emotions = [
                     { name: 'Enojado', xPos: right - 400, yPos: top + 57 , textAlign: 'left' },
                     { name: 'Feliz', xPos: right - 100, yPos: top + 57 , textAlign: 'left' },
                     { name: 'Triste', xPos: right - 400, yPos: bottom - 50, textAlign: 'left' },
                     { name: 'Relajado', xPos: right - 100, yPos: bottom - 50, textAlign: 'left' }
                 ];
 
-                emotions.forEach(item => {
+                valueReferences.forEach(item => {
                     ctx.font = '12px sans-serif';
+                    ctx.textAlign = item.textAlign;
+                    ctx.fillText(item.name, item.xPos, item.yPos);
+                });
+
+                emotions.forEach(item => {
+                    ctx.font = '20px sans-serif';
                     ctx.textAlign = item.textAlign;
                     ctx.fillText(item.name, item.xPos, item.yPos);
                 });
@@ -50,7 +59,7 @@ export const ScatterPlot = ({xpos, ypos}) => {
                     borderWidth: 1,
                     pointBackgroundColor: plotDotColor,
                     pointBorderColor: plotDotColor,
-                    pointRadius: 4,
+                    pointRadius: 6,
                 }]
             },
             options: {

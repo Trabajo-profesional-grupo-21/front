@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef  } from 'react';
+import React, { useState } from 'react';
 import { VideoSection } from '../components/VideoSection';
 import {ResultsSection} from '../components/ResultsSection';
 import Grid from '@mui/material/Grid';
