@@ -6,7 +6,11 @@ const gridItemStyle = {
   padding: 10,
   textAlign: 'center',
   color: 'white',
-  backgroundColor: 'rgba(50, 0, 45, 0.3)', // Transparent background color
+  display: 'flex',
+  flexDirection: 'column', 
+  justifyContent: 'space-between',
+  height: '80%',
+  backgroundColor: 'rgba(50, 0, 45, 0.3)',
 };
 
 
