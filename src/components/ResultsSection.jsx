@@ -75,17 +75,16 @@ const actionUnits = [
 ]
 const timeLineVA = [
     ["Tiempo", "arousal", "valence"],
-    ["0.5", 1000, 400],
-    ["1.4", 1170, 460],
-    ["5.4", 660, 1120],
-    ["7.8", 1030, 540],
+    [0,0,0]
   ];
 
-export const ResultsSection = ({batchData, currentFrameIndex }) =>{
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
+                                                     // {frame: data}   
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
-    const [timeLineVAData, setTimeLineVAData] = useState({0:timeLineVA});
+    const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
+    
     useEffect(() => {
         console.log(batchData);
         for (const frameId in batchData) {
@@ -99,6 +98,8 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
                 const emotionName = translatedEmotion ? translatedEmotion : emotion.toUpperCase();
                 return [emotionName, parseFloat(value)];
             });
+
+           
 
             formattedEmotions.unshift(["Emociones", "Porcentaje"]);
             setEmotionsData(prevEmotionsData => ({
@@ -122,11 +123,16 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
                 ...prevUnitActions, 
                 [parseInt(frameId)]: unitActionsInfo
             }));
-            }
+            let currentTime = 1/frameRate * frameId
+            setTimeLineVAData(prevValenceArousalTimeData => {
+                let updatedData = [...prevValenceArousalTimeData];
+                updatedData.push([currentTime, arousal, valence]);
+                return updatedData;
+            });
 
-            
+            }
     }, [batchData])
-    
+
     const getActualFrame = () => {
         const filteredIndex = Object.keys(valenceArousalData).
         map(key => parseInt(key)).
@@ -136,7 +142,12 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
         }, Number.NEGATIVE_INFINITY);
         return filteredIndex;
     }
+
+
     let actualFrame = getActualFrame();
+    let currentTime = (1/frameRate) * actualFrame
+    
+    console.log()
     console.log("frames que tenemos en el dict ", Object.keys(valenceArousalData).map(key => parseInt(key)));
     console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
     console.log("NOW ACTUAL FRAME IS ", actualFrame);
@@ -166,7 +177,9 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TimeLineInfo timeLineData={timeLineVAData[actualFrame]}/>} 
+                    component={<TimeLineInfo timeLineData={timeLineVAData.filter((element, index) => {
+                        return index === 0 || element[0] <= currentTime
+                    })}/>} 
                     name="Time Line Modelo Russell"/>
             </Grid>
         </Grid>

@@ -5,9 +5,8 @@ import {VideoPlayer} from './VideoPlayer';
 
 const progressColor = 'rgba(0, 0, 0, 0.7)'
 
-export const VideoSection = ({setCurrentFrameIndex, setBatchData, height }) => {
+export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate }) => {
     const [videoFile, setFile] = React.useState(null);
-    const [frameRate, setFrameRate] = React.useState(0);
     const [loading, setLoading] = React.useState(false)
     console.log("altura ", height);
     return (

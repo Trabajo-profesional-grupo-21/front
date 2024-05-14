@@ -9,6 +9,7 @@ import { Box } from '@mui/material';
 export const Main = (props) => {
     const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
     const [batchData, setBatchData] = useState({});
+    const [frameRate, setFrameRate] = useState(0);
     let resultsSectionHeight = 0;
 
     return (
@@ -34,11 +35,14 @@ export const Main = (props) => {
                                 <VideoSection  setCurrentFrameIndex={setCurrentFrameIndex}
                                                 setBatchData={setBatchData}
                                                 height={resultsSectionHeight}
+                                                frameRate={frameRate}
+                                                setFrameRate={setFrameRate}
                                 />
                             </Grid>
                             <Grid item justifyContent="center" alignItems="center" xs={9}>             
                                     <ResultsSection currentFrameIndex={currentFrameIndex}
                                                     batchData={batchData}
+                                                    frameRate={frameRate}
                                     />
                             </Grid>
                             
