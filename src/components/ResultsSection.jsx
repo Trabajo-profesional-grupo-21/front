@@ -12,7 +12,7 @@ const backgroundForResults = 'rgb(170,126,169)'
 
 const emotionsDictionary = {
     'HAPPY': 'FELIZ',
-    'HAPPYNESS': 'FELIZ',
+    'HAPPINESS': 'FELIZ',
     'SAD': 'TRISTEZA',
     'SADNESS': 'TRISTEZA',
     'FEAR': 'MIEDO',
