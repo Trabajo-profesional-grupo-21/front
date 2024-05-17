@@ -1,18 +1,18 @@
-import React, { useEffect, useState, forwardRef  }  from 'react'
+import React, { useEffect, useState }  from 'react'
 import Grid from '@mui/material/Grid';
-import { EmotionSection } from './EmotionSection';
+import { EmotionSection } from '../charts/EmotionSection';
 import { RusselSection } from './RusselSection';
 import {TableComponent} from './TableComponent';
-import { TimeLineInfo } from './TimeLineInfo';
+import { TimeLineInfo } from '../charts/TimeLineInfo';
 import SimpleAccordion from './AccordionComponent';
 import { Box } from '@material-ui/core';
-    //"rgb(170,126,169)" violeta lindo
+//"rgb(170,126,169)" violeta lindo
 
 const backgroundForResults = 'rgb(170,126,169)'
 
 const emotionsDictionary = {
     'HAPPY': 'FELIZ',
-    'HAPPYNESS': 'FELIZ',
+    'HAPPINESS': 'FELIZ',
     'SAD': 'TRISTEZA',
     'SADNESS': 'TRISTEZA',
     'FEAR': 'MIEDO',
@@ -21,6 +21,27 @@ const emotionsDictionary = {
     'SURPRISE': 'SORPRESA',
     'NEUTRAL': 'NEUTRAL'
 };
+
+const unitActionDictionary = {
+    'AU1': 'Levantamiento de cejas interno',
+    'AU2': 'Elevador de cejas exterior',
+    'AU4': 'Bajar la ceja',
+    'AU5': 'Elevador de parpado superior',
+    'AU6': 'Levantador de mejillas',
+    'AU7': 'Tensor de la tapa',
+    'AU9': 'Arrugador de nariz',
+    'AU10': 'Levantamiento del labio superior',
+    'AU12': 'Tirador de la esquina del labio',
+    'AU14': 'Dimplificador',
+    'AU15': 'Depresor del rincón del labio',
+    'AU17': 'Elevador de la barbilla',
+    'AU20': 'Estirador de labios',
+    'AU23': 'Tensores de labios',
+    'AU25': 'Parte de los labios',
+    'AU26': 'La caída de la mandíbula',
+    'AU28': 'Los labios chupan',
+    'AU45': 'Parpadeo'
+}
 
 const data_init = [
     ["Emociones", "Emociones"],
@@ -34,37 +55,36 @@ const data_init = [
   ];
 
 const actionUnits = [
-    { AUName: 'AU1', Intensity: 0.0 },
-    { AUName: 'AU2', Intensity: 0.0 },
-    { AUName: 'AU4', Intensity: 0.0 },
-    { AUName: 'AU5', Intensity: 0.0 },
-    { AUName: 'AU6', Intensity: 0.0 },
-    { AUName: 'AU7', Intensity: 0.0 },
-    { AUName: 'AU9', Intensity: 0.0 },
-    { AUName: 'AU10', Intensity: 0.0 },
-    { AUName: 'AU12', Intensity: 0.0 },
-    { AUName: 'AU14', Intensity: 0.0 },
-    { AUName: 'AU15', Intensity: 0.0 },
-    { AUName: 'AU17', Intensity: 0.0 },
-    { AUName: 'AU20', Intensity: 0.0 },
-    { AUName: 'AU23', Intensity: 0.0 },
-    { AUName: 'AU25', Intensity: 0.0 },
-    { AUName: 'AU26', Intensity: 0.0 },
-    { AUName: 'AU45', Intensity: 0.0 }
+    { AUName: 'Levantamiento de cejas interno \n (AU1)', Intensity: 0.0 },
+    { AUName: 'Elevador de cejas exterior (AU2)', Intensity: 0.0 },
+    { AUName: 'Bajar la ceja (AU4)', Intensity: 0.0 },
+    { AUName: 'Elevador de parpado superior (AU5)', Intensity: 0.0 },
+    { AUName: 'Levantador de mejillas (AU6)', Intensity: 0.0 },
+    { AUName: 'Tensor de la tapa (AU7)', Intensity: 0.0 },
+    { AUName: 'Arrugador de nariz (AU9)', Intensity: 0.0 },
+    { AUName: 'Levantamiento del labio superior (AU10)', Intensity: 0.0 },
+    { AUName: 'Tirador de la esquina del labio (AU12)', Intensity: 0.0 },
+    { AUName: 'Dimplificador (AU14)', Intensity: 0.0 },
+    { AUName: 'Depresor del rincón del labio (AU15)', Intensity: 0.0 },
+    { AUName: 'Elevador de la barbilla (AU17)', Intensity: 0.0 },
+    { AUName: 'Estirador de labios (AU20)', Intensity: 0.0 },
+    { AUName: 'Tensores de labios (AU23)', Intensity: 0.0 },
+    { AUName: 'Parte de los labios (AU25)', Intensity: 0.0 },
+    { AUName: 'La caída de la mandíbula (AU26)', Intensity: 0.0 },
+    { AUName: 'Parpadeo (AU45)', Intensity: 0.0 }
 ]
 const timeLineVA = [
     ["Tiempo", "arousal", "valence"],
-    ["0.5", 1000, 400],
-    ["1.4", 1170, 460],
-    ["5.4", 660, 1120],
-    ["7.8", 1030, 540],
+    [0,0,0]
   ];
 
-export const ResultsSection = ({batchData, currentFrameIndex }) =>{
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
+                                                     // {frame: data}   
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
-    const [timeLineVAData, setTimeLineVAData] = useState({0:timeLineVA});
+    const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
+    
     useEffect(() => {
         console.log(batchData);
         for (const frameId in batchData) {
@@ -78,6 +98,8 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
                 const emotionName = translatedEmotion ? translatedEmotion : emotion.toUpperCase();
                 return [emotionName, parseFloat(value)];
             });
+
+           
 
             formattedEmotions.unshift(["Emociones", "Porcentaje"]);
             setEmotionsData(prevEmotionsData => ({
@@ -94,17 +116,23 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
 
             unitActionsInfo.sort((a, b) => b.Intensity - a.Intensity);
             unitActionsInfo.forEach(unit => {
+                unit.AUName = unitActionDictionary[unit.AUName] + "\n" + "(" + unit.AUName + ")"
                 unit.Intensity = unit.Intensity.toFixed(2);
             });
             setUnitActions(prevUnitActions => ({
                 ...prevUnitActions, 
                 [parseInt(frameId)]: unitActionsInfo
             }));
-            }
+            let currentTime = 1/frameRate * frameId
+            setTimeLineVAData(prevValenceArousalTimeData => {
+                let updatedData = [...prevValenceArousalTimeData];
+                updatedData.push([currentTime, arousal, valence]);
+                return updatedData;
+            });
 
-            
+            }
     }, [batchData])
-    
+
     const getActualFrame = () => {
         const filteredIndex = Object.keys(valenceArousalData).
         map(key => parseInt(key)).
@@ -114,7 +142,12 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
         }, Number.NEGATIVE_INFINITY);
         return filteredIndex;
     }
+
+
     let actualFrame = getActualFrame();
+    let currentTime = (1/frameRate) * actualFrame
+    
+    console.log()
     console.log("frames que tenemos en el dict ", Object.keys(valenceArousalData).map(key => parseInt(key)));
     console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
     console.log("NOW ACTUAL FRAME IS ", actualFrame);
@@ -144,7 +177,9 @@ export const ResultsSection = ({batchData, currentFrameIndex }) =>{
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TimeLineInfo timeLineData={timeLineVAData[actualFrame]}/>} 
+                    component={<TimeLineInfo timeLineData={timeLineVAData.filter((element, index) => {
+                        return index === 0 || element[0] <= currentTime
+                    })}/>} 
                     name="Time Line Modelo Russell"/>
             </Grid>
         </Grid>

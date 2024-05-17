@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import ReactPlayer from 'react-player';
-import { useCustomWebSocket } from './CustomWebSocketProvider'; 
 
 export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_batches, setBatchData }) => {
     const [videoUrl, setVideoUrl] = useState(null);
@@ -23,7 +22,7 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
             const response = await fetch(url, paramsApi);
             const jsonResponse = await response.json();
             console.log(jsonResponse);
-            const isLastBatch = (currentBatch) => {return currentBatch == total_batches -1} 
+            const isLastBatch = (currentBatch) => {return currentBatch === total_batches -1} 
             if (jsonResponse && isLastBatch(jsonResponse.batch)) {
                 setIsLastBatch(true);
             }
