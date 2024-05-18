@@ -9,6 +9,7 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
     const [videoFile, setFile] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [framesToProcess, setFramesToProcess] = React.useState([]);
+    const [framesFetched, setFramesFetched] =  React.useState([]);
     console.log("altura ", height);
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
@@ -29,6 +30,7 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                     setBatchData={setBatchData}
                                     setLoading={setLoading}
                                     setFramesToProcess={setFramesToProcess}
+                                    setFramesFetched={setFramesFetched}
                                     />
             </Grid>
             {loading ? (
@@ -53,7 +55,9 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                 frameRate={frameRate}
                                 setBatchData={setBatchData}
                                 framesToProcess={framesToProcess}
-                                 />
+                                setFramesFetched={setFramesFetched}
+                                framesFetched={framesFetched}
+                            />
                         )}
                     </div>
                 </Grid>

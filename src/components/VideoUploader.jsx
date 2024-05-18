@@ -4,14 +4,15 @@ import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
 
 
-export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading, setFramesToProcess}) => {
+export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading, setFramesToProcess, setFramesFetched}) => {
     const APIURL = "http://localhost:8000";
-    
+    const maxAttempts = 10;
+
     const handleChange = (newFile) => {
         setFile(newFile)
     }
 
-    const getVideoData = async (currentTime) => {
+    const getVideoData = async (currentTime, attempts = 0) => {
         console.log("BUSCO INFO DEL VIDEO AL BACK");
         try {
             const user_id = localStorage.getItem('user');
@@ -25,12 +26,22 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
             const response = await fetch(url, paramsApi);
             const jsonResponse = await response.json();
             let batchinfo = JSON.parse(jsonResponse.data);
-            console.log(batchinfo);
-            
-            setBatchData(batchinfo['batch']); 
-            console.log("setBatchData", batchinfo['batch'])   
+            if (batchinfo) {
+                console.log(batchinfo);
+                setFramesFetched(prevFramesFetched => {
+                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => { return parseInt(value)})];
+                    return updatedData;
+                  });
+                setBatchData(batchinfo['batch']);
+                console.log("setBatchData", batchinfo['batch']);
+              } else {
+                throw new Error('batchinfo es null, todavia no hay data');
+              }
         } catch (error) {
             console.error('Error:', error);
+            if (attempts < maxAttempts) {
+                setTimeout(() => getVideoData(currentTime, attempts + 1), 1000); // Espera 1 segundo antes de reintentar
+            }
         }
     }
     

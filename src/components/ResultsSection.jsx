@@ -141,6 +141,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
     console.log("Emociones", emotionsData);
     console.log("valence and arousal", valenceArousalData)
     console.log("babababa", timeLineVAData[currentFrameIndex]);
+    
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
