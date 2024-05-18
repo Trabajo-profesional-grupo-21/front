@@ -37,6 +37,7 @@ export const Main = (props) => {
                                                 height={resultsSectionHeight}
                                                 frameRate={frameRate}
                                                 setFrameRate={setFrameRate}
+                                               
                                 />
                             </Grid>
                             <Grid item justifyContent="center" alignItems="center" xs={9}>             

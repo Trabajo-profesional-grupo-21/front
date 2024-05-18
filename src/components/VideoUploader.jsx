@@ -4,7 +4,7 @@ import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
 
 
-export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading}) => {
+export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading, setFramesToProcess}) => {
     const APIURL = "http://localhost:8000";
     
     const handleChange = (newFile) => {
@@ -25,14 +25,16 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
             const response = await fetch(url, paramsApi);
             const jsonResponse = await response.json();
             let batchinfo = JSON.parse(jsonResponse.data);
-            setBatchData(batchinfo['batch']);    
+            console.log(batchinfo);
+            
+            setBatchData(batchinfo['batch']); 
+            console.log("setBatchData", batchinfo['batch'])   
         } catch (error) {
             console.error('Error:', error);
         }
     }
     
     const handleUpload = async () => {
-        console.log("entreee");
         if (file) {
             setLoading(true)
             const reader = new FileReader();
@@ -54,7 +56,15 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
     
                     if (response.status === 200) {
                         localStorage.setItem("user", jsonResponse['user_id']);
-                        setFrameRate(jsonResponse['fps']);
+                        let amountOfFrames = jsonResponse['frames_to_process'];
+                        let fps = jsonResponse['fps']
+                        setFrameRate(fps);
+                        let framesToProcess = Array.from({ length: amountOfFrames + 1 }, (v, k) => k)
+                        .map((value, index) => {
+                            console.log("frame to process", value*fps)
+                                return value*fps
+                        }) 
+                        setFramesToProcess(framesToProcess);
                         // Buscamos el primero y el segundo. 
                         getVideoData(0);
                         if (jsonResponse['total_batches'] > 1) {

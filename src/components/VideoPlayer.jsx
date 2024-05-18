@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import ReactPlayer from 'react-player';
 
-export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_batches, setBatchData }) => {
+export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_batches, setBatchData,  framesToProcess}) => {
     const [videoUrl, setVideoUrl] = useState(null);
     const [isLastBatch, setIsLastBatch] = useState(false);
-    const [lastCall, setLastCall] =  useState(0); 
+    const [lastCall, setLastCall] =  useState(0);
     const APIURL = "http://localhost:8000";
     
     const getVideoData = async (currentTime) => {
@@ -40,17 +40,27 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
         }
     }, [videoFile]);
 
+    const getActualFrame = (currentFrame) => {
+        let filteredIndex = framesToProcess.
+        map(key => parseInt(key)).
+        filter(number => number <= currentFrame).
+        reduce((acc, curr) => {
+            return curr > acc ? curr : acc;
+        }, Number.NEGATIVE_INFINITY);
+        return filteredIndex;
+    }
+
     const handleProgress = (state) => {
         const currentTime = state.playedSeconds;
         if (!currentTime) return -1
         const currentFrame = Math.floor(currentTime * frameRate);
         console.log("current FRAME: ", currentFrame);
-        setCurrentFrameIndex(currentFrame);
+        let actualFrame = getActualFrame(currentFrame);
+        console.log("actual frame", actualFrame);
+        setCurrentFrameIndex(actualFrame);
         console.log("time actual ", currentTime);
         const floorCurrentTime = Math.floor(currentTime)
-       /*  console.log("porcentual ", floorCurrentTime % 5 === 0)
-        console.log("floor time actual ", floorCurrentTime);
-        console.log("last call ", lastCall); */
+       
         if (floorCurrentTime % 10 === 0 && floorCurrentTime !== lastCall && !isLastBatch) { 
             setTimeout(() => {
                 getVideoData(floorCurrentTime + 10);
@@ -59,6 +69,7 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
         }
         return currentFrame;
     }
+    // lo hacemos porque ANTES procesabamos todos los frames.
     const interval = 1000 /* ms */ / frameRate /* fps */
     return (
         <Card sx={{ maxWidth: "100%"}}>

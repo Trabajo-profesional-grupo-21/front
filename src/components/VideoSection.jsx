@@ -5,9 +5,10 @@ import {VideoPlayer} from './VideoPlayer';
 
 const progressColor = 'rgba(0, 0, 0, 0.7)'
 
-export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate }) => {
+export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate}) => {
     const [videoFile, setFile] = React.useState(null);
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(false);
+    const [framesToProcess, setFramesToProcess] = React.useState([]);
     console.log("altura ", height);
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
@@ -27,6 +28,7 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                     setFrameRate={setFrameRate}
                                     setBatchData={setBatchData}
                                     setLoading={setLoading}
+                                    setFramesToProcess={setFramesToProcess}
                                     />
             </Grid>
             {loading ? (
@@ -49,7 +51,9 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                         {videoFile && (
                             <VideoPlayer videoFile={videoFile} setCurrentFrameIndex={setCurrentFrameIndex}
                                 frameRate={frameRate}
-                                setBatchData={setBatchData} />
+                                setBatchData={setBatchData}
+                                framesToProcess={framesToProcess}
+                                 />
                         )}
                     </div>
                 </Grid>
