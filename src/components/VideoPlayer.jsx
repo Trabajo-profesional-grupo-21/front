@@ -65,6 +65,7 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
             // borramos notificacion
             console.log("DESPAUSAMOS PORQUE VINO EL FRAME QUE FALTABA");
             setMissingActualFrame(-1);
+            playerRef.current.getInternalPlayer().play();
         }
     }, [framesFetched])
 
