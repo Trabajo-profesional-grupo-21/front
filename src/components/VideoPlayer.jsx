@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import ReactPlayer from 'react-player';
 
@@ -6,6 +6,10 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
     const [videoUrl, setVideoUrl] = useState(null);
     const [isLastBatch, setIsLastBatch] = useState(false);
     const [lastCall, setLastCall] =  useState(0);
+    const [missingActualFrame, setMissingActualFrame] = useState(-1); 
+    const [pause, setPause] = useState(false);
+    const playerRef = useRef(null);
+
     const APIURL = "http://localhost:8000";
     const maxAttempts = 10;
     
@@ -35,12 +39,14 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
                   });
                 setBatchData(batchinfo['batch']);
             } else {
-                throw new Error('batchinfo es null, todavia no hay data');
+                throw new Error('batchinfo es null, todavia no hay data para el tiempo ', currentTime);
             }     
         } catch (error) {
             console.error('Error:', error);
             if (attempts < maxAttempts) {
                 setTimeout(() => getVideoData(currentTime, attempts + 1), 1000); // Espera 1 segundo antes de reintentar
+            } else {
+                console.log("YA HICE LOS 10 INTENTOS :(");
             }
         }
     }
@@ -52,6 +58,16 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
         }
     }, [videoFile]);
 
+    useEffect(() => {
+        console.log("CAMBIARONS LOS FETCHED FRAMES ", framesFetched)
+        if (missingActualFrame != -1 && framesFetched.includes(missingActualFrame)) {
+            setPause(false);
+            // borramos notificacion
+            console.log("DESPAUSAMOS PORQUE VINO EL FRAME QUE FALTABA");
+            setMissingActualFrame(-1);
+        }
+    }, [framesFetched])
+
     const getActualFrame = (currentFrame) => {
         let filteredIndex = framesToProcess.
         map(key => parseInt(key)).
@@ -62,6 +78,9 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
         return filteredIndex;
     }
 
+    const handlePlay = () => {
+        setPause(false)
+    }
     const handleProgress = (state) => {
         const currentTime = state.playedSeconds;
         if (!currentTime) return -1
@@ -79,10 +98,13 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
                 setTimeout(() => {
                     getVideoData(floorCurrentTime + 10);
                 }, 5000);
-                setLastCall(floorCurrentTime)
+                setLastCall(floorCurrentTime);
             }
         } else {
-            
+            // pausamos 
+            console.log("Pausamos el videooooo!!!!!");
+            setPause(true);
+            setMissingActualFrame(actualFrame);
         }
         // si no lo tengo, me pauso, me "bloqueo botonsito" y verifico xq no lo tengo 
         // lo pedi y todavia no me llego. 
@@ -97,17 +119,30 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
         
         return currentFrame;
     }
+    
     // lo hacemos porque ANTES procesabamos todos los frames.
     const interval = 1000 /* ms */ / frameRate /* fps */
+
+    useEffect(() => {
+        // Pausa o reproduce el video basado en el estado de pausa
+        if (playerRef.current) {
+          if (pause) {
+            playerRef.current.getInternalPlayer().pause();
+          }
+        }
+      }, [pause]);
+
     return (
         <Card sx={{ maxWidth: "100%"}}>
             <ReactPlayer
         url={videoUrl}
+        ref={playerRef}
         controls={true}
         width="100%"
         height="100%"
         onProgress={handleProgress}
         progressInterval={interval}
+        onPlay={handlePlay}
       />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

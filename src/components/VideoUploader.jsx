@@ -29,9 +29,9 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
             if (batchinfo) {
                 console.log(batchinfo);
                 setFramesFetched(prevFramesFetched => {
-                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => { return parseInt(value)})];
+                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => {return parseInt(value)})];
                     return updatedData;
-                  });
+                });
                 setBatchData(batchinfo['batch']);
                 console.log("setBatchData", batchinfo['batch']);
               } else {
@@ -41,6 +41,8 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
             console.error('Error:', error);
             if (attempts < maxAttempts) {
                 setTimeout(() => getVideoData(currentTime, attempts + 1), 1000); // Espera 1 segundo antes de reintentar
+            } else {
+                console.log("YA HICE LOS 10 INTENTOS :(");
             }
         }
     }
@@ -77,9 +79,11 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
                         }) 
                         setFramesToProcess(framesToProcess);
                         // Buscamos el primero y el segundo. 
-                        getVideoData(0);
+                        getVideoData(0,0);
+                        console.log("Buscado data seg 0");
                         if (jsonResponse['total_batches'] > 1) {
-                            getVideoData(10);
+                            getVideoData(10,0);
+                            console.log("Buscado data seg 10");
                         }
                     }
                 setLoading(false)
