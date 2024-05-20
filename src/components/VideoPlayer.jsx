@@ -1,8 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import ReactPlayer from 'react-player';
+import Notification from './Notifications';
 
-export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_batches, setBatchData,  framesToProcess, framesFetched, setFramesFetched}) => {
+export const VideoPlayer = ({
+    videoFile, setCurrentFrameIndex, 
+    frameRate, total_batches,
+    setBatchData, framesToProcess, 
+    framesFetched, setFramesFetched,
+    notify, setNotify}) => {
     const [videoUrl, setVideoUrl] = useState(null);
     const [isLastBatch, setIsLastBatch] = useState(false);
     const [lastCall, setLastCall] =  useState(0);
@@ -66,6 +72,11 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
             console.log("DESPAUSAMOS PORQUE VINO EL FRAME QUE FALTABA");
             setMissingActualFrame(-1);
             playerRef.current.getInternalPlayer().play();
+            setNotify({
+                isOpen: true,
+                message: 'Ya esta disponible!',
+                type: 'success'
+            });
         }
     }, [framesFetched])
 
@@ -104,6 +115,11 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
         } else {
             // pausamos 
             console.log("Pausamos el videooooo!!!!!");
+            setNotify({
+                isOpen: true,
+                message: 'Todavia estamos procesando el video',
+                type: 'error' //TODO: Quizas error no
+            });
             setPause(true);
             setMissingActualFrame(actualFrame);
         }
@@ -134,6 +150,7 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
       }, [pause]);
 
     return (
+        <Box>
         <Card sx={{ maxWidth: "100%"}}>
             <ReactPlayer
         url={videoUrl}
@@ -151,5 +168,7 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
                 </Typography>
             </CardContent>
         </Card>
+            <Notification notify={notify} setNotify={setNotify}/>
+        </Box>
     );
 };
