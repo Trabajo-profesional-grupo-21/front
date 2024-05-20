@@ -6,7 +6,7 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
     const [videoUrl, setVideoUrl] = useState(null);
     const [isLastBatch, setIsLastBatch] = useState(false);
     const [lastCall, setLastCall] =  useState(0);
-    const [missingActualFrame, setMissingActualFrame] = useState(-1); 
+    const [missingActualFrame, setMissingActualFrame] = useState(-1);
     const [pause, setPause] = useState(false);
     const playerRef = useRef(null);
 
@@ -62,7 +62,7 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
         console.log("CAMBIARONS LOS FETCHED FRAMES ", framesFetched)
         if (missingActualFrame != -1 && framesFetched.includes(missingActualFrame)) {
             setPause(false);
-            // borramos notificacion
+            // TODO: borramos notificacion
             console.log("DESPAUSAMOS PORQUE VINO EL FRAME QUE FALTABA");
             setMissingActualFrame(-1);
             playerRef.current.getInternalPlayer().play();
@@ -103,6 +103,12 @@ export const VideoPlayer = ({ videoFile, setCurrentFrameIndex, frameRate, total_
             }
         } else {
             // pausamos 
+            // tiempo a buscar = Floor(currentTime/10)*10  
+            // if tiempo a buscar in listaDetIEMPOS A PEDIR 
+                // lo voy a buscar 
+                // sacarlo de la lista 
+            // sino 
+                // ya lo pedi
             console.log("Pausamos el videooooo!!!!!");
             setPause(true);
             setMissingActualFrame(actualFrame);

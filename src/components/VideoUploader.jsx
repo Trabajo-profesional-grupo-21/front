@@ -4,7 +4,7 @@ import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
 
 
-export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading, setFramesToProcess, setFramesFetched}) => {
+export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading, setFramesToProcess, setFramesFetched, setTimeToFetch}) => {
     const APIURL = "http://localhost:8000";
     const maxAttempts = 10;
 
@@ -72,19 +72,22 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
                         let amountOfFrames = jsonResponse['frames_to_process'];
                         let fps = jsonResponse['fps']
                         setFrameRate(fps);
-                        let framesToProcess = Array.from({ length: amountOfFrames + 1 }, (v, k) => k)
-                        .map((value, index) => {
-                            console.log("frame to process", value*fps)
-                                return value*fps
-                        }) 
+                        let framesToProcess = Array.from({ length: amountOfFrames + 1 }, (value, index) => index*fps)
                         setFramesToProcess(framesToProcess);
+                        let timesToProcess = Array.from({length: jsonResponse['total_batches']}, (value, index) => 10 * index)
                         // Buscamos el primero y el segundo. 
-                        getVideoData(0,0);
+                        console.log("tiempos a procesar ", timesToProcess);
+                        const firstBatchIndex = 0;
+                        const secondBatchIndex = 10;
+                        timesToProcess = timesToProcess.filter(element => element !== firstBatchIndex);
                         console.log("Buscado data seg 0");
                         if (jsonResponse['total_batches'] > 1) {
-                            getVideoData(10,0);
+                            getVideoData(secondBatchIndex,0);
+                            timesToProcess = timesToProcess.filter(element => element !== secondBatchIndex);
                             console.log("Buscado data seg 10");
                         }
+                        setTimeToFetch(timesToProcess);
+                        console.log("tiempos a procesar ", timesToProcess);
                     }
                 setLoading(false)
                 } catch (error) {
