@@ -2,9 +2,10 @@
 import React from 'react'
 import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
+import Notification from './Notifications';
 
 
-export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading, setFramesToProcess, setFramesFetched, setTimeToFetch}) => {
+export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading, setFramesToProcess, setFramesFetched, setTimeToFetch, notify, setNotify}) => {
     const APIURL = "http://localhost:8000";
     const maxAttempts = 10;
 
@@ -128,6 +129,7 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
                         style={{ backgroundColor: 'rgb(98, 65, 83)', color: 'white', textTransform: 'none' }}>
                         Subir
                     </Button>
+                    <Notification notify={notify} setNotify={setNotify}/>
                 </div>
             )}
         </>

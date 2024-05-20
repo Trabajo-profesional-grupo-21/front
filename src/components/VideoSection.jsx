@@ -1,4 +1,4 @@
-import React from 'react'
+import {useState} from 'react'
 import {Grid, CircularProgress} from '@mui/material';
 import { VideoUploader } from './VideoUploader';
 import {VideoPlayer} from './VideoPlayer';
@@ -11,7 +11,9 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
     const [framesToProcess, setFramesToProcess] = React.useState([]);
     const [framesFetched, setFramesFetched] =  React.useState([]);
     const [timeToFetch, setTimeToFetch] = React.useState([]);
+    const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
     console.log("altura ", height);
+
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
         justifyContent="center" 
@@ -34,7 +36,9 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                     setFramesFetched={setFramesFetched}
                                     setTimeToFetch={setTimeToFetch}
                                     timeToFetch={timeToFetch}
-                                    />
+                                    notify={notify}
+                                    setNotify={setNotify}
+                    />
             </Grid>
             {loading ? (
                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
@@ -54,12 +58,16 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
                     <div>
                         {videoFile && (
-                            <VideoPlayer videoFile={videoFile} setCurrentFrameIndex={setCurrentFrameIndex}
+                            <VideoPlayer
+                                videoFile={videoFile}
+                                setCurrentFrameIndex={setCurrentFrameIndex}
                                 frameRate={frameRate}
                                 setBatchData={setBatchData}
                                 framesToProcess={framesToProcess}
                                 setFramesFetched={setFramesFetched}
                                 framesFetched={framesFetched}
+                                notify={notify}
+                                setNotify={setNotify}
                             />
                         )}
                     </div>
