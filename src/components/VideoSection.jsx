@@ -6,11 +6,13 @@ import {VideoPlayer} from './VideoPlayer';
 const progressColor = 'rgba(0, 0, 0, 0.7)'
 
 export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate}) => {
-    const [videoFile, setFile] = React.useState(null);
-    const [loading, setLoading] = React.useState(false);
-    const [framesToProcess, setFramesToProcess] = React.useState([]);
-    const [framesFetched, setFramesFetched] =  React.useState([]);
-    const [timeToFetch, setTimeToFetch] = React.useState([]);
+    const [videoFile, setFile] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [isLastBatch, setIsLastBatch] = useState(false);
+    const [total_batches, setTotalBatches] = useState(0);
+    const [framesToProcess, setFramesToProcess] = useState([]);
+    const [framesFetched, setFramesFetched] =  useState([]);
+    const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
     console.log("altura ", height);
 
@@ -35,9 +37,11 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                     setFramesToProcess={setFramesToProcess}
                                     setFramesFetched={setFramesFetched}
                                     setTimeToFetch={setTimeToFetch}
-                                    timeToFetch={timeToFetch}
                                     notify={notify}
                                     setNotify={setNotify}
+                                    isLastBatch={isLastBatch}
+                                    setIsLastBatch={setIsLastBatch}
+                                    setTotalBatches={setTotalBatches}
                     />
             </Grid>
             {loading ? (
@@ -62,12 +66,17 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                 videoFile={videoFile}
                                 setCurrentFrameIndex={setCurrentFrameIndex}
                                 frameRate={frameRate}
+                                total_batches={total_batches}
                                 setBatchData={setBatchData}
                                 framesToProcess={framesToProcess}
                                 setFramesFetched={setFramesFetched}
                                 framesFetched={framesFetched}
+                                timesToFetch={timesToFetch}
+                                setTimeToFetch={setTimeToFetch}
                                 notify={notify}
                                 setNotify={setNotify}
+                                isLastBatch={isLastBatch}
+                                setIsLastBatch={setIsLastBatch}
                             />
                         )}
                     </div>

@@ -8,9 +8,10 @@ export const VideoPlayer = ({
     frameRate, total_batches,
     setBatchData, framesToProcess, 
     framesFetched, setFramesFetched,
-    notify, setNotify}) => {
+    timesToFetch,setTimeToFetch,
+    notify, setNotify, 
+    isLastBatch, setIsLastBatch}) => {
     const [videoUrl, setVideoUrl] = useState(null);
-    const [isLastBatch, setIsLastBatch] = useState(false);
     const [lastCall, setLastCall] =  useState(0);
     const [missingActualFrame, setMissingActualFrame] = useState(-1);
     const [pause, setPause] = useState(false);
@@ -33,8 +34,11 @@ export const VideoPlayer = ({
             const response = await fetch(url, paramsApi);
             const jsonResponse = await response.json();
             console.log(jsonResponse);
-            const isLastBatch = (currentBatch) => {return currentBatch === total_batches -1} 
+            const isLastBatch = (currentBatch) => {return currentBatch === (total_batches -1)} 
+            console.log("currentBatch: ", jsonResponse.batch);
+            console.log("Total batches ", total_batches);
             if (jsonResponse && isLastBatch(jsonResponse.batch)) {
+                console.log("ENTRO A SETTEAR LAST BATCH")
                 setIsLastBatch(true);
             }
             let batchinfo = JSON.parse(jsonResponse.data);
@@ -50,7 +54,7 @@ export const VideoPlayer = ({
         } catch (error) {
             console.error('Error:', error);
             if (attempts < maxAttempts) {
-                setTimeout(() => getVideoData(currentTime, attempts + 1), 1000); // Espera 1 segundo antes de reintentar
+                setTimeout(() => getVideoData(currentTime, attempts + 1), 3000); // Espera 1 segundo antes de reintentar
             } else {
                 console.log("YA HICE LOS 10 INTENTOS :(");
             }
@@ -100,12 +104,14 @@ export const VideoPlayer = ({
         console.log("current FRAME: ", currentFrame);
         let actualFrame = getActualFrame(currentFrame);
         console.log("actual frame", actualFrame);
-        // lo que tengo que mostra, lo tengo.
-        // si lo tengo joya, la logica sigue como esta 
+        console.log("FRAMES FECHEADOS ", framesFetched);
         if (framesFetched.includes(actualFrame)){
             setCurrentFrameIndex(actualFrame);
             console.log("time actual ", currentTime);
             const floorCurrentTime = Math.floor(currentTime);
+            console.log("Current floor ", floorCurrentTime);
+            console.log("Last call ", lastCall);
+            console.log("is las batch ", isLastBatch);
             if (floorCurrentTime % 10 === 0 && floorCurrentTime !== lastCall && !isLastBatch) { 
                 setTimeout(() => {
                     getVideoData(floorCurrentTime + 10);
@@ -114,17 +120,29 @@ export const VideoPlayer = ({
             }
         } else {
             // pausamos 
-            // tiempo a buscar = Floor(currentTime/10)*10  
-            // if tiempo a buscar in listaDetIEMPOS A PEDIR 
+           
+            let timeToFetch = Math.floor(currentTime/10)*10;
+            console.log(" Time to Fetch ", timeToFetch);
+            if(timesToFetch.includes(timeToFetch)){
                 // lo voy a buscar 
                 // sacarlo de la lista 
-            // sino 
-                // ya lo pedi
+                timesToFetch = timesToFetch.filter(element => element !== timeToFetch);
+                setTimeToFetch(timesToFetch);
+                setTimeout(() => {
+                    getVideoData(timeToFetch);
+                }, 5000);
+                setLastCall(timeToFetch);
+            }
+           
             console.log("Pausamos el videooooo!!!!!");
+            let notificationMsg = 'Todavia estamos procesando el video'
+            if (timesToFetch.length === 0) {
+                notificationMsg = 'Por favor, presiona el boton "subir" antes de reproducir el video'
+            }
             setNotify({
                 isOpen: true,
-                message: 'Todavia estamos procesando el video',
-                type: 'error' //TODO: Quizas error no
+                message: notificationMsg,
+                type: 'error'
             });
             setPause(true);
             setMissingActualFrame(actualFrame);
