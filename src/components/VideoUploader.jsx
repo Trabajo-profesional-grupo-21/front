@@ -2,16 +2,23 @@
 import React from 'react'
 import { MuiFileInput } from 'mui-file-input'
 import { Button } from '@mui/material'
+import Notification from './Notifications';
 
 
-export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoading}) => {
+
+
+export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, 
+                                setLoading, setFramesToProcess, setFramesFetched, 
+                                setTimeToFetch, notify, setNotify,
+                                isLastBatch, setIsLastBatch, setTotalBatches}) => {
     const APIURL = "http://localhost:8000";
-    
+    const maxAttempts = 10;
+    const calculateIfIsLastBatch = (currentBatch, total_batches) => {return currentBatch === (total_batches -1)} 
     const handleChange = (newFile) => {
         setFile(newFile)
     }
 
-    const getVideoData = async (currentTime) => {
+    const getVideoData = async (currentTime, attempts = 0, amountTotalBatches) => {
         console.log("BUSCO INFO DEL VIDEO AL BACK");
         try {
             const user_id = localStorage.getItem('user');
@@ -24,15 +31,34 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
             };
             const response = await fetch(url, paramsApi);
             const jsonResponse = await response.json();
+            
+            if (jsonResponse && calculateIfIsLastBatch(jsonResponse.batch, amountTotalBatches)) {
+                console.log("ENTRO A SETTEAR LAST BATCH")
+                setIsLastBatch(true);
+            }
             let batchinfo = JSON.parse(jsonResponse.data);
-            setBatchData(batchinfo['batch']);    
+            if (batchinfo) {
+                console.log(batchinfo);
+                setFramesFetched(prevFramesFetched => {
+                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => {return parseInt(value)})];
+                    return updatedData;
+                });
+                setBatchData(batchinfo['batch']);
+                console.log("setBatchData", batchinfo['batch']);
+              } else {
+                throw new Error('batchinfo es null, todavia no hay data');
+              }
         } catch (error) {
             console.error('Error:', error);
+            if (attempts < maxAttempts) {
+                setTimeout(() => getVideoData(currentTime, attempts + 1), 3000); // Espera 1 segundo antes de reintentar
+            } else {
+                console.log("YA HICE LOS 10 INTENTOS :(");
+            }
         }
     }
     
     const handleUpload = async () => {
-        console.log("entreee");
         if (file) {
             setLoading(true)
             const reader = new FileReader();
@@ -54,12 +80,28 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
     
                     if (response.status === 200) {
                         localStorage.setItem("user", jsonResponse['user_id']);
-                        setFrameRate(jsonResponse['fps']);
-                        // Buscamos el primero y el segundo. 
-                        getVideoData(0);
+                        let amountOfFrames = jsonResponse['frames_to_process'];
+                        let fps = jsonResponse['fps']
+                        setFrameRate(fps);
+                        let framesToProcess = Array.from({ length: amountOfFrames + 1 }, (value, index) => index*fps)
+                        setFramesToProcess(framesToProcess);
+                        setTotalBatches(jsonResponse['total_batches']);
+                        let timesToProcess = Array.from({length: jsonResponse['total_batches']}, (value, index) => 10 * index) 
+                        console.log("tiempos a procesar ", timesToProcess);
+                        const firstBatchIndex = 0;
+                        const secondBatchIndex = 10;
+                        getVideoData(firstBatchIndex,0, jsonResponse['total_batches']);
+                       
+                        timesToProcess = timesToProcess.filter(element => element !== firstBatchIndex);
+                        console.log("Buscado data seg 0");
                         if (jsonResponse['total_batches'] > 1) {
-                            getVideoData(10);
+                            getVideoData(secondBatchIndex,0,jsonResponse['total_batches']);
+                            timesToProcess = timesToProcess.filter(element => element !== secondBatchIndex);
+                            
+                            console.log("Buscado data seg 10");
                         }
+                        setTimeToFetch(timesToProcess);
+                        console.log("tiempos a procesar ", timesToProcess);
                     }
                 setLoading(false)
                 } catch (error) {
@@ -100,6 +142,7 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData, setLoa
                         style={{ backgroundColor: 'rgb(98, 65, 83)', color: 'white', textTransform: 'none' }}>
                         Subir
                     </Button>
+                    <Notification notify={notify} setNotify={setNotify}/>
                 </div>
             )}
         </>

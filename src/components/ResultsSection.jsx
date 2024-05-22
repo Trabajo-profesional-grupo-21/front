@@ -86,6 +86,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
     
     useEffect(() => {
+        console.log("ME LLEGO DATA DEL BACK");
         console.log(batchData);
         for (const frameId in batchData) {
             const frameData = batchData[frameId];
@@ -133,26 +134,14 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
             }
     }, [batchData])
 
-    const getActualFrame = () => {
-        const filteredIndex = Object.keys(valenceArousalData).
-        map(key => parseInt(key)).
-        filter(number => number <= currentFrameIndex).
-        reduce((acc, curr) => {
-            return curr > acc ? curr : acc;
-        }, Number.NEGATIVE_INFINITY);
-        return filteredIndex;
-    }
-
-
-    let actualFrame = getActualFrame();
-    let currentTime = (1/frameRate) * actualFrame
+    let currentTime = (1/frameRate) * currentFrameIndex
     
-    console.log()
-    console.log("frames que tenemos en el dict ", Object.keys(valenceArousalData).map(key => parseInt(key)));
+    console.log("FRAMES QUE TENGO ", Object.keys(valenceArousalData));
     console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
-    console.log("NOW ACTUAL FRAME IS ", actualFrame);
     console.log("Emociones", emotionsData);
-    console.log("babababa", timeLineVAData[actualFrame]);
+    console.log("valence and arousal", valenceArousalData)
+    console.log("babababa", timeLineVAData[currentFrameIndex]);
+    
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
@@ -161,26 +150,26 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
                     alignItems="stretch"
                     direction="rows">
                         <Grid item xs={12} sm={6}>
-                            <EmotionSection emotionsData={emotionsData[actualFrame]}></EmotionSection>
+                            <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                         <Box alignItems="center">
-                           <RusselSection valenceArousalData={valenceArousalData[actualFrame]}></RusselSection>
+                           <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
                            </Box>
                         </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TableComponent data={unitAcctionsData[actualFrame]}/>} 
-                    name="Action Units"/>
+                    component={<TableComponent data={unitAcctionsData[currentFrameIndex]}/>} 
+                    name="Unidades De Accion"/>
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
                     component={<TimeLineInfo timeLineData={timeLineVAData.filter((element, index) => {
                         return index === 0 || element[0] <= currentTime
                     })}/>} 
-                    name="Time Line Modelo Russell"/>
+                    name="Linea del tiempo modelo Russell"/>
             </Grid>
         </Grid>
     );
