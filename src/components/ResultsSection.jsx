@@ -74,9 +74,8 @@ const actionUnits = [
     { AUName: 'Parpadeo (AU45)', Intensity: 0.0 }
 ]
 const timeLineVA = [
-    ["Tiempo", "arousal", "valence"],
-    [0,0,0]
-  ];
+    [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitacion' }, { type: 'number', label: 'Valencia' }],
+];
 
 export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
                                                      // {frame: data}   
@@ -146,13 +145,12 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
 
     let actualFrame = getActualFrame();
     let currentTime = (1/frameRate) * actualFrame
-    
-    console.log()
-    console.log("frames que tenemos en el dict ", Object.keys(valenceArousalData).map(key => parseInt(key)));
-    console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
-    console.log("NOW ACTUAL FRAME IS ", actualFrame);
-    console.log("Emociones", emotionsData);
-    console.log("babababa", timeLineVAData[actualFrame]);
+
+    const timeLineData = () => {
+        return timeLineVAData.filter((element, index) => {
+            return index === 0 || element[0] <= currentTime
+        })
+    }
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
@@ -177,9 +175,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TimeLineInfo timeLineData={timeLineVAData.filter((element, index) => {
-                        return index === 0 || element[0] <= currentTime
-                    })}/>} 
+                    component={<TimeLineInfo timeLineData={timeLineData()}/>} 
                     name="Time Line Modelo Russell"/>
             </Grid>
         </Grid>

@@ -1,3 +1,4 @@
+import { formatNumber } from 'chart.js/helpers';
 import React from 'react'
 import { Chart } from "react-google-charts";
 
@@ -7,7 +8,10 @@ export const options = {
     chart: {
       title: "Exitacion y valencia en el tiempo",
     },
-    legend: { position: 'bottom', alignment: 'center', textStyle: { fontSize: 14 } },
+    hAxis: {
+        title: 'Tiempo',
+      },
+    legend: { position: 'bottom', alignment: 'center', textStyle: { fontSize: 14 }, formatNumber },
     height:  '100%',
     width: '100%',
     backgroundColor: background,
@@ -15,7 +19,6 @@ export const options = {
 
 
 export const TimeLineInfo = ({timeLineData}) => {
-    console.log("TimeLine", timeLineData);
     return (
             <Chart
                 chartType="LineChart"
