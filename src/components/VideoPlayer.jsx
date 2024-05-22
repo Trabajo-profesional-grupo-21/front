@@ -21,7 +21,6 @@ export const VideoPlayer = ({
     const maxAttempts = 10;
     
     const getVideoData = async (currentTime, attempts = 0) => {
-        console.log("BUSCO INFO DEL VIDEO AL BACK");
         try {
             const user_id = localStorage.getItem('user');
             const url = `${APIURL}/batch_data_time/${user_id}/${currentTime}`;
@@ -33,12 +32,9 @@ export const VideoPlayer = ({
             };
             const response = await fetch(url, paramsApi);
             const jsonResponse = await response.json();
-            console.log(jsonResponse);
             const isLastBatch = (currentBatch) => {return currentBatch === (total_batches -1)} 
-            console.log("currentBatch: ", jsonResponse.batch);
-            console.log("Total batches ", total_batches);
+           
             if (jsonResponse && isLastBatch(jsonResponse.batch)) {
-                console.log("ENTRO A SETTEAR LAST BATCH")
                 setIsLastBatch(true);
             }
             let batchinfo = JSON.parse(jsonResponse.data);
@@ -56,7 +52,6 @@ export const VideoPlayer = ({
             if (attempts < maxAttempts) {
                 setTimeout(() => getVideoData(currentTime, attempts + 1), 3000); // Espera 1 segundo antes de reintentar
             } else {
-                console.log("YA HICE LOS 10 INTENTOS :(");
             }
         }
     }
@@ -69,10 +64,8 @@ export const VideoPlayer = ({
     }, [videoFile]);
 
     useEffect(() => {
-        console.log("CAMBIARONS LOS FETCHED FRAMES ", framesFetched)
         if (missingActualFrame != -1 && framesFetched.includes(missingActualFrame)) {
             setPause(false);
-            console.log("DESPAUSAMOS PORQUE VINO EL FRAME QUE FALTABA");
             setMissingActualFrame(-1);
             playerRef.current.getInternalPlayer().play();
             setNotify({
@@ -100,17 +93,10 @@ export const VideoPlayer = ({
         const currentTime = state.playedSeconds;
         if (!currentTime) return -1
         const currentFrame = Math.floor(currentTime * frameRate);
-        console.log("current FRAME: ", currentFrame);
         let actualFrame = getActualFrame(currentFrame);
-        console.log("actual frame", actualFrame);
-        console.log("FRAMES FECHEADOS ", framesFetched);
         if (framesFetched.includes(actualFrame)){
             setCurrentFrameIndex(actualFrame);
-            console.log("time actual ", currentTime);
             const floorCurrentTime = Math.floor(currentTime);
-            console.log("Current floor ", floorCurrentTime);
-            console.log("Last call ", lastCall);
-            console.log("is las batch ", isLastBatch);
             if (floorCurrentTime % 10 === 0 && floorCurrentTime !== lastCall && !isLastBatch) { 
                 setTimeout(() => {
                     getVideoData(floorCurrentTime + 10);
@@ -121,7 +107,6 @@ export const VideoPlayer = ({
             // pausamos 
            
             let timeToFetch = Math.floor(currentTime/10)*10;
-            console.log(" Time to Fetch ", timeToFetch);
             if(timesToFetch.includes(timeToFetch)){
                 // lo voy a buscar 
                 // sacarlo de la lista 
@@ -133,7 +118,6 @@ export const VideoPlayer = ({
                 setLastCall(timeToFetch);
             }
            
-            console.log("Pausamos el videooooo!!!!!");
             let notificationMsg = 'Todavia estamos procesando el video'
             if (timesToFetch.length === 0) {
                 notificationMsg = 'Por favor, presiona el boton "subir" antes de reproducir el video'

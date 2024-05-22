@@ -85,8 +85,6 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
     
     useEffect(() => {
-        console.log("ME LLEGO DATA DEL BACK");
-        console.log(batchData);
         for (const frameId in batchData) {
             const frameData = batchData[frameId];
             const emotions = frameData.emotions;

@@ -14,7 +14,6 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
     const [framesFetched, setFramesFetched] =  useState([]);
     const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
-    console.log("altura ", height);
 
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
