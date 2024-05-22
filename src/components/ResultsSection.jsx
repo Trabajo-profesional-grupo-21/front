@@ -74,7 +74,7 @@ const actionUnits = [
     { AUName: 'Parpadeo (AU45)', Intensity: 0.0 }
 ]
 const timeLineVA = [
-    [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitacion' }, { type: 'number', label: 'Valencia' }],
+    [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
 ];
 
 export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
@@ -171,12 +171,12 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
             <Grid item xs={6}>
                 <SimpleAccordion 
                     component={<TableComponent data={unitAcctionsData[actualFrame]}/>} 
-                    name="Unidades de accion"/>
+                    name="Unidades de acción"/>
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
                     component={<TimeLineInfo timeLineData={timeLineData()}/>} 
-                    name="Exitacion y valencia en el tiempo"/>
+                    name="Exitación y valencia en el tiempo"/>
             </Grid>
         </Grid>
     );
