@@ -72,7 +72,6 @@ export const VideoPlayer = ({
         console.log("CAMBIARONS LOS FETCHED FRAMES ", framesFetched)
         if (missingActualFrame != -1 && framesFetched.includes(missingActualFrame)) {
             setPause(false);
-            // TODO: borramos notificacion
             console.log("DESPAUSAMOS PORQUE VINO EL FRAME QUE FALTABA");
             setMissingActualFrame(-1);
             playerRef.current.getInternalPlayer().play();
