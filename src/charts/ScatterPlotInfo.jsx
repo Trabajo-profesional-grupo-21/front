@@ -67,8 +67,8 @@ export const ScatterPlot = ({xpos, ypos}) => {
                 scales: {
                     y: {
                         position: 'center',
-                        min: 5,
-                        max: 0,
+                        min: -1,
+                        max: 1,
                         ticks: {
                             color: plotLabelsColor // Color de los números de la escala del eje Y
                         }

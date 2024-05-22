@@ -85,6 +85,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
     
     useEffect(() => {
+        console.log("ME LLEGO DATA DEL BACK");
         console.log(batchData);
         for (const frameId in batchData) {
             const frameData = batchData[frameId];
@@ -132,19 +133,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
             }
     }, [batchData])
 
-    const getActualFrame = () => {
-        const filteredIndex = Object.keys(valenceArousalData).
-        map(key => parseInt(key)).
-        filter(number => number <= currentFrameIndex).
-        reduce((acc, curr) => {
-            return curr > acc ? curr : acc;
-        }, Number.NEGATIVE_INFINITY);
-        return filteredIndex;
-    }
-
-
-    let actualFrame = getActualFrame();
-    let currentTime = (1/frameRate) * actualFrame
+    let currentTime = (1/frameRate) * currentFrameIndex
 
     const timeLineData = () => {
         return timeLineVAData.filter((element, index) => {
@@ -159,11 +148,11 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
                     alignItems="stretch"
                     direction="rows">
                         <Grid item xs={12} sm={6}>
-                            <EmotionSection emotionsData={emotionsData[actualFrame]}></EmotionSection>
+                            <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                         <Box alignItems="center">
-                           <RusselSection valenceArousalData={valenceArousalData[actualFrame]}></RusselSection>
+                           <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
                            </Box>
                         </Grid>
                 </Grid>
@@ -176,7 +165,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
             <Grid item xs={6}>
                 <SimpleAccordion 
                     component={<TimeLineInfo timeLineData={timeLineData()}/>} 
-                    name="Exitación y valencia en el tiempo"/>
+                    name="Exitación y valencia en el tiempo (modelo Russell)"/>
             </Grid>
         </Grid>
     );
