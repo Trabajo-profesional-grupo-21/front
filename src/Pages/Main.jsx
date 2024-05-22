@@ -10,6 +10,8 @@ export const Main = (props) => {
     const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
     const [batchData, setBatchData] = useState({});
     const [frameRate, setFrameRate] = useState(0);
+    const [videoFile, setFile] = useState(null);
+
     let resultsSectionHeight = 0;
 
     return (
@@ -37,6 +39,8 @@ export const Main = (props) => {
                                                 height={resultsSectionHeight}
                                                 frameRate={frameRate}
                                                 setFrameRate={setFrameRate}
+                                                setFile={setFile}
+                                                videoFile={videoFile}
                                                
                                 />
                             </Grid>
@@ -44,6 +48,7 @@ export const Main = (props) => {
                                     <ResultsSection currentFrameIndex={currentFrameIndex}
                                                     batchData={batchData}
                                                     frameRate={frameRate}
+                                                    videoFile={videoFile}
                                     />
                             </Grid>
                             

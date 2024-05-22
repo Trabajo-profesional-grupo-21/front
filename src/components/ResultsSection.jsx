@@ -77,12 +77,19 @@ const timeLineVA = [
     [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
 ];
 
-export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
-                                                     // {frame: data}   
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFile}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
+
+    useEffect(() => {
+        console.log("clearing data!!")
+        setEmotionsData({0: data_init});
+        setValenceArousalData({0:{"valence": 0.5, "arousal": 0.9}});
+        setUnitActions({0:actionUnits});
+        setTimeLineVAData(timeLineVA);
+    }, [videoFile])
     
     useEffect(() => {
         for (const frameId in batchData) {
@@ -96,8 +103,6 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
                 const emotionName = translatedEmotion ? translatedEmotion : emotion.toUpperCase();
                 return [emotionName, parseFloat(value)];
             });
-
-           
 
             formattedEmotions.unshift(["Emociones", "Porcentaje"]);
             setEmotionsData(prevEmotionsData => ({

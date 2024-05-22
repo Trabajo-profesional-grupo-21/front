@@ -1,12 +1,11 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Grid, CircularProgress} from '@mui/material';
 import { VideoUploader } from './VideoUploader';
 import {VideoPlayer} from './VideoPlayer';
 
 const progressColor = 'rgba(0, 0, 0, 0.7)'
 
-export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate}) => {
-    const [videoFile, setFile] = useState(null);
+export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate, videoFile, setFile}) => {
     const [loading, setLoading] = useState(false);
     const [isLastBatch, setIsLastBatch] = useState(false);
     const [total_batches, setTotalBatches] = useState(0);
