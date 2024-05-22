@@ -19,7 +19,6 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
     }
 
     const getVideoData = async (currentTime, attempts = 0, amountTotalBatches) => {
-        console.log("BUSCO INFO DEL VIDEO AL BACK");
         try {
             const user_id = localStorage.getItem('user');
             const url = `${APIURL}/batch_data_time/${user_id}/${currentTime}`;
@@ -33,18 +32,15 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
             const jsonResponse = await response.json();
             
             if (jsonResponse && calculateIfIsLastBatch(jsonResponse.batch, amountTotalBatches)) {
-                console.log("ENTRO A SETTEAR LAST BATCH")
                 setIsLastBatch(true);
             }
             let batchinfo = JSON.parse(jsonResponse.data);
             if (batchinfo) {
-                console.log(batchinfo);
                 setFramesFetched(prevFramesFetched => {
                     let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => {return parseInt(value)})];
                     return updatedData;
                 });
                 setBatchData(batchinfo['batch']);
-                console.log("setBatchData", batchinfo['batch']);
               } else {
                 throw new Error('batchinfo es null, todavia no hay data');
               }
@@ -52,8 +48,6 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
             console.error('Error:', error);
             if (attempts < maxAttempts) {
                 setTimeout(() => getVideoData(currentTime, attempts + 1), 3000); // Espera 1 segundo antes de reintentar
-            } else {
-                console.log("YA HICE LOS 10 INTENTOS :(");
             }
         }
     }
@@ -76,7 +70,6 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
                     });
     
                     const jsonResponse = await response.json();
-                    console.log(jsonResponse);
     
                     if (response.status === 200) {
                         localStorage.setItem("user", jsonResponse['user_id']);
@@ -87,21 +80,16 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
                         setFramesToProcess(framesToProcess);
                         setTotalBatches(jsonResponse['total_batches']);
                         let timesToProcess = Array.from({length: jsonResponse['total_batches']}, (value, index) => 10 * index) 
-                        console.log("tiempos a procesar ", timesToProcess);
                         const firstBatchIndex = 0;
                         const secondBatchIndex = 10;
                         getVideoData(firstBatchIndex,0, jsonResponse['total_batches']);
                        
                         timesToProcess = timesToProcess.filter(element => element !== firstBatchIndex);
-                        console.log("Buscado data seg 0");
                         if (jsonResponse['total_batches'] > 1) {
                             getVideoData(secondBatchIndex,0,jsonResponse['total_batches']);
                             timesToProcess = timesToProcess.filter(element => element !== secondBatchIndex);
-                            
-                            console.log("Buscado data seg 10");
                         }
                         setTimeToFetch(timesToProcess);
-                        console.log("tiempos a procesar ", timesToProcess);
                     }
                 setLoading(false)
                 } catch (error) {

@@ -30,7 +30,6 @@ export const data = [
 export const RusselSection = ({valenceArousalData}) => {
     var valence = valenceArousalData["valence"]; 
     var arousal = valenceArousalData["arousal"];
-    console.log("valence and arousal", valenceArousalData);
     return (
         <Grid container style={{ textAlign: "center", background: background, borderRadius: 15, padding: 10 }} 
             justifyContent="center" 

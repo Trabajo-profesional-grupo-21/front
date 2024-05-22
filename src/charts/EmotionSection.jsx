@@ -27,7 +27,6 @@ export const options = {
 
 
 export const EmotionSection = ({emotionsData}) => {
-    console.log("EMOCIONES", emotionsData);
     return (
         <Grid container 
             style={{  textAlign: "center", background: background, borderRadius: 15, padding: 10 }} 

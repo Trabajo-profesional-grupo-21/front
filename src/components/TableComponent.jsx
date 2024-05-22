@@ -18,9 +18,8 @@ export const TableComponent = ({data}) => {
   return (
     <Grid container spacing={2}>
       {data.map((item, index) => (
-        <Grid item xs={6} sm={3} md={2} lg={1.5} key={index}>
+        <Grid item xs={6} sm={3} md={2} lg={1.5} key={index} style={{fontSize: '80%'}}>
           <Paper style={gridItemStyle}>
-            {/* Render your data inside the grid item */}
             <div>{item.AUName}</div>
             <div>{item.Intensity}</div>
           </Paper>

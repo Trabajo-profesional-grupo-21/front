@@ -74,9 +74,8 @@ const actionUnits = [
     { AUName: 'Parpadeo (AU45)', Intensity: 0.0 }
 ]
 const timeLineVA = [
-    ["Tiempo", "arousal", "valence"],
-    [0,0,0]
-  ];
+    [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
+];
 
 export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
                                                      // {frame: data}   
@@ -86,8 +85,6 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
     
     useEffect(() => {
-        console.log("ME LLEGO DATA DEL BACK");
-        console.log(batchData);
         for (const frameId in batchData) {
             const frameData = batchData[frameId];
             const emotions = frameData.emotions;
@@ -135,13 +132,12 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
     }, [batchData])
 
     let currentTime = (1/frameRate) * currentFrameIndex
-    
-    console.log("FRAMES QUE TENGO ", Object.keys(valenceArousalData));
-    console.log("CURRENT FRAME INDEX IS ", currentFrameIndex);
-    console.log("Emociones", emotionsData);
-    console.log("valence and arousal", valenceArousalData)
-    console.log("babababa", timeLineVAData[currentFrameIndex]);
-    
+
+    const timeLineData = () => {
+        return timeLineVAData.filter((element, index) => {
+            return index === 0 || element[0] <= currentTime
+        })
+    }
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
@@ -162,14 +158,12 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
             <Grid item xs={6}>
                 <SimpleAccordion 
                     component={<TableComponent data={unitAcctionsData[currentFrameIndex]}/>} 
-                    name="Unidades De Accion"/>
+                    name="Unidades de acción"/>
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TimeLineInfo timeLineData={timeLineVAData.filter((element, index) => {
-                        return index === 0 || element[0] <= currentTime
-                    })}/>} 
-                    name="Linea del tiempo modelo Russell"/>
+                    component={<TimeLineInfo timeLineData={timeLineData()}/>} 
+                    name="Exitación y valencia en el tiempo (modelo Russell)"/>
             </Grid>
         </Grid>
     );
