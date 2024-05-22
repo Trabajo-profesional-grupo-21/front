@@ -171,12 +171,12 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
             <Grid item xs={6}>
                 <SimpleAccordion 
                     component={<TableComponent data={unitAcctionsData[actualFrame]}/>} 
-                    name="Action Units"/>
+                    name="Unidades de accion"/>
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
                     component={<TimeLineInfo timeLineData={timeLineData()}/>} 
-                    name="Time Line Modelo Russell"/>
+                    name="Exitacion y valencia en el tiempo"/>
             </Grid>
         </Grid>
     );

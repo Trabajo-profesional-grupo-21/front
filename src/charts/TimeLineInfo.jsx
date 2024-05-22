@@ -5,9 +5,6 @@ import { Chart } from "react-google-charts";
  
 const background = 'rgb(170,126,169)'
 export const options = {
-    chart: {
-      title: "Exitacion y valencia en el tiempo",
-    },
     hAxis: {
         title: 'Tiempo',
       },
