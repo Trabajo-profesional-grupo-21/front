@@ -159,7 +159,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TableComponent data={unitAcctionsData[actualFrame]}/>} 
+                    component={<TableComponent data={unitAcctionsData[currentFrameIndex]}/>} 
                     name="Unidades de acción"/>
             </Grid>
             <Grid item xs={6}>
