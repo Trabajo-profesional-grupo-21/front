@@ -11,7 +11,7 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
                                 setLoading, setFramesToProcess, setFramesFetched, 
                                 setTimeToFetch, notify, setNotify,
                                 isLastBatch, setIsLastBatch, setTotalBatches}) => {
-    const APIURL = "http://localhost:8000";
+    const APIURL = "http://localhost:8000/data";
     const maxAttempts = 10;
     const calculateIfIsLastBatch = (currentBatch, total_batches) => {return currentBatch === (total_batches -1)} 
     const handleChange = (newFile) => {
@@ -20,12 +20,15 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
 
     const getVideoData = async (currentTime, attempts = 0, amountTotalBatches) => {
         try {
-            const user_id = localStorage.getItem('user');
-            const url = `${APIURL}/batch_data_time/${user_id}/${currentTime}`;
+            // const user_id = localStorage.getItem('user');
+            const token = sessionStorage.getItem('token');
+            const filename = localStorage.getItem('filename');
+            const url = `${APIURL}/video/time/${filename}/${currentTime}`;
             const paramsApi = {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 }
             };
             const response = await fetch(url, paramsApi);
@@ -53,26 +56,50 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
     }
     
     const handleUpload = async () => {
+        // const videoInfo = localStorage.getItem('videoInfo');
+        // if (videoInfo){
+        //     let amountOfFrames = videoInfo['frames_to_process'];
+        //     let fps = videoInfo['fps']
+        //     setFrameRate(fps);
+        //     let framesToProcess = Array.from({ length: amountOfFrames + 1 }, (value, index) => index*fps)
+        //     setFramesToProcess(framesToProcess);
+        //     setTotalBatches(videoInfo['total_batches']);
+        //     let timesToProcess = Array.from({length: videoInfo['total_batches']}, (value, index) => 10 * index) 
+        //     const firstBatchIndex = 0;
+        //     const secondBatchIndex = 10;
+        //     getVideoData(firstBatchIndex,0, videoInfo['total_batches']);
+           
+        //     timesToProcess = timesToProcess.filter(element => element !== firstBatchIndex);
+        //     if (videoInfo['total_batches'] > 1) {
+        //         getVideoData(secondBatchIndex,0,videoInfo['total_batches']);
+        //         timesToProcess = timesToProcess.filter(element => element !== secondBatchIndex);
+        //     }
+        //     setTimeToFetch(timesToProcess);
+        //     setTimeToFetch(timesToProcess);
+        // }
         if (file) {
             setLoading(true)
             const reader = new FileReader();
             reader.onload = async () => {
                 try {
-                    const APIURL = 'http://localhost:8000/upload/';
+                    const token = sessionStorage.getItem('token');
+                    const APIURL = 'http://localhost:8000/data/video';
                     const formData = new FormData();
-                    formData.append('file', file, reader.result);
+                    formData.append('file', file,);
                     const response = await fetch(APIURL, {
                         method: 'POST',
                         body: formData,
                         headers: {
                             'accept': 'application/json',
+                            Authorization: `Bearer ${token}`,
                         },
                     });
     
                     const jsonResponse = await response.json();
     
-                    if (response.status === 200) {
+                    if (response.status === 201) {
                         localStorage.setItem("user", jsonResponse['user_id']);
+                        localStorage.setItem("filename", jsonResponse['filename']);
                         let amountOfFrames = jsonResponse['frames_to_process'];
                         let fps = jsonResponse['fps']
                         setFrameRate(fps);
