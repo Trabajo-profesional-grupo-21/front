@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
+import logo from "../images/logo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../services/authService';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { TextField, Button, Grid, Box, Typography} from '@mui/material';
 import Notification from '../components/Notifications';
 
 const Login = () => {
@@ -46,10 +44,24 @@ const Login = () => {
           borderRadius: '20px',  // Bordes más redondeados
           boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
           color: 'black',  // Texto negro
+          width: "50%"
         }}
       >
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Login</h2>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
+            <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
+                <Typography  variant="h3" align="center">
+                    Deteccion de Emociones
+                </Typography>
+            </Grid>
+            <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
+                <Typography  variant="h4" align="center">
+                    Login
+                </Typography>
+            </Grid>
+            <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
+                <img  src={logo} alt="Flowers in Chania"/> 
+ 
+            </Grid>
           <Grid item xs={12}>
             <TextField
               label="Email"
