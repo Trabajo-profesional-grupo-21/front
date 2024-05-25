@@ -17,17 +17,20 @@ export const VideoPlayer = ({
     const [pause, setPause] = useState(false);
     const playerRef = useRef(null);
 
-    const APIURL = "http://localhost:8000";
+    const APIURL = "http://localhost:8000/data";
     const maxAttempts = 10;
     
     const getVideoData = async (currentTime, attempts = 0) => {
         try {
-            const user_id = localStorage.getItem('user');
-            const url = `${APIURL}/batch_data_time/${user_id}/${currentTime}`;
+            // const user_id = localStorage.getItem('user');
+            const token = localStorage.getItem('token');
+            const filename = localStorage.getItem('filename');
+            const url = `${APIURL}/video/time/${filename}/${currentTime}`;
             const paramsApi = {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 }
             };
             const response = await fetch(url, paramsApi);
@@ -57,6 +60,10 @@ export const VideoPlayer = ({
     }
     
     useEffect(() => {
+        // const videoInfo = localStorage.getItem('videoInfo');
+        // if (videoInfo){
+        //     setVideoUrl(videoInfo['url']);
+        // }
         if (videoFile) {
             const url = URL.createObjectURL(videoFile);
             setVideoUrl(url);
