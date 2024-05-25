@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const data = await login(email, password);
-      localStorage.setItem('token', data.access_token);
+      sessionStorage.setItem('token', data.access_token);
       navigate('/');
     } catch (error) {
       setNotification({ isOpen: true, type: 'error', message: error.message || 'An error occurred during login' });
