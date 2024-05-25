@@ -21,7 +21,7 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
     const getVideoData = async (currentTime, attempts = 0, amountTotalBatches) => {
         try {
             // const user_id = localStorage.getItem('user');
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const filename = localStorage.getItem('filename');
             const url = `${APIURL}/video/time/${filename}/${currentTime}`;
             const paramsApi = {
@@ -82,7 +82,7 @@ export const VideoUploader = ({file, setFile, setFrameRate, setBatchData,
             const reader = new FileReader();
             reader.onload = async () => {
                 try {
-                    const token = localStorage.getItem('token');
+                    const token = sessionStorage.getItem('token');
                     const APIURL = 'http://localhost:8000/data/video';
                     const formData = new FormData();
                     formData.append('file', file,);

@@ -23,7 +23,7 @@ export const VideoPlayer = ({
     const getVideoData = async (currentTime, attempts = 0) => {
         try {
             // const user_id = localStorage.getItem('user');
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const filename = localStorage.getItem('filename');
             const url = `${APIURL}/video/time/${filename}/${currentTime}`;
             const paramsApi = {

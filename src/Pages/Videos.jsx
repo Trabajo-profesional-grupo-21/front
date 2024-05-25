@@ -8,7 +8,7 @@ const API_URL = 'http://localhost:8000';
 
 const Videos = () => {
   const [videoData, setVideoData] = useState([]);
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const navigate = useNavigate();
 
   useEffect(() => {

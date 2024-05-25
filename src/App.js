@@ -3,7 +3,7 @@ import AppRoutes from './AppRoutes';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 function PrivateRoute({ element, ...rest }) {
-  const isAuthenticated = !!localStorage.getItem('token');
+  const isAuthenticated = !!sessionStorage.getItem('token');
   return isAuthenticated ? element : <Navigate to="/login" />;
 }
 
