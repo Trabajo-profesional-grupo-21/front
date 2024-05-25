@@ -15,21 +15,25 @@ export const ScatterPlot = ({xpos, ypos}) => {
             id: 'scatterLabels',
             beforeDatasetsDraw: (chart, args, plugins) => {
                 const {ctx, data, chartArea: {left, right, top, bottom}} = chart;
+                console.log("LEFT ", left);
+                console.log("RIGHT ", right);
+                console.log("TOP ", top);
+                console.log("BOTTOM ", bottom);
                 ctx.save();
                 ctx.fillStyle = plotLabelsColor
 
                 const valueReferences = [
-                    { name: 'Negativo', xPos: left + 2, yPos: bottom - 110, textAlign: 'left' },
-                    { name: 'Positvo', xPos: right - 43, yPos: bottom - 110, textAlign: 'left' },
-                    { name: 'Alta', xPos: right - 235, yPos: top + 10, textAlign: 'left' },
-                    { name: 'Baja', xPos: right - 235, yPos: bottom - 5 , textAlign: 'left' },
+                    { name: 'Negativo', xPos: left + left*0.10, yPos: (top + bottom) / 2, textAlign: 'left' },
+                    { name: 'Positvo', xPos: right - right*0.10, yPos: (top + bottom) / 2, textAlign: 'left' },
+                    { name: 'Alta', xPos: (left + right) / 2, yPos: top, textAlign: 'left' },
+                    { name: 'Baja', xPos: (left + right) / 2, yPos: bottom, textAlign: 'left' },
                 ]
 
                 const emotions = [
-                    { name: 'Enojado', xPos: right - 400, yPos: top + 57 , textAlign: 'left' },
-                    { name: 'Feliz', xPos: right - 100, yPos: top + 57 , textAlign: 'left' },
-                    { name: 'Triste', xPos: right - 400, yPos: bottom - 50, textAlign: 'left' },
-                    { name: 'Relajado', xPos: right - 100, yPos: bottom - 50, textAlign: 'left' }
+                    { name: 'Enojado', xPos: (left + right) * 0.18, yPos: (top + bottom) * 0.25, textAlign: 'left' },
+                    { name: 'Feliz', xPos: (left + right) * 0.75, yPos: (top + bottom) * 0.25 , textAlign: 'left' },
+                    { name: 'Triste', xPos: (left + right) * 0.18, yPos: (top + bottom) * 0.75, textAlign: 'left' },
+                    { name: 'Relajado', xPos: (left + right) * 0.70, yPos: (top + bottom) * 0.75, textAlign: 'left' }
                 ];
 
                 valueReferences.forEach(item => {
