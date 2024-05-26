@@ -44,6 +44,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
             if (jsonResponse && calculateIfIsLastBatch(jsonResponse.batch, amountTotalBatches)) {
                 setIsLastBatch(true);
             }
+            console.log("Batch que me llega ", jsonResponse);
             let batchinfo = JSON.parse(jsonResponse.data);
             console.log("Batch info", batchinfo);
             if (batchinfo) {

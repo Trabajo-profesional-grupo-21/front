@@ -13,6 +13,16 @@ export const Main = (props) => {
     const [frameRate, setFrameRate] = useState(0);
     const [videoFile, setFile] = useState(null);
 
+    useEffect(() => {
+        let value = localStorage.getItem("videoInfo")
+        if (value) {
+            console.log("======================> Hay algo en local storage!!!!")
+            // process o save data 
+            localStorage.removeItem("videoInfo");
+            localStorage.removeItem("filename");
+        }
+    })
+
     let resultsSectionHeight = 0;
     return (
             <Box style={{ background: "rgba(248, 244, 244)"}} minHeight="100vh" p={2}>

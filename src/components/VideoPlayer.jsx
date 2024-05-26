@@ -92,16 +92,24 @@ export const VideoPlayer = ({
     }
 
     const handlePlay = () => {
-        setPause(false)
-        stimulusPlayer.current.getInternalPlayer().play();
+        setPause(false);
+        console.log("stitmulus player", stimulusPlayer);
+        if (stimulusPlayer.current){
+            stimulusPlayer.current.getInternalPlayer().play();
+        }
     }
 
     const handlePause = () => {
-        stimulusPlayer.current.getInternalPlayer().pause();
+        if (stimulusPlayer.current){
+            stimulusPlayer.current.getInternalPlayer().pause();
+        }
     }
 
     const handleSeek = (seconds) => {
-        stimulusPlayer.current.seekTo(seconds);
+        if (stimulusPlayer.current){
+            console.log("SECONDS ", seconds);
+            stimulusPlayer.current.seekTo(seconds);
+        }
     }
 
     const handleProgress = (state) => {
@@ -169,7 +177,9 @@ export const VideoPlayer = ({
         if (playerRef.current) {
           if (pause) {
             playerRef.current.getInternalPlayer().pause();
-            stimulusPlayer.current.getInternalPlayer().pause();
+            if (stimulusPlayer){
+                stimulusPlayer.current.getInternalPlayer().pause();
+            }
           }
         }
       }, [pause]);
@@ -187,7 +197,7 @@ export const VideoPlayer = ({
                     progressInterval={interval}
                     onPlay={handlePlay}
                     onPause={handlePause}
-                    onSeek={handleSeek}
+                    onSeek={() => {handleSeek(playerRef.current.getCurrentTime())}}
                 />
             </Card>
             <Notification notify={notify} setNotify={setNotify}/>
