@@ -1,9 +1,15 @@
 import {useEffect, useState} from 'react'
-import {Grid, CircularProgress} from '@mui/material';
+import {Grid, CircularProgress, Button} from '@mui/material';
 import { VideoUploader } from './VideoUploader';
 import {VideoPlayer} from './VideoPlayer';
 
 const progressColor = 'rgba(0, 0, 0, 0.7)'
+
+
+const handleUploadStimulus = (setShowStimulus) => {
+    console.log("Cargamos estimulo");
+    setShowStimulus(true);
+} 
 
 export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate, videoFile, setFile}) => {
     const [loading, setLoading] = useState(false);
@@ -13,11 +19,12 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
     const [framesFetched, setFramesFetched] =  useState([]);
     const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
+    const [showStimulus, setShowStimulus] = useState(false);
 
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
         justifyContent="center" 
-        spacing={1} 
+        spacing={3} 
         alignItems="center"
         >
             <Grid item xs={12} sx={{
@@ -81,6 +88,30 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                 </Grid>
             )}
 
+        {showStimulus ? (
+            <Grid>
+            </Grid>     
+        ) : (
+            <Grid item xs = {9}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            padding={5}>
+                <Button  
+                    variant="contained" 
+                    onClick={()=>{handleUploadStimulus(setShowStimulus)}}
+                    style={{
+                        backgroundColor: 'rgb(98, 65, 83)',
+                        color: 'white',
+                        textTransform: 'none',
+                        justifyContent: "center"
+                    }}
+                    >
+                    Cargar estímulo
+                </Button>
+            </Grid>
+        )}
+            
         </Grid>
     );
 }
