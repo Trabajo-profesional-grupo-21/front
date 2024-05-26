@@ -15,10 +15,6 @@ export const ScatterPlot = ({xpos, ypos}) => {
             id: 'scatterLabels',
             beforeDatasetsDraw: (chart, args, plugins) => {
                 const {ctx, data, chartArea: {left, right, top, bottom}} = chart;
-                console.log("LEFT ", left);
-                console.log("RIGHT ", right);
-                console.log("TOP ", top);
-                console.log("BOTTOM ", bottom);
                 ctx.save();
                 ctx.fillStyle = plotLabelsColor
 

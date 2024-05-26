@@ -1,9 +1,11 @@
-import {useEffect, useState} from 'react'
-import {Grid, CircularProgress} from '@mui/material';
+import {useEffect, useState, useRef} from 'react'
+import {Grid, CircularProgress, Button} from '@mui/material';
 import { VideoUploader } from './VideoUploader';
 import {VideoPlayer} from './VideoPlayer';
+import { Stimulus } from './Stimulus';
 
 const progressColor = 'rgba(0, 0, 0, 0.7)'
+
 
 export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate, videoFile, setFile}) => {
     const [loading, setLoading] = useState(false);
@@ -13,11 +15,25 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
     const [framesFetched, setFramesFetched] =  useState([]);
     const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
+    const [stimulusFile, setStimulusFile] = useState();
+    const [processedVideo, setProcessedVideo] = useState(false);
+    const stimulusPlayer = useRef(null);
+
+
+    useEffect(() => {
+        console.log("====LIMPIANDO LA DATA=====")
+        setCurrentFrameIndex(0);
+        setBatchData({});
+        setFramesFetched([]);
+        setIsLastBatch(false);
+        setProcessedVideo(false);
+    }, [videoFile]);
+
 
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
         justifyContent="center" 
-        spacing={1} 
+        spacing={3} 
         alignItems="center"
         >
             <Grid item xs={12} sx={{
@@ -27,8 +43,8 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                     borderRadius: 2,
                     boxShadow: 2
             }}>
-                   <VideoUploader   file={videoFile} 
-                                    setFile={setFile} 
+                   <VideoUploader   videoFile={videoFile} 
+                                    setVideoFile={setFile} 
                                     setFrameRate={setFrameRate}
                                     setBatchData={setBatchData}
                                     setLoading={setLoading}
@@ -40,6 +56,9 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                     isLastBatch={isLastBatch}
                                     setIsLastBatch={setIsLastBatch}
                                     setTotalBatches={setTotalBatches}
+                                    stimulusFile={stimulusFile}
+                                    setStimulusFile={setStimulusFile}
+                                    setProcessedVideo={setProcessedVideo}
                     />
             </Grid>
             {loading ? (
@@ -66,6 +85,7 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                 frameRate={frameRate}
                                 total_batches={total_batches}
                                 setBatchData={setBatchData}
+                                setFramesToProcess={setFramesToProcess}
                                 framesToProcess={framesToProcess}
                                 setFramesFetched={setFramesFetched}
                                 framesFetched={framesFetched}
@@ -75,12 +95,24 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                 setNotify={setNotify}
                                 isLastBatch={isLastBatch}
                                 setIsLastBatch={setIsLastBatch}
+                                processedVideo={processedVideo}
+                                setProcessedVideo={setProcessedVideo}
+                                stimulusPlayer={stimulusPlayer}
                             />
                         )}
                     </div>
                 </Grid>
             )}
 
+         { stimulusFile && (
+            <Grid item xs = {12} >
+                <Stimulus
+                    stimulusFile={stimulusFile}
+                    stimulusPlayer={stimulusPlayer}>
+                </Stimulus>
+            </Grid>     
+        )}
+            
         </Grid>
     );
 }
