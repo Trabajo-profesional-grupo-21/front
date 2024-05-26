@@ -77,12 +77,20 @@ const timeLineVA = [
     [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
 ];
 
-export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
-                                                     // {frame: data}   
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFile}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
+
+    useEffect(() => {
+        console.log("clearing data!!")
+        setEmotionsData({0: data_init});
+        setValenceArousalData({0:{"valence": 0.5, "arousal": 0.9}});
+        setUnitActions({0:actionUnits});
+        setTimeLineVAData(timeLineVA);
+        console.log("CurrentFrameIndex ", currentFrameIndex);
+    }, [videoFile])
     
     useEffect(() => {
         for (const frameId in batchData) {
@@ -96,8 +104,6 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
                 const emotionName = translatedEmotion ? translatedEmotion : emotion.toUpperCase();
                 return [emotionName, parseFloat(value)];
             });
-
-           
 
             formattedEmotions.unshift(["Emociones", "Porcentaje"]);
             setEmotionsData(prevEmotionsData => ({
@@ -146,18 +152,18 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate}) =>{
                     alignItems="stretch"
                     direction="rows">
                         <Grid item xs={12} sm={6}>
-                            <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
+                            <EmotionSection emotionsData={emotionsData[currentFrameIndex || 0]}></EmotionSection>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                         <Box alignItems="center">
-                           <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
+                           <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex || 0]}></RusselSection>
                            </Box>
                         </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TableComponent data={unitAcctionsData[currentFrameIndex]}/>} 
+                    component={<TableComponent data={unitAcctionsData[currentFrameIndex || 0]}/>} 
                     name="Unidades de acción"/>
             </Grid>
             <Grid item xs={6}>

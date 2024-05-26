@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { VideoSection } from '../components/VideoSection';
 import {ResultsSection} from '../components/ResultsSection';
 import Grid from '@mui/material/Grid';
@@ -11,8 +11,9 @@ export const Main = (props) => {
     const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
     const [batchData, setBatchData] = useState({});
     const [frameRate, setFrameRate] = useState(0);
-    let resultsSectionHeight = 0;
+    const [videoFile, setFile] = useState(null);
 
+    let resultsSectionHeight = 0;
     return (
             <Box style={{ background: "rgba(248, 244, 244)"}} minHeight="100vh" p={2}>
                 <Navbar />
@@ -40,6 +41,8 @@ export const Main = (props) => {
                                                     height={resultsSectionHeight}
                                                     frameRate={frameRate}
                                                     setFrameRate={setFrameRate}
+                                                    setFile={setFile}
+                                                    videoFile={videoFile}
                                                 
                                     />
                                 </Grid>

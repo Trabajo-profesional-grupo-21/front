@@ -67,6 +67,7 @@ export const VideoPlayer = ({
         if (videoFile) {
             const url = URL.createObjectURL(videoFile);
             setVideoUrl(url);
+            setCurrentFrameIndex(0);
         }
     }, [videoFile]);
 
