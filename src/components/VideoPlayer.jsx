@@ -41,13 +41,13 @@ export const VideoPlayer = ({
             if (jsonResponse && isLastBatch(jsonResponse.batch)) {
                 setIsLastBatch(true);
             }
-            let batchinfo = JSON.parse(jsonResponse.data);
+            let batchinfo = jsonResponse.data;
             if (batchinfo) {
                 setFramesFetched(prevFramesFetched => {
-                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => { return parseInt(value)})];
+                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo).map((value) => { return parseInt(value)})];
                     return updatedData;
                   });
-                setBatchData(batchinfo['batch']);
+                setBatchData(batchinfo);
             } else {
                 throw new Error('batchinfo es null, todavia no hay data para el tiempo ', currentTime);
             }     
@@ -56,6 +56,7 @@ export const VideoPlayer = ({
             if (attempts < maxAttempts) {
                 setTimeout(() => getVideoData(currentTime, attempts + 1), 3000); // Espera 1 segundo antes de reintentar
             } else {
+                console.log("Ya hice 10 intentos");
             }
         }
     }
@@ -177,7 +178,7 @@ export const VideoPlayer = ({
         if (playerRef.current) {
           if (pause) {
             playerRef.current.getInternalPlayer().pause();
-            if (stimulusPlayer){
+            if (stimulusPlayer.current){
                 stimulusPlayer.current.getInternalPlayer().pause();
             }
           }

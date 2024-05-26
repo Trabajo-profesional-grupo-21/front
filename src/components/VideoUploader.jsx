@@ -45,14 +45,14 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                 setIsLastBatch(true);
             }
             console.log("Batch que me llega ", jsonResponse);
-            let batchinfo = JSON.parse(jsonResponse.data);
+            let batchinfo = jsonResponse.data;
             console.log("Batch info", batchinfo);
             if (batchinfo) {
                 setFramesFetched(prevFramesFetched => {
-                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => {return parseInt(value)})];
+                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo).map((value) => {return parseInt(value)})];
                     return updatedData;
                 });
-                setBatchData(batchinfo['batch']);
+                setBatchData(batchinfo);
               } else {
                 throw new Error('batchinfo es null, todavia no hay data');
               }
