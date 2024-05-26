@@ -166,23 +166,18 @@ export const VideoPlayer = ({
 
     return (
         <Box>
-        <Card sx={{ maxWidth: "100%"}}>
-            <ReactPlayer
-        url={videoUrl}
-        ref={playerRef}
-        controls={true}
-        width="100%"
-        height="100%"
-        onProgress={handleProgress}
-        progressInterval={interval}
-        onPlay={handlePlay}
-      />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    Video
-                </Typography>
-            </CardContent>
-        </Card>
+            <Card sx={{ maxWidth: "100%"}}>
+                <ReactPlayer
+                    url={videoUrl}
+                    ref={playerRef}
+                    controls={true}
+                    width="100%"
+                    height="100%"
+                    onProgress={handleProgress}
+                    progressInterval={interval}
+                    onPlay={handlePlay}
+                />
+            </Card>
             <Notification notify={notify} setNotify={setNotify}/>
         </Box>
     );

@@ -1,27 +1,30 @@
+import { useState, useEffect } from "react"
+import { Card} from  '@mui/material';
+import ReactPlayer from 'react-player';
 
 
 
-
-export const Stimulus = () => {
+export const Stimulus = ({stimulusFile,}) => {
+    const [url, setVideoUrl] = useState();
+   
+    useEffect(() => {
+       
+        if (stimulusFile) {
+            const url = URL.createObjectURL(stimulusFile);
+            setVideoUrl(url);
+        }
+    }, [stimulusFile]);
 
     return(
-        <MuiFileInput
-                value={file}
-                label="Seleccionar Video"
-                InputProps={{
-                    style: {
-                        '&:focus': {
-                            borderColor: 'gray',
-                            boxShadow: '0 0 5px gray',
-                        },
-                        '&:hover': {
-                            borderColor: 'rgb(98, 65, 83)',
-                        }
-                    }
-                }}
-                sx={{ color: 'rgb(251, 214, 164)' , maxWidth:"100%" }}
-                onChange={handleChange}
-        />
+       
+            <Card sx={{ maxWidth: "100%"}}>
+                        <ReactPlayer
+                            url={url}
+                            controls={true}
+                            width="100%"
+                            height="100%"
+                        />
+            </Card>
     ) 
 }
 
