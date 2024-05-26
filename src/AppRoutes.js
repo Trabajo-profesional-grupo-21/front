@@ -1,7 +1,7 @@
-import {Main} from './pages/Main';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Videos from './pages/Videos';
+import {Main} from './Pages/Main';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+import Videos from './Pages/Videos';
 
 const AppRoutes = [
   {
