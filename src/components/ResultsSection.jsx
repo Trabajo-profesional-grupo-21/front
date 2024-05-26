@@ -144,6 +144,8 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
             return index === 0 || element[0] <= currentTime
         })
     }
+    console.log(" Current frame index ", currentFrameIndex);
+    console.log("valen and arousal", valenceArousalData);
     return (
         <Grid container direction="column">
             <Grid item xs={6}>

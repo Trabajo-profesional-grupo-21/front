@@ -6,11 +6,12 @@ import Notification from './Notifications';
 export const VideoPlayer = ({
     videoFile, setCurrentFrameIndex, 
     frameRate, total_batches,
-    setBatchData, framesToProcess, 
+    setBatchData, framesToProcess, setFramesToProcess,
     framesFetched, setFramesFetched,
-    timesToFetch,setTimeToFetch,
+    timesToFetch, setTimeToFetch,
     notify, setNotify, 
-    isLastBatch, setIsLastBatch}) => {
+    isLastBatch, setIsLastBatch, processedVideo, setProcessedVideo,
+    stimulusPlayer}) => {
     const [videoUrl, setVideoUrl] = useState(null);
     const [lastCall, setLastCall] =  useState(0);
     const [missingActualFrame, setMissingActualFrame] = useState(-1);
@@ -60,14 +61,9 @@ export const VideoPlayer = ({
     }
     
     useEffect(() => {
-        // const videoInfo = localStorage.getItem('videoInfo');
-        // if (videoInfo){
-        //     setVideoUrl(videoInfo['url']);
-        // }
         if (videoFile) {
             const url = URL.createObjectURL(videoFile);
             setVideoUrl(url);
-            setCurrentFrameIndex(0);
         }
     }, [videoFile]);
 
@@ -85,6 +81,7 @@ export const VideoPlayer = ({
     }, [framesFetched])
 
     const getActualFrame = (currentFrame) => {
+        console.log("Frames a pocesar" ,framesToProcess);
         let filteredIndex = framesToProcess.
         map(key => parseInt(key)).
         filter(number => number <= currentFrame).
@@ -96,12 +93,24 @@ export const VideoPlayer = ({
 
     const handlePlay = () => {
         setPause(false)
+        stimulusPlayer.current.getInternalPlayer().play();
     }
+
+    const handlePause = () => {
+        stimulusPlayer.current.getInternalPlayer().pause();
+    }
+
+    const handleSeek = (seconds) => {
+        stimulusPlayer.current.seekTo(seconds);
+    }
+
     const handleProgress = (state) => {
         const currentTime = state.playedSeconds;
         if (!currentTime) return -1
         const currentFrame = Math.floor(currentTime * frameRate);
         let actualFrame = getActualFrame(currentFrame);
+        console.log("Frames fetch ", framesFetched);
+        console.log("actual frame", actualFrame);
         if (framesFetched.includes(actualFrame)){
             setCurrentFrameIndex(actualFrame);
             const floorCurrentTime = Math.floor(currentTime);
@@ -113,7 +122,6 @@ export const VideoPlayer = ({
             }
         } else {
             // pausamos 
-           
             let timeToFetch = Math.floor(currentTime/10)*10;
             if(timesToFetch.includes(timeToFetch)){
                 // lo voy a buscar 
@@ -127,7 +135,8 @@ export const VideoPlayer = ({
             }
            
             let notificationMsg = 'Todavia estamos procesando el video'
-            if (timesToFetch.length === 0) {
+            console.log("Process video ", processedVideo);
+            if (!processedVideo) {
                 notificationMsg = 'Por favor, presiona el boton "subir" antes de reproducir el video'
             }
             setNotify({
@@ -160,6 +169,7 @@ export const VideoPlayer = ({
         if (playerRef.current) {
           if (pause) {
             playerRef.current.getInternalPlayer().pause();
+            stimulusPlayer.current.getInternalPlayer().pause();
           }
         }
       }, [pause]);
@@ -176,6 +186,8 @@ export const VideoPlayer = ({
                     onProgress={handleProgress}
                     progressInterval={interval}
                     onPlay={handlePlay}
+                    onPause={handlePause}
+                    onSeek={handleSeek}
                 />
             </Card>
             <Notification notify={notify} setNotify={setNotify}/>

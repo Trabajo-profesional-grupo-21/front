@@ -14,7 +14,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                                 setLoading, setFramesToProcess, setFramesFetched, 
                                 setTimeToFetch, notify, setNotify, 
                                 isLastBatch, setIsLastBatch, setTotalBatches,
-                                stimulusFile, setStimulusFile}) => {
+                                stimulusFile, setStimulusFile, setProcessedVideo}) => {
                                   
     const [showStimulus, setShowStimulus] = useState(false);
     
@@ -27,6 +27,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
     const getVideoData = async (currentTime, attempts = 0, amountTotalBatches) => {
         try {
             // const user_id = localStorage.getItem('user');
+            console.log("FUI A BUSCAR DATA DEL TIEMPO ", currentTime);
             const token = sessionStorage.getItem('token');
             const filename = localStorage.getItem('filename');
             const url = `${APIURL}/video/time/${filename}/${currentTime}`;
@@ -44,6 +45,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                 setIsLastBatch(true);
             }
             let batchinfo = JSON.parse(jsonResponse.data);
+            console.log("Batch info", batchinfo);
             if (batchinfo) {
                 setFramesFetched(prevFramesFetched => {
                     let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => {return parseInt(value)})];
@@ -67,6 +69,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
             const reader = new FileReader();
             reader.onload = async () => {
                 try {
+                    console.log("SUBO EL VIDEO");
                     const token = sessionStorage.getItem('token');
                     const APIURL = 'http://localhost:8000/data/video';
                     const formData = new FormData();
@@ -81,7 +84,6 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                     });
     
                     const jsonResponse = await response.json();
-    
                     if (response.status === 201) {
                         localStorage.setItem("user", jsonResponse['user_id']);
                         localStorage.setItem("filename", jsonResponse['filename']);
@@ -101,9 +103,13 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                             getVideoData(secondBatchIndex,0,jsonResponse['total_batches']);
                             timesToProcess = timesToProcess.filter(element => element !== secondBatchIndex);
                         }
+                        console.log("Times to fetch ", timesToProcess);
                         setTimeToFetch(timesToProcess);
+                        
                     }
-                setLoading(false)
+                setLoading(false);
+                setProcessedVideo(true);
+                console.log("pongo en true process video");
                 } catch (error) {
                     console.error('Error:', error);
                     //TODO: manage error

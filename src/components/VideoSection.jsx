@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 import {Grid, CircularProgress, Button} from '@mui/material';
 import { VideoUploader } from './VideoUploader';
 import {VideoPlayer} from './VideoPlayer';
@@ -16,6 +16,19 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
     const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
     const [stimulusFile, setStimulusFile] = useState();
+    const [processedVideo, setProcessedVideo] = useState(false);
+    const stimulusPlayer = useRef(null);
+
+
+    useEffect(() => {
+        console.log("====LIMPIANDO LA DATA=====")
+        setCurrentFrameIndex(0);
+        setBatchData({});
+        setFramesFetched([]);
+        setIsLastBatch(false);
+        setProcessedVideo(false);
+    }, [videoFile]);
+
 
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
@@ -45,6 +58,7 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                     setTotalBatches={setTotalBatches}
                                     stimulusFile={stimulusFile}
                                     setStimulusFile={setStimulusFile}
+                                    setProcessedVideo={setProcessedVideo}
                     />
             </Grid>
             {loading ? (
@@ -71,6 +85,7 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                 frameRate={frameRate}
                                 total_batches={total_batches}
                                 setBatchData={setBatchData}
+                                setFramesToProcess={setFramesToProcess}
                                 framesToProcess={framesToProcess}
                                 setFramesFetched={setFramesFetched}
                                 framesFetched={framesFetched}
@@ -80,6 +95,9 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                 setNotify={setNotify}
                                 isLastBatch={isLastBatch}
                                 setIsLastBatch={setIsLastBatch}
+                                processedVideo={processedVideo}
+                                setProcessedVideo={setProcessedVideo}
+                                stimulusPlayer={stimulusPlayer}
                             />
                         )}
                     </div>
@@ -90,7 +108,7 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
             <Grid item xs = {12} >
                 <Stimulus
                     stimulusFile={stimulusFile}
-                >
+                    stimulusPlayer={stimulusPlayer}>
                 </Stimulus>
             </Grid>     
         )}

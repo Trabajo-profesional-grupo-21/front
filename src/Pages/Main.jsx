@@ -50,6 +50,7 @@ export const Main = (props) => {
                                         <ResultsSection currentFrameIndex={currentFrameIndex}
                                                         batchData={batchData}
                                                         frameRate={frameRate}
+                                                        videoFile={videoFile}
                                         />
                                 </Grid>
                                 

@@ -4,8 +4,9 @@ import ReactPlayer from 'react-player';
 
 
 
-export const Stimulus = ({stimulusFile,}) => {
+export const Stimulus = ({stimulusFile, stimulusPlayer}) => {
     const [url, setVideoUrl] = useState();
+
    
     useEffect(() => {
        
@@ -16,15 +17,22 @@ export const Stimulus = ({stimulusFile,}) => {
     }, [stimulusFile]);
 
     return(
-       
-            <Card sx={{ maxWidth: "100%"}}>
-                        <ReactPlayer
-                            url={url}
-                            controls={true}
-                            width="100%"
-                            height="100%"
-                        />
-            </Card>
+        <Card sx={{ maxWidth: '100%' }}>
+        <ReactPlayer
+            ref={stimulusPlayer}
+            url={url}
+            controls
+            width="100%"
+            height="100%"
+            config={{
+                file: {
+                    attributes: {
+                        controlsList: "noplaybackrate nofullscreen",
+                    },
+                },
+            }}
+        />
+    </Card>
     ) 
 }
 
