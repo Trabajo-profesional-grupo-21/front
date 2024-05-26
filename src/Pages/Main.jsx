@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { VideoSection } from '../components/VideoSection';
 import {ResultsSection} from '../components/ResultsSection';
 import Grid from '@mui/material/Grid';
@@ -13,7 +13,6 @@ export const Main = (props) => {
     const [videoFile, setFile] = useState(null);
 
     let resultsSectionHeight = 0;
-
     return (
             <Box style={{ background: "rgba(248, 244, 244)"}} minHeight="100vh" p={2}>
                 <Grid container

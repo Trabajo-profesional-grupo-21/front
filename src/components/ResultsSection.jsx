@@ -89,6 +89,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
         setValenceArousalData({0:{"valence": 0.5, "arousal": 0.9}});
         setUnitActions({0:actionUnits});
         setTimeLineVAData(timeLineVA);
+        console.log("CurrentFrameIndex ", currentFrameIndex);
     }, [videoFile])
     
     useEffect(() => {
@@ -151,18 +152,18 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
                     alignItems="stretch"
                     direction="rows">
                         <Grid item xs={12} sm={6}>
-                            <EmotionSection emotionsData={emotionsData[currentFrameIndex]}></EmotionSection>
+                            <EmotionSection emotionsData={emotionsData[currentFrameIndex || 0]}></EmotionSection>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                         <Box alignItems="center">
-                           <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex]}></RusselSection>
+                           <RusselSection valenceArousalData={valenceArousalData[currentFrameIndex || 0]}></RusselSection>
                            </Box>
                         </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TableComponent data={unitAcctionsData[currentFrameIndex]}/>} 
+                    component={<TableComponent data={unitAcctionsData[currentFrameIndex || 0]}/>} 
                     name="Unidades de acción"/>
             </Grid>
             <Grid item xs={6}>
