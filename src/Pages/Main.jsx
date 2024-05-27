@@ -114,6 +114,7 @@ export const Main = (props) => {
                                                         frameRate={frameRate}
                                                         videoFile={videoFile}
                                                         clear={clear}
+                                                        showTimeLine={true}
                                         />
                                 </Grid>
                             </Grid>
