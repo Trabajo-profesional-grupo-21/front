@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import Notification from './Notifications';
 
 export const VideoPlayer = ({
-    videoFile, setCurrentFrameIndex, 
+    urlVideo, setCurrentFrameIndex, 
     frameRate, total_batches,
     setBatchData, framesToProcess, setFramesToProcess,
     framesFetched, setFramesFetched,
@@ -12,7 +12,7 @@ export const VideoPlayer = ({
     notify, setNotify, 
     isLastBatch, setIsLastBatch, processedVideo, setProcessedVideo,
     stimulusPlayer}) => {
-    const [videoUrl, setVideoUrl] = useState(null);
+   
     const [lastCall, setLastCall] =  useState(0);
     const [missingActualFrame, setMissingActualFrame] = useState(-1);
     const [pause, setPause] = useState(false);
@@ -60,13 +60,6 @@ export const VideoPlayer = ({
             }
         }
     }
-    
-    useEffect(() => {
-        if (videoFile) {
-            const url = URL.createObjectURL(videoFile);
-            setVideoUrl(url);
-        }
-    }, [videoFile]);
 
     useEffect(() => {
         if (missingActualFrame != -1 && framesFetched.includes(missingActualFrame)) {
@@ -156,17 +149,6 @@ export const VideoPlayer = ({
             setPause(true);
             setMissingActualFrame(actualFrame);
         }
-        // si no lo tengo, me pauso, me "bloqueo botonsito" y verifico xq no lo tengo 
-        // lo pedi y todavia no me llego. 
-            // espero, cuando me llegua me despauso y me desbloqueo botonsito. 
-            // y aviso a usario 
-        // no lo pedi (me adelante) 
-            // lo pido, espero.
-            // pido los anteriores que todavia no pedi 
-            // ej: pedi [0,10,20, 30] quiero 60 pido 60 peor tambien pido 40 y 50 
-
-       // cada 10 seg pido el proximo 
-        
         return currentFrame;
     }
     
@@ -189,7 +171,7 @@ export const VideoPlayer = ({
         <Box>
             <Card sx={{ maxWidth: "100%"}}>
                 <ReactPlayer
-                    url={videoUrl}
+                    url={urlVideo}
                     ref={playerRef}
                     controls={true}
                     width="100%"

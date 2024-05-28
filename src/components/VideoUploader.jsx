@@ -14,7 +14,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                                 setLoading, setFramesToProcess, setFramesFetched, 
                                 setTimeToFetch, notify, setNotify, 
                                 isLastBatch, setIsLastBatch, setTotalBatches,
-                                stimulusFile, setStimulusFile, setProcessedVideo}) => {
+                                stimulusFile, setStimulusFile, setProcessedVideo, setClear, setUrlVideo, setUrlStimulus}) => {
                                   
     const [showStimulus, setShowStimulus] = useState(false);
     
@@ -66,7 +66,8 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
     
     const handleUpload = async () => {
         if (videoFile) {
-            setLoading(true)
+            setLoading(true);
+            setClear(false);
             const reader = new FileReader();
             reader.onload = async () => {
                 try {
@@ -105,8 +106,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                             timesToProcess = timesToProcess.filter(element => element !== secondBatchIndex);
                         }
                         console.log("Times to fetch ", timesToProcess);
-                        setTimeToFetch(timesToProcess);
-                        
+                        setTimeToFetch(timesToProcess);  
                     }
                 setLoading(false);
                 setProcessedVideo(true);
@@ -116,8 +116,38 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                     //TODO: manage error
                     setLoading(false)
                 }
+
+                
             };
             reader.readAsDataURL(videoFile);
+        }
+
+        if (stimulusFile && videoFile) {
+            const stimulusReader = new FileReader();
+            stimulusReader.onload = async () => {
+                try {
+                    console.log("SUBO EL ESTIMULO");
+                    const token = sessionStorage.getItem('token');
+                    const APIURL = `http://localhost:8000/data/stimulus?match_file_name=${videoFile.name}`;
+                    const formData = new FormData();
+                    formData.append('file', stimulusFile);
+                    const response = await fetch(APIURL, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'accept': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+    
+                    if (response.status === 201) {
+                        console.log("Estimulo cargado");
+                    }
+                } catch (error) {
+                    console.log("Error ", error);
+                }
+            };
+            stimulusReader.readAsDataURL(videoFile);
         }
     };
     return (
@@ -131,6 +161,9 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                 stimulusFile={stimulusFile}
                 setStimulusFile={setStimulusFile}
                 showStimulus={showStimulus}
+                setClear={setClear}
+                setUrlVideo={setUrlVideo}
+                setUrlStimulus={setUrlStimulus}
             >
             </LoadingVideos>
             {videoFile && (

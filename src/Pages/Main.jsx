@@ -12,16 +12,54 @@ export const Main = (props) => {
     const [batchData, setBatchData] = useState({});
     const [frameRate, setFrameRate] = useState(0);
     const [videoFile, setFile] = useState(null);
+    const [total_batches, setTotalBatches] = useState(0);
+    const [isLastBatch, setIsLastBatch] = useState(false);
+    const [framesFetched, setFramesFetched] =  useState([]);
+    const [framesToProcess, setFramesToProcess] = useState([]);
+    const [processedVideo, setProcessedVideo] = useState(false);
+    const [clear, setClear] = useState(false);
+    const [urlVideo, setUrlVideo] = useState();
+    const [urlStimulus, setUrlStimulus] = useState();
 
     useEffect(() => {
-        let value = localStorage.getItem("videoInfo")
-        if (value) {
+        let videoInfo = localStorage.getItem('videoInfo')
+        if (videoInfo) {
             console.log("======================> Hay algo en local storage!!!!")
             // process o save data 
-            localStorage.removeItem("videoInfo");
-            localStorage.removeItem("filename");
+            let filename = localStorage.getItem('filename')
+            console.log("File name ", filename);
+            localStorage.removeItem('videoInfo');
+            localStorage.removeItem('filename');
+            let parsedVideoInfo = JSON.parse(videoInfo)
+            console.log("URL ", parsedVideoInfo.url);
+            setUrlVideo(parsedVideoInfo.url);
+            setUrlStimulus(parsedVideoInfo.stimulus_url)
+            let combined = {};
+            Object.values(parsedVideoInfo.data).forEach(innerDict => {
+                    combined = { ...combined, ...innerDict };
+            });
+            console.log("RESULTADOOOOOOOOOOOOOO", combined)
+            console.log("data del video ", Object.values(parsedVideoInfo.data));
+            setBatchData(combined);
+            setProcessedVideo(true);
+            setFrameRate(parsedVideoInfo.fps);
+            let frames = Object.keys(combined).map(key => parseInt(key))
+            setFramesToProcess(frames);
+            setFramesFetched(frames);
+            setTotalBatches(parsedVideoInfo.total_batches);
         }
     })
+
+    useEffect(() => {
+        if (clear) {
+            setCurrentFrameIndex(0);
+            setBatchData({});
+            setFramesFetched([]);
+            setIsLastBatch(false);
+            setProcessedVideo(false);
+            setUrlStimulus(null);
+        }
+    }, [clear]);
 
     let resultsSectionHeight = 0;
     return (
@@ -53,7 +91,21 @@ export const Main = (props) => {
                                                     setFrameRate={setFrameRate}
                                                     setFile={setFile}
                                                     videoFile={videoFile}
-                                                
+                                                    total_batches={total_batches}
+                                                    setTotalBatches={setTotalBatches}
+                                                    isLastBatch={isLastBatch}
+                                                    setIsLastBatch={setIsLastBatch}
+                                                    framesFetched={framesFetched}
+                                                    setFramesFetched={setFramesFetched}
+                                                    processedVideo={processedVideo}
+                                                    setProcessedVideo={setProcessedVideo}
+                                                    setClear={setClear}
+                                                    urlVideo={urlVideo}
+                                                    urlStimulus={urlStimulus}
+                                                    setUrlVideo={setUrlVideo}
+                                                    setUrlStimulus={setUrlStimulus}
+                                                    framesToProcess={framesToProcess}
+                                                    setFramesToProcess={setFramesToProcess}
                                     />
                                 </Grid>
                                 <Grid item justifyContent="center" alignItems="center" xs={9}>             
@@ -61,9 +113,9 @@ export const Main = (props) => {
                                                         batchData={batchData}
                                                         frameRate={frameRate}
                                                         videoFile={videoFile}
+                                                        clear={clear}
                                         />
                                 </Grid>
-                                
                             </Grid>
                         </Grid>   
                     </Grid>
