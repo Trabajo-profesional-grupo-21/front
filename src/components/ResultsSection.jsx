@@ -77,20 +77,25 @@ const timeLineVA = [
     [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
 ];
 
-export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFile}) =>{
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFile, clear}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
-
+    
+    
+    
     useEffect(() => {
-        console.log("clearing data!!")
-        setEmotionsData({0: data_init});
-        setValenceArousalData({0:{"valence": 0.5, "arousal": 0.9}});
-        setUnitActions({0:actionUnits});
-        setTimeLineVAData(timeLineVA);
-        console.log("CurrentFrameIndex ", currentFrameIndex);
-    }, [videoFile])
+        console.log("EXISTE EL VIDEO ", clear);
+        if (clear){
+            console.log("clearing data!!")
+            setEmotionsData({0: data_init});
+            setValenceArousalData({0:{"valence": 0.5, "arousal": 0.9}});
+            setUnitActions({0:actionUnits});
+            setTimeLineVAData(timeLineVA);
+            console.log("CurrentFrameIndex ", currentFrameIndex);
+        }
+    }, [clear])
     
     useEffect(() => {
         for (const frameId in batchData) {
@@ -131,6 +136,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
             setTimeLineVAData(prevValenceArousalTimeData => {
                 let updatedData = [...prevValenceArousalTimeData];
                 updatedData.push([currentTime, arousal, valence]);
+                console.log("DATA: ", updatedData)
                 return updatedData;
             });
 

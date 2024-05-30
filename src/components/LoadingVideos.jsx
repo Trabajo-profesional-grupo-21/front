@@ -3,15 +3,20 @@ import { Grid } from '@mui/material'
 
 
 export const LoadingVideos = ({videoFile, setVideoFile, 
-                                showStimulus, stimulusFile, 
-                                setStimulusFile}) =>{
+                                showStimulus, stimulusFile,
+                                setStimulusFile, setClear, setUrlVideo, setUrlStimulus}) =>{
 
     const handleChangeVideo = (newFile) => {
-        setVideoFile(newFile)
+        setClear(true);
+        setVideoFile(newFile);
+        const url = URL.createObjectURL(newFile);
+        console.log("URL VIDEO ", url);
+        setUrlVideo(url);
     }
     const handleChangeStimulus = (newFile) => {
-        setStimulusFile(newFile)
-        
+        setStimulusFile(newFile);
+        const url = URL.createObjectURL(newFile);
+        setUrlStimulus(url); 
     }
 
     return (

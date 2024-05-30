@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import Notification from './Notifications';
 
 export const VideoPlayer = ({
-    videoFile, setCurrentFrameIndex, 
+    urlVideo, setCurrentFrameIndex, 
     frameRate, total_batches,
     setBatchData, framesToProcess, setFramesToProcess,
     framesFetched, setFramesFetched,
@@ -12,7 +12,7 @@ export const VideoPlayer = ({
     notify, setNotify, 
     isLastBatch, setIsLastBatch, processedVideo, setProcessedVideo,
     stimulusPlayer}) => {
-    const [videoUrl, setVideoUrl] = useState(null);
+   
     const [lastCall, setLastCall] =  useState(0);
     const [missingActualFrame, setMissingActualFrame] = useState(-1);
     const [pause, setPause] = useState(false);
@@ -41,13 +41,13 @@ export const VideoPlayer = ({
             if (jsonResponse && isLastBatch(jsonResponse.batch)) {
                 setIsLastBatch(true);
             }
-            let batchinfo = JSON.parse(jsonResponse.data);
+            let batchinfo = jsonResponse.data;
             if (batchinfo) {
                 setFramesFetched(prevFramesFetched => {
-                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo['batch']).map((value) => { return parseInt(value)})];
+                    let updatedData = [...prevFramesFetched, ...Object.keys(batchinfo).map((value) => { return parseInt(value)})];
                     return updatedData;
                   });
-                setBatchData(batchinfo['batch']);
+                setBatchData(batchinfo);
             } else {
                 throw new Error('batchinfo es null, todavia no hay data para el tiempo ', currentTime);
             }     
@@ -56,16 +56,10 @@ export const VideoPlayer = ({
             if (attempts < maxAttempts) {
                 setTimeout(() => getVideoData(currentTime, attempts + 1), 3000); // Espera 1 segundo antes de reintentar
             } else {
+                console.log("Ya hice 10 intentos");
             }
         }
     }
-    
-    useEffect(() => {
-        if (videoFile) {
-            const url = URL.createObjectURL(videoFile);
-            setVideoUrl(url);
-        }
-    }, [videoFile]);
 
     useEffect(() => {
         if (missingActualFrame != -1 && framesFetched.includes(missingActualFrame)) {
@@ -92,16 +86,24 @@ export const VideoPlayer = ({
     }
 
     const handlePlay = () => {
-        setPause(false)
-        stimulusPlayer.current.getInternalPlayer().play();
+        setPause(false);
+        console.log("stitmulus player", stimulusPlayer);
+        if (stimulusPlayer.current){
+            stimulusPlayer.current.getInternalPlayer().play();
+        }
     }
 
     const handlePause = () => {
-        stimulusPlayer.current.getInternalPlayer().pause();
+        if (stimulusPlayer.current){
+            stimulusPlayer.current.getInternalPlayer().pause();
+        }
     }
 
     const handleSeek = (seconds) => {
-        stimulusPlayer.current.seekTo(seconds);
+        if (stimulusPlayer.current){
+            console.log("SECONDS ", seconds);
+            stimulusPlayer.current.seekTo(seconds);
+        }
     }
 
     const handleProgress = (state) => {
@@ -147,17 +149,6 @@ export const VideoPlayer = ({
             setPause(true);
             setMissingActualFrame(actualFrame);
         }
-        // si no lo tengo, me pauso, me "bloqueo botonsito" y verifico xq no lo tengo 
-        // lo pedi y todavia no me llego. 
-            // espero, cuando me llegua me despauso y me desbloqueo botonsito. 
-            // y aviso a usario 
-        // no lo pedi (me adelante) 
-            // lo pido, espero.
-            // pido los anteriores que todavia no pedi 
-            // ej: pedi [0,10,20, 30] quiero 60 pido 60 peor tambien pido 40 y 50 
-
-       // cada 10 seg pido el proximo 
-        
         return currentFrame;
     }
     
@@ -169,7 +160,9 @@ export const VideoPlayer = ({
         if (playerRef.current) {
           if (pause) {
             playerRef.current.getInternalPlayer().pause();
-            stimulusPlayer.current.getInternalPlayer().pause();
+            if (stimulusPlayer.current){
+                stimulusPlayer.current.getInternalPlayer().pause();
+            }
           }
         }
       }, [pause]);
@@ -178,7 +171,7 @@ export const VideoPlayer = ({
         <Box>
             <Card sx={{ maxWidth: "100%"}}>
                 <ReactPlayer
-                    url={videoUrl}
+                    url={urlVideo}
                     ref={playerRef}
                     controls={true}
                     width="100%"
@@ -187,7 +180,7 @@ export const VideoPlayer = ({
                     progressInterval={interval}
                     onPlay={handlePlay}
                     onPause={handlePause}
-                    onSeek={handleSeek}
+                    onSeek={() => {handleSeek(playerRef.current.getCurrentTime())}}
                 />
             </Card>
             <Notification notify={notify} setNotify={setNotify}/>

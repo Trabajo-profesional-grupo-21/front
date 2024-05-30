@@ -4,23 +4,13 @@ import ReactPlayer from 'react-player';
 
 
 
-export const Stimulus = ({stimulusFile, stimulusPlayer}) => {
-    const [url, setVideoUrl] = useState();
-
-   
-    useEffect(() => {
-       
-        if (stimulusFile) {
-            const url = URL.createObjectURL(stimulusFile);
-            setVideoUrl(url);
-        }
-    }, [stimulusFile]);
+export const Stimulus = ({urlStimulus, stimulusPlayer}) => {
 
     return(
         <Card sx={{ maxWidth: '100%' }}>
         <ReactPlayer
             ref={stimulusPlayer}
-            url={url}
+            url={urlStimulus}
             controls
             width="100%"
             height="100%"

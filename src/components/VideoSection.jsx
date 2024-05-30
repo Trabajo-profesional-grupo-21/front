@@ -7,28 +7,20 @@ import { Stimulus } from './Stimulus';
 const progressColor = 'rgba(0, 0, 0, 0.7)'
 
 
-export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameRate, setFrameRate, videoFile, setFile}) => {
+export const VideoSection = ({
+    setCurrentFrameIndex,
+    setBatchData, height, frameRate, setFrameRate, 
+    videoFile, setFile, total_batches, setTotalBatches, isLastBatch, 
+    setIsLastBatch, framesFetched, setFramesFetched,
+    processedVideo, setProcessedVideo, setClear,
+    urlVideo, urlStimulus,
+    setUrlVideo, setUrlStimulus, framesToProcess, setFramesToProcess }) => {
     const [loading, setLoading] = useState(false);
-    const [isLastBatch, setIsLastBatch] = useState(false);
-    const [total_batches, setTotalBatches] = useState(0);
-    const [framesToProcess, setFramesToProcess] = useState([]);
-    const [framesFetched, setFramesFetched] =  useState([]);
+    
     const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
     const [stimulusFile, setStimulusFile] = useState();
-    const [processedVideo, setProcessedVideo] = useState(false);
     const stimulusPlayer = useRef(null);
-
-
-    useEffect(() => {
-        console.log("====LIMPIANDO LA DATA=====")
-        setCurrentFrameIndex(0);
-        setBatchData({});
-        setFramesFetched([]);
-        setIsLastBatch(false);
-        setProcessedVideo(false);
-    }, [videoFile]);
-
 
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
@@ -59,6 +51,9 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                                     stimulusFile={stimulusFile}
                                     setStimulusFile={setStimulusFile}
                                     setProcessedVideo={setProcessedVideo}
+                                    setClear={setClear}
+                                    setUrlVideo={setUrlVideo}
+                                    setUrlStimulus={setUrlStimulus}
                     />
             </Grid>
             {loading ? (
@@ -78,9 +73,9 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
             ) : (
                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
                     <div>
-                        {videoFile && (
+                        {urlVideo && (
                             <VideoPlayer
-                                videoFile={videoFile}
+                                urlVideo={urlVideo}
                                 setCurrentFrameIndex={setCurrentFrameIndex}
                                 frameRate={frameRate}
                                 total_batches={total_batches}
@@ -104,10 +99,10 @@ export const VideoSection = ({setCurrentFrameIndex, setBatchData, height, frameR
                 </Grid>
             )}
 
-         { stimulusFile && (
+         { urlStimulus && (
             <Grid item xs = {12} >
                 <Stimulus
-                    stimulusFile={stimulusFile}
+                    urlStimulus={urlStimulus}
                     stimulusPlayer={stimulusPlayer}>
                 </Stimulus>
             </Grid>     
