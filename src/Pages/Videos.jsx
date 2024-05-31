@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Grid, Card, CardActionArea, CardMedia, Button ,IconButton, CardContent } from '@mui/material';
+import { Box, Typography, Grid, Card, CardActionArea, CardMedia, Button ,IconButton, CardContent, CircularProgress } from '@mui/material';
 import Navbar from '../components/NavBar';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
@@ -10,6 +10,7 @@ const API_URL = 'http://localhost:8000';
 const Videos = () => {
   const [videoData, setVideoData] = useState([]);
   const token = sessionStorage.getItem('token');
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const Videos = () => {
       }
       const data = await response.json();
       setVideoData(data.files);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching video data:', error);
     }
@@ -60,7 +62,23 @@ const Videos = () => {
         <Typography variant="h4" gutterBottom>Mis Videos</Typography>
       </Box>
       <Box mt={5}>
-        {videoData.length === 0 ? (
+        {loading ? (
+            <Grid container justifyContent="center">
+              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                <CircularProgress
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: 'auto',
+                    color: 'rgb(170, 126, 169)', // Assuming this is the progressColor you want
+                    padding: 100,
+                  }}
+                  size={100}
+                />
+              </Grid>
+            </Grid>
+          ) : videoData.length === 0 ? (
             <Box 
               textAlign="center" 
               display="flex" 

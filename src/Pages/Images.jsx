@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Grid, Card, CardActionArea, CardMedia, IconButton, Button, CardContent, Icon } from '@mui/material';
+import { Box, Typography, Grid, Card, CardActionArea, CardMedia, IconButton, Button, CardContent, CircularProgress } from '@mui/material';
 import Navbar from '../components/NavBar';
 import { Link, useNavigate } from 'react-router-dom';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -11,6 +11,7 @@ const Images = () => {
   const [imageData, setimageData] = useState([]);
   const token = sessionStorage.getItem('token');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
@@ -28,6 +29,7 @@ const Images = () => {
       }
       const data = await response.json();
       setimageData(data.files);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching image data:', error);
     }
@@ -45,8 +47,6 @@ const Images = () => {
         }
         const imageInfo = await response.json();
         console.log(imageInfo)
-        // localStorage.setItem("imageInfo", imageInfo);
-        // localStorage.setItem("filename", imageInfo['filename']);
         navigate('/new-image', { state: { imgInfo: imageInfo } });
     } catch (error) {
         console.error('Error fetching image information:', error);
@@ -60,7 +60,23 @@ const Images = () => {
         <Typography variant="h4" gutterBottom>Mis imagenes</Typography>
       </Box>
       <Box mt={5}>
-      {imageData.length === 0 ? (
+      {loading ? (
+            <Grid container justifyContent="center">
+              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                <CircularProgress
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: 'auto',
+                    color: 'rgb(170, 126, 169)', // Assuming this is the progressColor you want
+                    padding: 100,
+                  }}
+                  size={100}
+                />
+              </Grid>
+            </Grid>
+          ) : imageData.length === 0 ? (
           <Box 
             textAlign="center" 
             display="flex" 
