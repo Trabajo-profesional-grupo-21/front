@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardHeader, Typography } from '@mui/material';
 import ReactPlayer from 'react-player';
 import Notification from './Notifications';
+
 
 export const VideoPlayer = ({
     urlVideo, setCurrentFrameIndex, 
@@ -169,7 +170,16 @@ export const VideoPlayer = ({
 
     return (
         <Box>
-            <Card sx={{ maxWidth: "100%"}}>
+            <Box sx={{
+                width: '100%',
+                borderRadius: '16px', // Set the desired border radius
+                overflow: 'hidden', // Ensure that content fits within the border radius
+            }}>
+                <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.59)" }}>
+                    Video a Procesar
+                </Typography>
+            </Box>
+            <Card sx={{ maxWidth: "100%"}} >
                 <ReactPlayer
                     url={urlVideo}
                     ref={playerRef}

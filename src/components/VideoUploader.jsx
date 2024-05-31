@@ -17,6 +17,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                                 stimulusFile, setStimulusFile, setProcessedVideo, setClear, setUrlVideo, setUrlStimulus}) => {
                                   
     const [showStimulus, setShowStimulus] = useState(false);
+    const [disableUploadButton, setDisableUploadButton] = useState(false);
     
     const APIURL = "http://localhost:8000/data";
     const maxAttempts = 10;
@@ -68,6 +69,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
         if (videoFile) {
             setLoading(true);
             setClear(false);
+            setDisableUploadButton(true);
             const reader = new FileReader();
             reader.onload = async () => {
                 try {
@@ -164,6 +166,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                 setClear={setClear}
                 setUrlVideo={setUrlVideo}
                 setUrlStimulus={setUrlStimulus}
+                setDisableUploadButton={setDisableUploadButton}
             >
             </LoadingVideos>
             {videoFile && (
@@ -174,7 +177,10 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                             <Button 
                                 variant="contained" 
                                 onClick={handleUpload}
-                                style={{ backgroundColor: 'rgb(98, 65, 83)', color: 'white', textTransform: 'none' }}>
+                                disabled={disableUploadButton}
+                                style={{ backgroundColor:
+                                     disableUploadButton? 'rgba(98, 65, 83, 0.5)':'rgb(98, 65, 83)',
+                                    color: 'white', textTransform: 'none' }}>
                                 Subir Video
                             </Button>
                             <Notification notify={notify} setNotify={setNotify}/>
@@ -183,6 +189,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                             <Button  
                                 variant="outlined" 
                                 onClick={()=>{handleUploadStimulus(setShowStimulus)}}
+                                disabled={disableUploadButton}
                                 style={{
                                     textTransform: 'none',
                                     justifyContent: "center",

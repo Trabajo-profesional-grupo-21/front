@@ -100,7 +100,7 @@ export const VideoSection = ({
             )}
 
          { urlStimulus && (
-            <Grid item xs = {12} >
+            <Grid item xs = {12}  sx={{ textAlign: 'center' }}>
                 <Stimulus
                     urlStimulus={urlStimulus}
                     stimulusPlayer={stimulusPlayer}>

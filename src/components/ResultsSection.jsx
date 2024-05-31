@@ -16,20 +16,20 @@ const emotionsDictionary = {
     'SAD': 'TRISTEZA',
     'SADNESS': 'TRISTEZA',
     'FEAR': 'MIEDO',
-    'ANGRY': 'ENOJADO',
+    'ANGER': 'ENOJADO',
     'DISGUST': 'ASCO',
     'SURPRISE': 'SORPRESA',
     'NEUTRAL': 'NEUTRAL'
 };
 
 const unitActionDictionary = {
-    'AU1': 'Levantamiento de cejas interno',
-    'AU2': 'Elevador de cejas exterior',
-    'AU4': 'Bajar la ceja',
-    'AU5': 'Elevador de parpado superior',
-    'AU6': 'Levantador de mejillas',
-    'AU7': 'Tensor de la tapa',
-    'AU9': 'Arrugador de nariz',
+    'AU01': 'Levantamiento de cejas interno',
+    'AU02': 'Elevador de cejas exterior',
+    'AU04': 'Bajar la ceja',
+    'AU05': 'Elevador de parpado superior',
+    'AU06': 'Levantador de mejillas',
+    'AU07': 'Tensor de la tapa',
+    'AU09': 'Arrugador de nariz',
     'AU10': 'Levantamiento del labio superior',
     'AU12': 'Tirador de la esquina del labio',
     'AU14': 'Dimplificador',
@@ -104,8 +104,8 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
             const unitActionsInfo = frameData.ActionUnit;
 
             const formattedEmotions = Object.entries(emotions).map(([emotion, value]) => {
-                
-                const translatedEmotion = emotionsDictionary[emotion];
+                console.log("EMOTION ", emotion);
+                const translatedEmotion = emotionsDictionary[emotion.toUpperCase()];
                 const emotionName = translatedEmotion ? translatedEmotion : emotion.toUpperCase();
                 return [emotionName, parseFloat(value)];
             });
@@ -116,8 +116,8 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
                 [parseInt(frameId)]: formattedEmotions
             }));
 
-            const valence = parseFloat(frameData.valence).toFixed(3);
-            const arousal = parseFloat(frameData.arousal).toFixed(3);
+            const valence = parseFloat(parseFloat(frameData.valence).toFixed(3));
+            const arousal = parseFloat(parseFloat(frameData.arousal).toFixed(3));
             setValenceArousalData(prevValenceArousalData => ({
                 ...prevValenceArousalData,
                 [parseInt(frameId)]: { valence, arousal }
@@ -126,7 +126,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
             unitActionsInfo.sort((a, b) => b.Intensity - a.Intensity);
             unitActionsInfo.forEach(unit => {
                 unit.AUName = unitActionDictionary[unit.AUName] + "\n" + "(" + unit.AUName + ")"
-                unit.Intensity = unit.Intensity.toFixed(2);
+                unit.Intensity = parseFloat(unit.Intensity.toFixed(2));
             });
             setUnitActions(prevUnitActions => ({
                 ...prevUnitActions, 
@@ -135,6 +135,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
             let currentTime = 1/frameRate * frameId
             setTimeLineVAData(prevValenceArousalTimeData => {
                 let updatedData = [...prevValenceArousalTimeData];
+                
                 updatedData.push([currentTime, arousal, valence]);
                 console.log("DATA: ", updatedData)
                 return updatedData;

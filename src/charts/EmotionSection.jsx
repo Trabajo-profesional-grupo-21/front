@@ -35,7 +35,7 @@ export const EmotionSection = ({emotionsData}) => {
             spacing={1} 
         >
            <Grid item xs = {12}>
-                <Typography variant="h4" style={{ textAlign: "center", fontWeight: "bold", color: "black" }}>
+                <Typography variant="h4" style={{ textAlign: "center", fontWeight: "bold", color: "rgba(0, 0, 0, 0.90)"}}>
                     Modelo de Ekman
                 </Typography>
             </Grid> 

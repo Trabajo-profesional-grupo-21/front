@@ -7,7 +7,12 @@ const background = 'rgb(170,126,169)'
 export const options = {
     hAxis: {
         title: 'Tiempo',
+        minValue: 1
       },
+    vAxis: {
+        minValue: 1,
+        maxValue: -1
+    },
     legend: { position: 'bottom', alignment: 'center', textStyle: { fontSize: 14 }, formatNumber },
     height:  '100%',
     width: '100%',
@@ -21,7 +26,7 @@ export const TimeLineInfo = ({timeLineData}) => {
                 chartType="LineChart"
                 width="100%"
                 height="400px"
-                data={timeLineData}
+                data={timeLineData.sort((a, b) => {return a[0] - b[0];})}
                 options={options}
                 />
     );
