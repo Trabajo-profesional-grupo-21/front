@@ -14,13 +14,19 @@ export const VideoSection = ({
     setIsLastBatch, framesFetched, setFramesFetched,
     processedVideo, setProcessedVideo, setClear,
     urlVideo, urlStimulus,
-    setUrlVideo, setUrlStimulus, framesToProcess, setFramesToProcess }) => {
+    setUrlVideo, setUrlStimulus, framesToProcess, setFramesToProcess, setReceivedAllBatches }) => {
     const [loading, setLoading] = useState(false);
     
     const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
     const [stimulusFile, setStimulusFile] = useState();
     const stimulusPlayer = useRef(null);
+
+    useEffect(() => {
+        if (timesToFetch.length === 0) {
+            setReceivedAllBatches(true)
+        }
+    }, [timesToFetch])
 
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 

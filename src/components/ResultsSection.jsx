@@ -77,14 +77,12 @@ const timeLineVA = [
     [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
 ];
 
-export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFile, clear}) =>{
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, receivedAllBatches}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
-    
-    
-    
+
     useEffect(() => {
         console.log("EXISTE EL VIDEO ", clear);
         if (clear){
@@ -172,12 +170,21 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, videoFi
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TableComponent data={unitAcctionsData[currentFrameIndex || 0]}/>} 
+                    component={
+                        <TableComponent
+                            data={unitAcctionsData[currentFrameIndex || 0]}
+                        />
+                    } 
                     name="Unidades de acción"/>
             </Grid>
             <Grid item xs={6}>
                 <SimpleAccordion 
-                    component={<TimeLineInfo timeLineData={timeLineData()}/>} 
+                    component={
+                        <TimeLineInfo 
+                            receivedAllBatches={receivedAllBatches} 
+                            timeLineData={timeLineData()}
+                        />
+                    } 
                     name="Exitación y valencia en el tiempo (modelo Russell)"/>
             </Grid>
         </Grid>

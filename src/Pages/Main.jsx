@@ -20,6 +20,7 @@ export const Main = (props) => {
     const [clear, setClear] = useState(false);
     const [urlVideo, setUrlVideo] = useState();
     const [urlStimulus, setUrlStimulus] = useState();
+    const [receivedAllBatches, setReceivedAllBatches] = useState(false)
 
     useEffect(() => {
         let videoInfo = localStorage.getItem('videoInfo')
@@ -58,6 +59,7 @@ export const Main = (props) => {
             setIsLastBatch(false);
             setProcessedVideo(false);
             setUrlStimulus(null);
+            setReceivedAllBatches(false)
         }
     }, [clear]);
 
@@ -106,6 +108,7 @@ export const Main = (props) => {
                                                     setUrlStimulus={setUrlStimulus}
                                                     framesToProcess={framesToProcess}
                                                     setFramesToProcess={setFramesToProcess}
+                                                    setReceivedAllBatches={setReceivedAllBatches}
                                     />
                                 </Grid>
                                 <Grid item justifyContent="center" alignItems="center" xs={9}>             
@@ -114,6 +117,7 @@ export const Main = (props) => {
                                                         frameRate={frameRate}
                                                         videoFile={videoFile}
                                                         clear={clear}
+                                                        receivedAllBatches={receivedAllBatches}
                                         />
                                 </Grid>
                             </Grid>

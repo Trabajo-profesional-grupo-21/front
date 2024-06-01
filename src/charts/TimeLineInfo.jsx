@@ -24,8 +24,7 @@ export const options = {
 };
 
 
-export const TimeLineInfo = ({timeLineData}) => {
-    const [finishedProcessing, setFinishedProcessing] = useState(false)
+export const TimeLineInfo = ({timeLineData, receivedAllBatches}) => {
     return (
         <Grid container
             style={{ textAlign: "center", background: background, borderRadius: 15, padding: 20 }} 
@@ -47,7 +46,7 @@ export const TimeLineInfo = ({timeLineData}) => {
             </Grid>
             <Grid item xs = {12} sx={{ marginBottom: 3 }}>
             <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.50)" }}>
-                    Exitación {!finishedProcessing ? (
+                    Exitación {!receivedAllBatches ? (
                     <CircularProgress
                         style={{
                             display: 'center',
@@ -62,7 +61,7 @@ export const TimeLineInfo = ({timeLineData}) => {
             </Grid>
             <Grid item xs = {12} sx={{ marginBottom: 3 }}>
             <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.50)" }}>
-                    Valencia {!finishedProcessing ? (
+                    Valencia {!receivedAllBatches ? (
                     <CircularProgress
                         style={{
                             display: 'center',
