@@ -1,8 +1,12 @@
 import { formatNumber } from 'chart.js/helpers';
-import React from 'react'
+import React, { useState } from 'react'
 import { Chart } from "react-google-charts";
+import {Typography, Grid} from '@mui/material'; 
+import {CircularProgress} from '@mui/material';
 
- 
+const progressColor = 'rgba(0, 0, 0, 0.7)'
+
+
 const background = 'rgb(170,126,169)'
 export const options = {
     hAxis: {
@@ -21,7 +25,13 @@ export const options = {
 
 
 export const TimeLineInfo = ({timeLineData}) => {
+    const [finishedProcessing, setFinishedProcessing] = useState(false)
     return (
+        <Grid container
+            style={{ textAlign: "center", background: background, borderRadius: 15, padding: 20 }} 
+            justifyContent="center" 
+            direction="row">
+            <Grid item xs = {12} sx={{ marginBottom: 7 }}>
             <Chart
                 chartType="LineChart"
                 width="100%"
@@ -29,5 +39,42 @@ export const TimeLineInfo = ({timeLineData}) => {
                 data={timeLineData.sort((a, b) => {return a[0] - b[0];})}
                 options={options}
                 />
+            </Grid>
+            <Grid item xs = {12} sx={{ marginBottom: 3 }}>
+            <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.70)" }}>
+                    Valores promedio
+            </Typography>
+            </Grid>
+            <Grid item xs = {12} sx={{ marginBottom: 3 }}>
+            <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.50)" }}>
+                    Exitación {!finishedProcessing ? (
+                    <CircularProgress
+                        style={{
+                            display: 'center',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: progressColor,
+                        }}
+                        size={15}
+                    />
+            ) : ( 4 ) }
+            </Typography>
+            </Grid>
+            <Grid item xs = {12} sx={{ marginBottom: 3 }}>
+            <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.50)" }}>
+                    Valencia {!finishedProcessing ? (
+                    <CircularProgress
+                        style={{
+                            display: 'center',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: progressColor,
+                        }}
+                        size={15}
+                    />
+            ) : ( 4 ) }
+            </Typography>
+            </Grid>
+        </Grid>
     );
 }
