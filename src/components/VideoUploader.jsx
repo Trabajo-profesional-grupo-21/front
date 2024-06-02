@@ -112,7 +112,8 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                         setTimeToFetch(timesToProcess);  
                     }
                 setLoading(false);
-                setProcessedVideo(true);
+                //Creemos que no hace falta este setProcessedVideo(true) pero en principio lo dejamos comentado
+                // setProcessedVideo(true);
                 console.log("pongo en true process video");
                 } catch (error) {
                     console.error('Error:', error);

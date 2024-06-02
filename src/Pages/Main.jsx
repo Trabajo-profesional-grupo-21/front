@@ -28,7 +28,7 @@ export const Main = (props) => {
         let videoInfo = localStorage.getItem('videoInfo')
         if (videoInfo) {
             console.log("======================> Hay algo en local storage!!!!")
-            // process o save data 
+            // process o save data
             let filename = localStorage.getItem('filename')
             console.log("File name ", filename);
             localStorage.removeItem('videoInfo');
@@ -126,7 +126,7 @@ export const Main = (props) => {
                                                         receivedAllBatches={receivedAllBatches}
                                                         expectedArousal={expectedArousal}
                                                         expectedValence={expectedValence}
-                                                       
+                                                        showTimeLine={true}
                                         />
                                 </Grid>
                             </Grid>

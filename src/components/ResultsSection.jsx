@@ -78,7 +78,7 @@ const timeLineVA = [
     [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
 ];
 
-export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, receivedAllBatches,
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, showTimeLine, receivedAllBatches,
                                 expectedArousal, expectedValence}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
@@ -151,8 +151,8 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, 
             return index === 0 || element[0] <= currentTime
         })
     }
-    console.log(" Current frame index ", currentFrameIndex);
-    console.log("valen and arousal", valenceArousalData);
+    // console.log(" Current frame index ", currentFrameIndex);
+    // console.log("valen and arousal", valenceArousalData);
     return (
         <Grid container direction="column">
             <Grid item xs={6}>
@@ -170,7 +170,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, 
                         </Grid>
                 </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
                 <SimpleAccordion 
                     component={
                         <TableComponent
@@ -179,27 +179,30 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, 
                     } 
                     name="Unidades de acción"/>
             </Grid>
-            <Grid item xs={6}>
-                <SimpleAccordion 
-                    component={
-                        <TimeLineInfo
-                            timeLineData={timeLineData()}
-                        />
-                    } 
-                    name="Exitación y valencia en el tiempo (modelo Russell)"/>
-            </Grid>
-            <Grid item xs={6}>
-                <SimpleAccordion 
-                    component={
-                        <Summary 
-                            timeLineData={timeLineVAData}
-                            receivedAllBatches={receivedAllBatches}
-                            expectedArousal={expectedArousal}
-                            expectedValence={expectedValence}
-                        />
-                    } 
-                    name="Resumen"/>
-            </Grid>
+            {showTimeLine && (
+                <Grid item xs={12}>
+                    <SimpleAccordion 
+                        component={
+                            <TimeLineInfo
+                                timeLineData={timeLineData()}
+                            />
+                        } 
+                        name="Exitación y valencia en el tiempo (modelo Russell)"/>
+                </Grid> )}
+                {showTimeLine && (
+                    <Grid item xs={12}>
+                        <SimpleAccordion 
+                            component={
+                                <Summary 
+                                    timeLineData={timeLineVAData}
+                                    receivedAllBatches={receivedAllBatches}
+                                    expectedArousal={expectedArousal}
+                                    expectedValence={expectedValence}
+                                />
+                            } 
+                            name="Resumen"/>
+                    </Grid>
+                )}
         </Grid>
     );
 }

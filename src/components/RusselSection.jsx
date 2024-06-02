@@ -28,7 +28,7 @@ export const data = [
 
 
 export const RusselSection = ({valenceArousalData}) => {
-    console.log(" Data de valence y arousal ", valenceArousalData);
+    // console.log(" Data de valence y arousal ", valenceArousalData);
     var valence = valenceArousalData["valence"]; 
     var arousal = valenceArousalData["arousal"];
     return (
