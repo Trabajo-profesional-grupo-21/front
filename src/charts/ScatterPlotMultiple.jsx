@@ -3,7 +3,7 @@ import Chart from 'chart.js/auto';
 
 const plotLabelsColor = 'rgba(0, 0, 0, 0.7)'
 const plotDotColor = 'rgb(82,107,122)'
-const expectedDotColor = 'rgba(0, 255, 0, 1)';
+const expectedDotColor = 'rgb(252,196,91)';
 
 export const ScatterPlotMultiple = ({valenceArousalData, expectedArousal, expectedValence}) => {
     const chartRef = useRef(null);
