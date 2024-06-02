@@ -78,7 +78,8 @@ const timeLineVA = [
     [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
 ];
 
-export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, receivedAllBatches}) =>{
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, receivedAllBatches,
+                                expectedArousal, expectedValence}) =>{
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
@@ -191,8 +192,10 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, 
                 <SimpleAccordion 
                     component={
                         <Summary 
-                            timeLineData={timeLineData()}
-                            receivedAllBatches={receivedAllBatches} 
+                            timeLineData={timeLineVAData}
+                            receivedAllBatches={receivedAllBatches}
+                            expectedArousal={expectedArousal}
+                            expectedValence={expectedValence}
                         />
                     } 
                     name="Resumen"/>

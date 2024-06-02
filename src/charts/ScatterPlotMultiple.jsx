@@ -3,9 +3,11 @@ import Chart from 'chart.js/auto';
 
 const plotLabelsColor = 'rgba(0, 0, 0, 0.7)'
 const plotDotColor = 'rgb(82,107,122)'
+const expectedDotColor = 'rgba(0, 255, 0, 1)';
 
-export const ScatterPlotMultiple = ({xpos, ypos}) => {
+export const ScatterPlotMultiple = ({valenceArousalData, expectedArousal, expectedValence}) => {
     const chartRef = useRef(null);
+    console.log("Info arousal y valencia", valenceArousalData);
     const [chartInstance, setChartInstance] = useState(null);
 
     useEffect(() => {
@@ -99,14 +101,26 @@ export const ScatterPlotMultiple = ({xpos, ypos}) => {
             type: 'scatter',
             data: {
                 datasets: [{
-                    label: 'Arousal',
-                    data: [{ x: xpos, y: ypos }],
+                    label: 'valencia-exitacion',
+                    data : valenceArousalData,
+                    //data: [{ x: 0.5, y: 0.4 },{ x: 0, y: 0.3 } ],
                     backgroundColor: 'rgba(255, 26, 104, 0.2)',
                     borderColor: 'rgba(255, 26, 104, 1)',
                     borderWidth: 1,
                     pointBackgroundColor: plotDotColor,
                     pointBorderColor: plotDotColor,
                     pointRadius: 6,
+                }, 
+                {
+                    label: 'Valor esperado valencia-exitacion',
+                    data: [{ x: expectedValence, y: expectedArousal }],
+                    backgroundColor: expectedDotColor,
+                    borderColor: expectedDotColor,
+                    borderWidth: 1,
+                    pointBackgroundColor: expectedDotColor,
+                    pointBorderColor: expectedDotColor,
+                    pointRadius: 8,
+                    pointStyle: 'rectRot' // Forma del punto (puede ser 'circle', 'rect', 'rectRot', etc.)
                 }]
             },
             options: {
@@ -156,7 +170,7 @@ export const ScatterPlotMultiple = ({xpos, ypos}) => {
             window.removeEventListener('resize', resizeChart);
             newChartInstance.destroy();
         };
-    }, [xpos, ypos]);
+    }, [valenceArousalData]);
 
     return (
         <div style={{ position: 'relative', width: '100%', alignContent: "center", justifyContent: 'center', display: 'center'}}>

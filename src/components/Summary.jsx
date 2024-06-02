@@ -7,8 +7,12 @@ import {ScatterPlotMultiple} from '../charts/ScatterPlotMultiple';
 
 const progressColor = 'rgba(0, 0, 0, 0.7)';
 const background = 'rgb(170,126,169)';
-
-export const Summary = ({timeLineData, receivedAllBatches}) => {
+// timeLineData := [[tiempo, arousal, valence], [tiempo, arousal, valence]]
+// [{ x: 0.5, y: 0.4 },{ x: 0, y: 0.3 } ]
+export const Summary = ({timeLineData, receivedAllBatches,  expectedArousal, expectedValence}) => {
+    console.log("recibi todos los batches ", receivedAllBatches);
+    console.log("EXPECTED AROUSAL ", expectedArousal);
+    console.log("EXPECTIVE VALENCE ", expectedValence);
     const avgValence = () => {
         let sum = timeLineData.reduce((acc, value, index) => {
             if (index === 0) {
@@ -21,6 +25,7 @@ export const Summary = ({timeLineData, receivedAllBatches}) => {
     }
     
     const avgArousal = () => {
+        console.log("======CALCULO AROUSAL=========")
         let sum = timeLineData.reduce((acc, value, index) => {
             if (index === 0) {
                 return acc
@@ -32,6 +37,7 @@ export const Summary = ({timeLineData, receivedAllBatches}) => {
     }
 
     return (
+        
         <Grid container
             style={{ textAlign: "center", background: background, borderRadius: 15, padding: 20 }} 
             justifyContent="center"
@@ -54,7 +60,7 @@ export const Summary = ({timeLineData, receivedAllBatches}) => {
                         }}
                         size={15}
                     />
-            ) : ( avgArousal() ) }
+            ) : ( parseFloat(parseFloat(avgArousal()).toFixed(3)) ) }
             </Typography>
             </Grid>
             <Grid item xs = {12} sx={{ marginBottom: 3 }}>
@@ -69,11 +75,17 @@ export const Summary = ({timeLineData, receivedAllBatches}) => {
                         }}
                         size={15}
                     />
-            ) : ( avgValence() ) }
+            ) : ( parseFloat(parseFloat(avgValence()).toFixed(3)) ) }
             </Typography>
             </Grid>
             <Grid item xs = {12} sx={{ marginBottom: 3 }} alignContent="center">
-                <ScatterPlotMultiple/>
+                <ScatterPlotMultiple 
+                    valenceArousalData={timeLineData.filter((value, index)=>index!==0).map((value) => {
+                        return { x: value[2] , y: value[1]}
+                    })}
+                    expectedArousal={expectedArousal}
+                    expectedValence={expectedValence}
+                />
             </Grid>
         </Grid>
     )
