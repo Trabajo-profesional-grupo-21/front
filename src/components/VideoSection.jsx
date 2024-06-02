@@ -14,13 +14,21 @@ export const VideoSection = ({
     setIsLastBatch, framesFetched, setFramesFetched,
     processedVideo, setProcessedVideo, setClear,
     urlVideo, urlStimulus,
-    setUrlVideo, setUrlStimulus, framesToProcess, setFramesToProcess }) => {
+    setUrlVideo, setUrlStimulus, framesToProcess, setFramesToProcess, setReceivedAllBatches,
+    expectedArousal, expectedValence, setExpectedArousal, setExpectedValence }) => {
     const [loading, setLoading] = useState(false);
     
     const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
     const [stimulusFile, setStimulusFile] = useState();
+    const [disableUploadButton, setDisableUploadButton] = useState(false);
     const stimulusPlayer = useRef(null);
+
+    useEffect(() => {
+        if (timesToFetch.length === 0 && videoFile !== null) {
+            setReceivedAllBatches(true)
+        }
+    }, [timesToFetch])
 
     return (
         <Grid container style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 10, height: height  }} 
@@ -54,6 +62,8 @@ export const VideoSection = ({
                                     setClear={setClear}
                                     setUrlVideo={setUrlVideo}
                                     setUrlStimulus={setUrlStimulus}
+                                    disableUploadButton={disableUploadButton}
+                                    setDisableUploadButton={setDisableUploadButton}
                     />
             </Grid>) : (<></>)}
             {loading ? (
@@ -103,7 +113,14 @@ export const VideoSection = ({
             <Grid item xs = {12}  sx={{ textAlign: 'center' }}>
                 <Stimulus
                     urlStimulus={urlStimulus}
-                    stimulusPlayer={stimulusPlayer}>
+                    stimulusPlayer={stimulusPlayer}
+                    expectedArousal={expectedArousal}
+                    expectedValence={expectedValence}
+                    setExpectedArousal={setExpectedArousal}
+                    setExpectedValence={setExpectedValence}
+                    setNotify={setNotify}
+                    disableUploadButton={disableUploadButton}
+                    >
                 </Stimulus>
             </Grid>     
         )}

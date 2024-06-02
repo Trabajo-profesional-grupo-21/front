@@ -1,9 +1,12 @@
 import { formatNumber } from 'chart.js/helpers';
-import React from 'react'
+import React, { useState } from 'react'
 import { Chart } from "react-google-charts";
+import {Typography, Grid} from '@mui/material'; 
+import {CircularProgress} from '@mui/material';
 
- 
+const progressColor = 'rgba(0, 0, 0, 0.7)'
 const background = 'rgb(170,126,169)'
+
 export const options = {
     hAxis: {
         title: 'Tiempo',
@@ -18,7 +21,6 @@ export const options = {
     width: '100%',
     backgroundColor: background,
 };
-
 
 export const TimeLineInfo = ({timeLineData}) => {
     return (

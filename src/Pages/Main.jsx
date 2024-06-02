@@ -20,6 +20,9 @@ export const Main = (props) => {
     const [clear, setClear] = useState(false);
     const [urlVideo, setUrlVideo] = useState();
     const [urlStimulus, setUrlStimulus] = useState();
+    const [receivedAllBatches, setReceivedAllBatches] = useState(false);
+    const [expectedArousal, setExpectedArousal] = useState(0.0);
+    const [expectedValence, setExpectedValence] = useState(0.0);
 
     useEffect(() => {
         let videoInfo = localStorage.getItem('videoInfo')
@@ -58,6 +61,7 @@ export const Main = (props) => {
             setIsLastBatch(false);
             setProcessedVideo(false);
             setUrlStimulus(null);
+            setReceivedAllBatches(false)
         }
     }, [clear]);
 
@@ -106,6 +110,11 @@ export const Main = (props) => {
                                                     setUrlStimulus={setUrlStimulus}
                                                     framesToProcess={framesToProcess}
                                                     setFramesToProcess={setFramesToProcess}
+                                                    setReceivedAllBatches={setReceivedAllBatches}
+                                                    expectedArousal={expectedArousal}
+                                                    expectedValence={expectedValence}
+                                                    setExpectedArousal={setExpectedArousal}
+                                                    setExpectedValence={setExpectedValence}
                                     />
                                 </Grid>
                                 <Grid item justifyContent="center" alignItems="center" xs={9}>             
@@ -114,6 +123,9 @@ export const Main = (props) => {
                                                         frameRate={frameRate}
                                                         videoFile={videoFile}
                                                         clear={clear}
+                                                        receivedAllBatches={receivedAllBatches}
+                                                        expectedArousal={expectedArousal}
+                                                        expectedValence={expectedValence}
                                                         showTimeLine={true}
                                         />
                                 </Grid>

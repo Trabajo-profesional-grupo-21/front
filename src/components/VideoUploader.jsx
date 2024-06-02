@@ -14,10 +14,11 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                                 setLoading, setFramesToProcess, setFramesFetched, 
                                 setTimeToFetch, notify, setNotify, 
                                 isLastBatch, setIsLastBatch, setTotalBatches,
-                                stimulusFile, setStimulusFile, setProcessedVideo, setClear, setUrlVideo, setUrlStimulus}) => {
+                                stimulusFile, setStimulusFile, setProcessedVideo, setClear, setUrlVideo, setUrlStimulus,
+                                disableUploadButton, setDisableUploadButton}) => {
                                   
     const [showStimulus, setShowStimulus] = useState(false);
-    const [disableUploadButton, setDisableUploadButton] = useState(false);
+    // const [disableUploadButton, setDisableUploadButton] = useState(false);
     
     const APIURL = "http://localhost:8000/data";
     const maxAttempts = 10;
