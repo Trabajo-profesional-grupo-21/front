@@ -23,8 +23,28 @@ export const options = {
     backgroundColor: background,
 };
 
-
 export const TimeLineInfo = ({timeLineData, receivedAllBatches}) => {
+    const avgValence = () => {
+        let sum = timeLineData.reduce((acc, value, index) => {
+            if (index === 0) {
+                return acc
+            }
+            return acc + value[2]
+        }, 0)
+    
+        return sum / (timeLineData.length-1) /* Borra la lista que tiene la info de los titulos */
+    }
+    
+    const avgArousal = () => {
+        let sum = timeLineData.reduce((acc, value, index) => {
+            if (index === 0) {
+                return acc
+            }
+            return acc + value[1]
+        }, 0)
+    
+        return sum / (timeLineData.length-1) /* Borra la lista que tiene la info de los titulos */
+    }
     return (
         <Grid container
             style={{ textAlign: "center", background: background, borderRadius: 15, padding: 20 }} 
@@ -56,7 +76,7 @@ export const TimeLineInfo = ({timeLineData, receivedAllBatches}) => {
                         }}
                         size={15}
                     />
-            ) : ( 4 ) }
+            ) : ( avgArousal() ) }
             </Typography>
             </Grid>
             <Grid item xs = {12} sx={{ marginBottom: 3 }}>
@@ -71,7 +91,7 @@ export const TimeLineInfo = ({timeLineData, receivedAllBatches}) => {
                         }}
                         size={15}
                     />
-            ) : ( 4 ) }
+            ) : ( avgValence() ) }
             </Typography>
             </Grid>
         </Grid>
