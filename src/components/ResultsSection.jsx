@@ -4,6 +4,7 @@ import { EmotionSection } from '../charts/EmotionSection';
 import { RusselSection } from './RusselSection';
 import {TableComponent} from './TableComponent';
 import { TimeLineInfo } from '../charts/TimeLineInfo';
+import { Summary } from '../components/Summary';
 import SimpleAccordion from './AccordionComponent';
 import { Box } from '@material-ui/core';
 //"rgb(170,126,169)" violeta lindo
@@ -180,12 +181,21 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, 
             <Grid item xs={6}>
                 <SimpleAccordion 
                     component={
-                        <TimeLineInfo 
-                            receivedAllBatches={receivedAllBatches} 
+                        <TimeLineInfo
                             timeLineData={timeLineData()}
                         />
                     } 
                     name="Exitación y valencia en el tiempo (modelo Russell)"/>
+            </Grid>
+            <Grid item xs={6}>
+                <SimpleAccordion 
+                    component={
+                        <Summary 
+                            timeLineData={timeLineData()}
+                            receivedAllBatches={receivedAllBatches} 
+                        />
+                    } 
+                    name="Resumen"/>
             </Grid>
         </Grid>
     );
