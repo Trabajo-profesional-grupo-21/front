@@ -20,6 +20,7 @@ const ImageUploader = ({
 
 
   const [showStimulus, setShowStimulus] = useState(false);
+  const [disableUploadButton, setDisableUploadButton] = useState(false);
 
 
   const handleUploadStimulus = (setShowStimulus) => {
@@ -34,6 +35,7 @@ const ImageUploader = ({
   
   const handleChange = (newFile) => {
     setFile(newFile);
+    setDisableUploadButton(false);
     setImgUrl(URL.createObjectURL(newFile));
   };
 
@@ -72,6 +74,7 @@ const ImageUploader = ({
   const handleUpload = async () => {
     if (imageFile) {
       setLoading(true);
+      setDisableUploadButton(true);
       const reader = new FileReader();
       reader.onload = async () => {
         try {
@@ -169,7 +172,10 @@ const ImageUploader = ({
                       <Button 
                           variant="contained" 
                           onClick={handleUpload}
-                          style={{ backgroundColor: 'rgb(98, 65, 83)', color: 'white', textTransform: 'none' }}>
+                          disabled={disableUploadButton}
+                          style={{ backgroundColor:
+                            disableUploadButton? 'rgba(98, 65, 83, 0.5)':'rgb(98, 65, 83)',
+                           color: 'white', textTransform: 'none' }}>
                           Subir Imagen
                       </Button>
                       <Notification notify={notify} setNotify={setNotify}/>

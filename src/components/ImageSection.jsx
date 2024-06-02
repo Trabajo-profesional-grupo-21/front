@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {Grid, CircularProgress} from '@mui/material';
+import {Grid, CircularProgress, Typography} from '@mui/material';
 import ImageUploader from './ImageUploader';
 import {VideoPlayer} from './VideoPlayer';
 
@@ -75,9 +75,13 @@ export const ImageSection = ({preLoadedData, setBatchData, height, setFrameRate,
                     />
                 </Grid>
             ) : (
+                <>
                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
                     <div>
-                        {imageFile && (
+                        {imageFile && (<>
+                            <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.59)" }}>
+                            Imagen a procesar
+                            </Typography>
                             <img 
                                 src={imgUrl} 
                                 alt="Uploaded"
@@ -87,10 +91,14 @@ export const ImageSection = ({preLoadedData, setBatchData, height, setFrameRate,
                                     objectFit: 'contain',
                                 }}
                             />
-                        )}
+                        </>)}
                     </div>
                     <div>
-                        {stimulusFile && (
+                        {stimulusFile && ( <>
+                            <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.59)" }}>
+                                Estimulo
+                            </Typography>
+                        
                             <img 
                                 src={stimulusUrl} 
                                 alt="Stimulus"
@@ -100,9 +108,10 @@ export const ImageSection = ({preLoadedData, setBatchData, height, setFrameRate,
                                     objectFit: 'contain',
                                 }}
                             />
-                        )}
+                        </>)}
                     </div>
                 </Grid>
+                </>
             )}
         </Grid>
     );

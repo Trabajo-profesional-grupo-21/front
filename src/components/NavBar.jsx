@@ -12,6 +12,8 @@ const Navbar = () => {
   };
 
   const handleMenuClick = (path) => {
+    localStorage.removeItem('videoInfo');
+    localStorage.removeItem('filename');
     navigate(path);
     handleMenuClose();
   };
@@ -52,7 +54,7 @@ const Navbar = () => {
               horizontal: 'left',
             }}
           >
-            <MenuItem onClick={() => handleMenuClick('/')}>Video</MenuItem>
+            <MenuItem onClick={() => handleMenuClick('/new-video')}>Video</MenuItem>
             <MenuItem onClick={() => handleMenuClick('/new-image')}>Imagen</MenuItem>
           </Menu>
           <Button color="inherit" component={Link} to="/videos">Mis videos</Button>

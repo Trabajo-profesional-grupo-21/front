@@ -1,5 +1,6 @@
 import {Main} from './Pages/Main';
 import {NewImage} from './Pages/NewImage';
+import {NewVideo} from './Pages/NewVideo';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Videos from './Pages/Videos';
@@ -35,6 +36,11 @@ const AppRoutes = [
   {
     path: '/new-image',
     element: <NewImage />,
+    show: true,
+  },
+  {
+    path: '/new-video',
+    element: <NewVideo />,
     show: true,
   },
   {
