@@ -28,14 +28,14 @@ export const VideoSection = ({
         spacing={3} 
         alignItems="center"
         >
-            <Grid item xs={12} sx={{
+            {!processedVideo? (<Grid item xs={12} sx={{
                     backgroundColor: 'rgba(170,126,169, 0.3)',
                     color: 'white',
                     padding: 3,
                     borderRadius: 2,
                     boxShadow: 2
             }}>
-                   <VideoUploader   videoFile={videoFile} 
+                  <VideoUploader   videoFile={videoFile} 
                                     setVideoFile={setFile} 
                                     setFrameRate={setFrameRate}
                                     setBatchData={setBatchData}
@@ -55,7 +55,7 @@ export const VideoSection = ({
                                     setUrlVideo={setUrlVideo}
                                     setUrlStimulus={setUrlStimulus}
                     />
-            </Grid>
+            </Grid>) : (<></>)}
             {loading ? (
                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
                     <CircularProgress
