@@ -7,6 +7,7 @@ import { TimeLineInfo } from '../charts/TimeLineInfo';
 import { Summary } from '../components/Summary';
 import SimpleAccordion from './AccordionComponent';
 import { Box } from '@material-ui/core';
+import { ScatterPlotMultiple } from '../charts/ScatterPlotMultiple';
 //"rgb(170,126,169)" violeta lindo
 
 const backgroundForResults = 'rgb(170,126,169)'
@@ -78,8 +79,12 @@ const timeLineVA = [
     [{ type: 'number', label: 'Tiempo' }, { type: 'number', label: 'Excitación' }, { type: 'number', label: 'Valencia' }],
 ];
 
-export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, showTimeLine, receivedAllBatches,
-                                expectedArousal, expectedValence}) =>{
+export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, 
+                                showTimeLine, receivedAllBatches,
+                                expectedArousal, expectedValence, 
+                                showScatterPlot}) =>{
+    console.log("Expected arusal", expectedArousal);
+    console.log("Expected valence ", expectedValence);
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
@@ -201,6 +206,29 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear, 
                                 />
                             } 
                             name="Resumen"/>
+                    </Grid>
+                )}
+                {showScatterPlot && (
+                    <Grid item xs={12}>
+                        <SimpleAccordion 
+                            component={
+                                <Grid container
+                                    style={{ textAlign: "center", background: 'rgb(170,126,169)', borderRadius: 15, padding: 20 }} 
+                                    justifyContent="center"
+                                    alignContent="center"
+                                    direction="row">
+                                    <Grid item xs = {12} sx={{ marginBottom: 3 }}>
+                                        <ScatterPlotMultiple 
+                                            valenceArousalData={timeLineVAData.filter((value, index)=>index!==0).map((value) => {
+                                                return { x: value[2] , y: value[1]}
+                                            })}
+                                            expectedArousal={expectedArousal}
+                                            expectedValence={expectedValence}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            } 
+                            name="Valencia y exitación esperada vs obtenida"/>
                     </Grid>
                 )}
         </Grid>

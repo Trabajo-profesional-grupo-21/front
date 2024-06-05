@@ -15,13 +15,13 @@ const ImageUploader = ({
   setStimulusFile,
   setBatchData,
   setImgUrl,
-  setStimulusUrl
+  setStimulusUrl, 
+  disableUploadButton, 
+  setDisableUploadButton
 }) => {
 
-
+  console.log("DISABLE BUTTON: ",disableUploadButton )
   const [showStimulus, setShowStimulus] = useState(false);
-  const [disableUploadButton, setDisableUploadButton] = useState(false);
-
 
   const handleUploadStimulus = (setShowStimulus) => {
     console.log("Cargamos estimulo imagenes");
@@ -30,13 +30,17 @@ const ImageUploader = ({
 
   const handleChangeStimulus = (newStimulusFile) => {
     setStimulusFile(newStimulusFile)
-    setStimulusUrl(URL.createObjectURL(newStimulusFile));
+    if (newStimulusFile) {
+      setStimulusUrl(URL.createObjectURL(newStimulusFile));
+    }
   }
   
   const handleChange = (newFile) => {
     setFile(newFile);
     setDisableUploadButton(false);
-    setImgUrl(URL.createObjectURL(newFile));
+    if (newFile){
+      setImgUrl(URL.createObjectURL(newFile));
+    }
   };
 
   const uploadStimulus = async () => {

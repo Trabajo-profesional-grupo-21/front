@@ -12,6 +12,8 @@ export const NewImage = () => {
     const [stimulusFile, setStimulusFile] = useState(null);
     const [batchData, setBatchData] = useState({});
     const [preLoadedData, setPreLoadedData] = useState(null);
+    const [expectedArousal, setExpectedArousal] = useState(null);
+    const [expectedValence, setExpectedValence] = useState(null);
     const currentFrameIndex = 0;
 
     // Se llama a la pagina con un estado desde `Mis Imagenes`
@@ -39,7 +41,9 @@ export const NewImage = () => {
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <Grid container direction="row" style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 15, height: '100%' }} justifyContent="space-around" spacing={2} alignItems="stretch">
+                            <Grid container direction="row" 
+                            style={{ background: "rgba(248, 244, 244)", borderRadius: 15, padding: 15, height: '100%' }} 
+                            justifyContent="space-around" spacing={2} alignItems="stretch">
                                 <Grid item xs={3} justifyContent="flex-end">
                                     <ImageSection 
                                         preLoadedData={preLoadedData}
@@ -48,13 +52,20 @@ export const NewImage = () => {
                                         setStimulusFile={setStimulusFile}
                                         stimulusFile={stimulusFile}
                                         setBatchData={setBatchData}
+                                        expectedArousal={expectedArousal}
+                                        setExpectedArousal={setExpectedArousal}
+                                        expectedValence={expectedValence}
+                                        setExpectedValence={setExpectedValence}
                                     />
                                 </Grid>
-                                <Grid item justifyContent="center" alignItems="center" xs={9}>
+                                <Grid item xs={9} justifyContent="center" alignItems="center">
                                     <ResultsSection currentFrameIndex={currentFrameIndex}
                                         batchData={batchData}
                                         imageFile={imageFile}
+                                        expectedValence={expectedValence}
+                                        expectedArousal={expectedArousal}
                                         showTimeline={false}
+                                        showScatterPlot={true}
                                     />
                                 </Grid>
                             </Grid>

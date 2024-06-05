@@ -21,9 +21,8 @@ export const Main = (props) => {
     const [urlVideo, setUrlVideo] = useState();
     const [urlStimulus, setUrlStimulus] = useState();
     const [receivedAllBatches, setReceivedAllBatches] = useState(false);
-    const [expectedArousal, setExpectedArousal] = useState(0.0);
-    const [expectedValence, setExpectedValence] = useState(0.0);
-
+    const [expectedArousal, setExpectedArousal] = useState(null);
+    const [expectedValence, setExpectedValence] = useState(null);
     useEffect(() => {
         let videoInfo = localStorage.getItem('videoInfo')
         if (videoInfo) {
@@ -127,6 +126,7 @@ export const Main = (props) => {
                                                         expectedArousal={expectedArousal}
                                                         expectedValence={expectedValence}
                                                         showTimeLine={true}
+                                                        showScatterPlot={false}
                                         />
                                 </Grid>
                             </Grid>

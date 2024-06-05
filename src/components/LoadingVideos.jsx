@@ -18,8 +18,8 @@ export const LoadingVideos = ({videoFile, setVideoFile,
         }
     }
     const handleChangeStimulus = (newFile) => {
+        setStimulusFile(newFile);
         if (newFile) {
-            setStimulusFile(newFile);
             const url = URL.createObjectURL(newFile);
             setUrlStimulus(url); 
         }

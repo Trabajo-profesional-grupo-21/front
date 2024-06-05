@@ -14,7 +14,10 @@ export const Stimulus = ({urlStimulus, stimulusPlayer, expectedArousal,
             const floatValue = parseFloat(newValue);
             // Permitir cadena vacía para borrar el input
             console.log("Numero float" , floatValue);
-            if (newValue === '-' || newValue === '' || (floatValue >= -1 && floatValue <= 1)) {
+            if (newValue === '') {
+                setExpectedArousal(null);
+                return
+            } else if (newValue === '-' || (floatValue >= -1 && floatValue <= 1)) {
                 setExpectedArousal(newValue);
                 return
             }
@@ -32,7 +35,10 @@ export const Stimulus = ({urlStimulus, stimulusPlayer, expectedArousal,
         if (/^-?\d*\.?\d*$/.test(newValue)) {
             const floatValue = parseFloat(newValue);
             // Permitir cadena vacía para borrar el input
-            if (newValue === '-' || newValue === '' || (floatValue >= -1 && floatValue <= 1)) {
+            if (newValue === '') {
+                setExpectedValence(null);
+                return
+            } else if (newValue === '-' || (floatValue >= -1 && floatValue <= 1)) {
                 setExpectedValence(newValue);
                 return
             }
