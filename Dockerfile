@@ -1,10 +1,16 @@
-FROM node:current-alpine3.16
+FROM node:16-alpine
 
 WORKDIR /app
-ADD package.json .
+
+COPY package.json package-lock.json ./
+
 RUN npm install --legacy-peer-deps
 
 COPY . .
 
+# Optimiza el despliegue
+ENV NODE_ENV=production 
+
 EXPOSE 3000
+
 CMD ["npm", "start"]
