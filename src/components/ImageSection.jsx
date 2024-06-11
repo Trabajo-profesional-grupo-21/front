@@ -23,12 +23,18 @@ export const ImageSection = ({preLoadedData, setBatchData, height,
             if (preLoadedData.stimulus_url){
                 setStimulusUrl(preLoadedData.stimulus_url);
                 setStimulusFile({});
+                setExpectedArousal(preLoadedData.stimulus_arousal);
+                setExpectedValence(preLoadedData.stimulus_valence);
+                setDisableUploadButton(true);
             }
         } else {
             setImgUrl(false);
             setStimulusUrl(false);
             setFile(null);
             setStimulusFile(null);
+            setDisableUploadButton(false);
+            setExpectedArousal(null);
+            setExpectedValence(null);
         }
     }, [preLoadedData]);
 
@@ -104,6 +110,8 @@ export const ImageSection = ({preLoadedData, setBatchData, height,
                             setStimulusUrl={setStimulusUrl}
                             setDisableUploadButton={setDisableUploadButton}
                             disableUploadButton={disableUploadButton}
+                            expectedValence={expectedValence}
+                            expectedArousal={expectedArousal}
                         />
 
 

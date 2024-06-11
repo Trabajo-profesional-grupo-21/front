@@ -15,13 +15,13 @@ export const VideoSection = ({
     processedVideo, setProcessedVideo, setClear,
     urlVideo, urlStimulus,
     setUrlVideo, setUrlStimulus, framesToProcess, setFramesToProcess, setReceivedAllBatches,
-    expectedArousal, expectedValence, setExpectedArousal, setExpectedValence }) => {
+    expectedArousal, expectedValence, setExpectedArousal, setExpectedValence,
+    disableUploadButton, setDisableUploadButton }) => {
     const [loading, setLoading] = useState(false);
     
     const [timesToFetch, setTimeToFetch] = useState([]);
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
     const [stimulusFile, setStimulusFile] = useState();
-    const [disableUploadButton, setDisableUploadButton] = useState(false);
     const stimulusPlayer = useRef(null);
 
     useEffect(() => {
@@ -64,6 +64,8 @@ export const VideoSection = ({
                                     setUrlStimulus={setUrlStimulus}
                                     disableUploadButton={disableUploadButton}
                                     setDisableUploadButton={setDisableUploadButton}
+                                    expectedArousal={expectedArousal}
+                                    expectedValence={expectedValence}
                     />
             </Grid>) : (<></>)}
             {loading ? (

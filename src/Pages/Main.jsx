@@ -23,12 +23,14 @@ export const Main = (props) => {
     const [receivedAllBatches, setReceivedAllBatches] = useState(false);
     const [expectedArousal, setExpectedArousal] = useState(null);
     const [expectedValence, setExpectedValence] = useState(null);
+    const [disableUploadButton, setDisableUploadButton] = useState(false);
     useEffect(() => {
         let videoInfo = localStorage.getItem('videoInfo')
         if (videoInfo) {
             console.log("======================> Hay algo en local storage!!!!")
             // process o save data
             let filename = localStorage.getItem('filename')
+            setDisableUploadButton(true)
             console.log("File name ", filename);
             localStorage.removeItem('videoInfo');
             localStorage.removeItem('filename');
@@ -36,6 +38,8 @@ export const Main = (props) => {
             console.log("URL ", parsedVideoInfo.url);
             setUrlVideo(parsedVideoInfo.url);
             setUrlStimulus(parsedVideoInfo.stimulus_url)
+            setExpectedArousal(parsedVideoInfo.stimulus_arousal);
+            setExpectedValence(parsedVideoInfo.stimulus_valence);
             let combined = {};
             Object.values(parsedVideoInfo.data).forEach(innerDict => {
                     combined = { ...combined, ...innerDict };
@@ -60,7 +64,8 @@ export const Main = (props) => {
             setIsLastBatch(false);
             setProcessedVideo(false);
             setUrlStimulus(null);
-            setReceivedAllBatches(false)
+            setReceivedAllBatches(false);
+            setDisableUploadButton(false);
         }
     }, [clear]);
 
@@ -114,6 +119,8 @@ export const Main = (props) => {
                                                     expectedValence={expectedValence}
                                                     setExpectedArousal={setExpectedArousal}
                                                     setExpectedValence={setExpectedValence}
+                                                    disableUploadButton={disableUploadButton}
+                                                    setDisableUploadButton={setDisableUploadButton}
                                     />
                                 </Grid>
                                 <Grid item justifyContent="center" alignItems="center" xs={9}>             

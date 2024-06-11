@@ -11,18 +11,20 @@ export const LoadingVideos = ({videoFile, setVideoFile,
         setClear(true);
         setVideoFile(newFile);
         setDisableUploadButton(false);
+        let url = null
         if (newFile) {
-            const url = URL.createObjectURL(newFile);
+            url = URL.createObjectURL(newFile);
             console.log("URL VIDEO ", url);
-            setUrlVideo(url);
         }
+        setUrlVideo(url);
     }
     const handleChangeStimulus = (newFile) => {
         setStimulusFile(newFile);
+        let url = null
         if (newFile) {
-            const url = URL.createObjectURL(newFile);
-            setUrlStimulus(url); 
+            url = URL.createObjectURL(newFile); 
         }
+        setUrlStimulus(url);
     }
 
     return (

@@ -14,8 +14,10 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                                 setLoading, setFramesToProcess, setFramesFetched, 
                                 setTimeToFetch, notify, setNotify, 
                                 isLastBatch, setIsLastBatch, setTotalBatches,
-                                stimulusFile, setStimulusFile, setProcessedVideo, setClear, setUrlVideo, setUrlStimulus,
-                                disableUploadButton, setDisableUploadButton}) => {
+                                stimulusFile, setStimulusFile, setProcessedVideo, 
+                                setClear, setUrlVideo, setUrlStimulus,
+                                disableUploadButton, setDisableUploadButton, 
+                                expectedArousal, expectedValence}) => {
                                   
     const [showStimulus, setShowStimulus] = useState(false);
     // const [disableUploadButton, setDisableUploadButton] = useState(false);
@@ -132,7 +134,12 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                 try {
                     console.log("SUBO EL ESTIMULO");
                     const token = sessionStorage.getItem('token');
-                    const APIURL = `http://localhost:8000/data/stimulus?match_file_name=${videoFile.name}`;
+                    let APIURL = `http://localhost:8000/data/stimulus?match_file_name=${videoFile.name}`;
+                    if (expectedArousal && expectedValence) {
+                        APIURL += `&arousal=${expectedArousal}&valence=${expectedValence}`
+                    }
+                    console.log("api url ", APIURL);
+                                
                     const formData = new FormData();
                     formData.append('file', stimulusFile);
                     const response = await fetch(APIURL, {

@@ -17,7 +17,9 @@ const ImageUploader = ({
   setImgUrl,
   setStimulusUrl, 
   disableUploadButton, 
-  setDisableUploadButton
+  setDisableUploadButton, 
+  expectedArousal, 
+  expectedValence
 }) => {
 
   console.log("DISABLE BUTTON: ",disableUploadButton )
@@ -49,10 +51,13 @@ const ImageUploader = ({
       reader.onload = async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const API_URL = 'http://localhost:8000/data/stimulus?match_file_name=';
+            let API_URL = `http://localhost:8000/data/stimulus?match_file_name=${imageFile.name}`;
+            if (expectedArousal && expectedValence) {
+              API_URL += `&arousal=${expectedArousal}&valence=${expectedValence}`;
+            }
             const formData = new FormData();
             formData.append('file', stimulusFile);
-            const response = await fetch(`${API_URL}${imageFile.name}`, {
+            const response = await fetch(`${API_URL}`, {
               method: 'POST',
               body: formData,
               headers: {
