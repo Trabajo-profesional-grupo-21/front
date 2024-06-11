@@ -9,7 +9,7 @@ const background = 'rgb(170,126,169)'
 
 export const options = {
     hAxis: {
-        title: 'Tiempo',
+        title: 'Tiempo (s)',
         minValue: 1
       },
     vAxis: {

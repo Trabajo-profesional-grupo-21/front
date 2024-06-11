@@ -101,7 +101,7 @@ export const ScatterPlotMultiple = ({valenceArousalData, expectedArousal, expect
             type: 'scatter',
             data: {
                 datasets: [{
-                    label: 'valencia-exitacion',
+                    label: 'valencia-exitación',
                     data : valenceArousalData,
                     //data: [{ x: 0.5, y: 0.4 },{ x: 0, y: 0.3 } ],
                     backgroundColor: 'rgba(255, 26, 104, 0.2)',
@@ -112,7 +112,7 @@ export const ScatterPlotMultiple = ({valenceArousalData, expectedArousal, expect
                     pointRadius: 6,
                 }, 
                 {
-                    label: 'Valor esperado valencia-exitacion',
+                    label: 'Valor esperado valencia-exitación',
                     data: [{ x: expectedValence, y: expectedArousal }],
                     backgroundColor: expectedDotColor,
                     borderColor: expectedDotColor,

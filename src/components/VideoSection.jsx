@@ -25,7 +25,8 @@ export const VideoSection = ({
     const stimulusPlayer = useRef(null);
 
     useEffect(() => {
-        if (timesToFetch.length === 0 && videoFile !== null) {
+        console.log("Times to fetch check",timesToFetch);
+        if (timesToFetch.length === 0 && videoFile) {
             setReceivedAllBatches(true)
         }
     }, [timesToFetch])

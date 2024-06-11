@@ -118,6 +118,9 @@ export const VideoPlayer = ({
             setCurrentFrameIndex(actualFrame);
             const floorCurrentTime = Math.floor(currentTime);
             if (floorCurrentTime % 10 === 0 && floorCurrentTime !== lastCall && !isLastBatch) { 
+                let timeToFetch = floorCurrentTime + 10;
+                timesToFetch = timesToFetch.filter(element => element !== timeToFetch);
+                setTimeToFetch(timesToFetch);
                 setTimeout(() => {
                     getVideoData(floorCurrentTime + 10);
                 }, 5000);

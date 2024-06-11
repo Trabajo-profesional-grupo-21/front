@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../services/authService';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { TextField, Button, Grid, Box, Typography} from '@mui/material';
 import Notification from '../components/Notifications';
 
 const Register = () => {
@@ -62,8 +59,12 @@ const Register = () => {
           marginBottom: '20px',
         }}
       >
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Registro</h2>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
+          <Grid>
+            <Typography  variant="h3" align="center">
+                    Crea tu cuenta
+            </Typography>
+          </Grid>
           <Grid item xs={12}>
             <TextField
               label="Email"

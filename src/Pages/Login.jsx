@@ -50,7 +50,7 @@ const Login = () => {
         <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
                 <Typography  variant="h3" align="center">
-                    Deteccion de Emociones
+                    Detección de emociones
                 </Typography>
             </Grid>
             <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>

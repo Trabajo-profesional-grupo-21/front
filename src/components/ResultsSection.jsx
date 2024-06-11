@@ -13,22 +13,22 @@ import { ScatterPlotMultiple } from '../charts/ScatterPlotMultiple';
 const backgroundForResults = 'rgb(170,126,169)'
 
 const emotionsDictionary = {
-    'HAPPY': 'FELIZ',
-    'HAPPINESS': 'FELIZ',
-    'SAD': 'TRISTEZA',
-    'SADNESS': 'TRISTEZA',
-    'FEAR': 'MIEDO',
-    'ANGER': 'ENOJADO',
-    'DISGUST': 'ASCO',
-    'SURPRISE': 'SORPRESA',
-    'NEUTRAL': 'NEUTRAL'
+    'HAPPY': 'Feliz',
+    'HAPPINESS': 'Feliz',
+    'SAD': 'Tristeza',
+    'SADNESS': 'Tristeza',
+    'FEAR': 'Miedo',
+    'ANGER': 'Enojado',
+    'DISGUST': 'Asco',
+    'SURPRISE': 'Sorpresa',
+    'NEUTRAL': 'Neutral'
 };
 
 const unitActionDictionary = {
     'AU01': 'Levantamiento de cejas interno',
     'AU02': 'Elevador de cejas exterior',
     'AU04': 'Bajar la ceja',
-    'AU05': 'Elevador de parpado superior',
+    'AU05': 'Elevador de párpado superior',
     'AU06': 'Levantador de mejillas',
     'AU07': 'Tensor de la tapa',
     'AU09': 'Arrugador de nariz',
@@ -47,20 +47,20 @@ const unitActionDictionary = {
 
 const data_init = [
     ["Emociones", "Emociones"],
-    ["FELIZ", 0.03],
-    ["TRISTEZA", 0.23],
-    ["MIEDO", 0.4],
-    ["ENOJADO", 0.6],
-    ["ASCO", 0.03],
-    ["SOPRESA", 0.3],
-    ["NEUTRAL", 0.1],
+    ["Feliz", 0.01],
+    ["Tristeza", 0.04],
+    ["Miedo", 0.2],
+    ["Enojado", 0.6],
+    ["Asco", 0.05],
+    ["Sorpresa", 0.1],
+    ["Neutral", 0.0],
   ];
 
 const actionUnits = [
     { AUName: 'Levantamiento de cejas interno \n (AU1)', Intensity: 0.0 },
     { AUName: 'Elevador de cejas exterior (AU2)', Intensity: 0.0 },
     { AUName: 'Bajar la ceja (AU4)', Intensity: 0.0 },
-    { AUName: 'Elevador de parpado superior (AU5)', Intensity: 0.0 },
+    { AUName: 'Elevador de párpado superior (AU5)', Intensity: 0.0 },
     { AUName: 'Levantador de mejillas (AU6)', Intensity: 0.0 },
     { AUName: 'Tensor de la tapa (AU7)', Intensity: 0.0 },
     { AUName: 'Arrugador de nariz (AU9)', Intensity: 0.0 },
@@ -86,7 +86,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear,
     console.log("Expected arusal", expectedArousal);
     console.log("Expected valence ", expectedValence);
     const [emotionsData, setEmotionsData] = useState({0: data_init});
-    const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": 0.5, "arousal": 0.9}});
+    const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": -0.7, "arousal": 0.5}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
 
