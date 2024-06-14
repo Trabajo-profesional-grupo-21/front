@@ -86,7 +86,7 @@ export const Stimulus = ({urlStimulus, stimulusPlayer, expectedArousal,
             <Grid item xs = {12}>
             <TextField
                 disabled={disableUploadButton}
-                label="Valence"
+                label="Valencia"
                 variant="outlined"
                 value={expectedValence}
                 onChange={handleChangeValence}
@@ -96,7 +96,7 @@ export const Stimulus = ({urlStimulus, stimulusPlayer, expectedArousal,
         <Grid item xs = {12}>
             <TextField
                 disabled={disableUploadButton}
-                label="Arousal"
+                label="Exitación"
                 variant="outlined"
                 value={expectedArousal}
                 onChange={handleChangeArousal}
