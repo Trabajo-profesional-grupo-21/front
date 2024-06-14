@@ -56,7 +56,7 @@ export const Stimulus = ({urlStimulus, stimulusPlayer, expectedArousal,
             alignItems="center">
             <Grid item>
                 <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.59)" }}>
-                    Estimulo
+                    Estímulo
                 </Typography>
             </Grid>
             <Grid item xs = {12}>
@@ -79,7 +79,7 @@ export const Stimulus = ({urlStimulus, stimulusPlayer, expectedArousal,
             </Grid>
             <Grid item xs = {12}>
                 <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.59)" }}>
-                    Arousal y valencia promedio del Estimulo
+                    Exitación y valencia promedio del Estímulo
                 </Typography>
 
             </Grid>

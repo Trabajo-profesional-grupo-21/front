@@ -158,7 +158,7 @@ export const ImageSection = ({preLoadedData, setBatchData, height,
                                 alignItems="center">
                                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
                                     <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.59)" }}>
-                                        Estimulo
+                                        Estímulo
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
@@ -174,14 +174,14 @@ export const ImageSection = ({preLoadedData, setBatchData, height,
                                 </Grid>
                                 <Grid item xs = {12} sx={{ textAlign: 'center' }}>
                                     <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.59)" }}>
-                                        Arousal y valencia promedio del Estimulo
+                                        Excitación y valencia promedio del estímulo
                                     </Typography>
 
                                 </Grid>
                                 <Grid item xs = {12} sx={{ textAlign: 'center' }}>
                                     <TextField
                                             disabled={disableUploadButton}
-                                            label="Valence"
+                                            label="Valencia"
                                             variant="outlined"
                                             value={expectedValence}
                                             onChange={handleChangeValence}
@@ -191,7 +191,7 @@ export const ImageSection = ({preLoadedData, setBatchData, height,
                                 <Grid item xs = {12} sx={{ textAlign: 'center' }}>
                                     <TextField
                                         disabled={disableUploadButton}
-                                        label="Arousal"
+                                        label="Excitación"
                                         variant="outlined"
                                         value={expectedArousal}
                                         onChange={handleChangeArousal}

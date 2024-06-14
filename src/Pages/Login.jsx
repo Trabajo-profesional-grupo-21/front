@@ -74,7 +74,7 @@ const Login = () => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label="Password"
+              label="Contraseña"
               variant="outlined"
               type="password"
               fullWidth

@@ -120,7 +120,7 @@ const ImageUploader = ({
 
   return (
     <SimpleAccordion
-    name="Carga de imagenes"
+    name="Carga de imágenes"
     component={
       <div>
           <Grid container 
@@ -153,7 +153,7 @@ const ImageUploader = ({
                   <Grid item xs = {12}>
                       <MuiFileInput
                         value={stimulusFile}
-                        label="Seleccionar estimulo"
+                        label="Seleccionar estímulo"
                         accept="image/*"
                         InputProps={{
                           style: {

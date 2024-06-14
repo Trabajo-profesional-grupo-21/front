@@ -57,7 +57,7 @@ const Images = () => {
     <>
       <Navbar />
       <Box mt={10} textAlign="center">
-        <Typography variant="h4" gutterBottom>Mis imagenes</Typography>
+        <Typography variant="h4" gutterBottom>Mis imágenes</Typography>
       </Box>
       <Box mt={5}>
       {loading ? (
