@@ -27,10 +27,44 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
     
     const calculateIfIsLastBatch = (currentBatch, total_batches) => {return currentBatch === (total_batches -1)} 
     
+    const saveStimulus = async() => {
 
+        if (stimulusFile && videoFile) {
+            const stimulusReader = new FileReader();
+            stimulusReader.onload = async () => {
+                try {
+                    console.log("SUBO EL ESTIMULO");
+                    const token = sessionStorage.getItem('token');
+                    let APIURL = `http://localhost:8000/data/stimulus?match_file_name=${videoFile.name}`;
+                    if (expectedArousal && expectedValence) {
+                        APIURL += `&arousal=${expectedArousal}&valence=${expectedValence}`
+                    }
+                    console.log("api url ", APIURL);
+                                
+                    const formData = new FormData();
+                    formData.append('file', stimulusFile);
+                    const response = await fetch(APIURL, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'accept': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+    
+                    if (response.status === 201) {
+                        console.log("Estimulo cargado");
+                    }
+                } catch (error) {
+                    console.log("Error ", error);
+                }
+            };
+            stimulusReader.readAsDataURL(videoFile);
+        }
+    }
     const getVideoData = async (currentTime, attempts = 0, amountTotalBatches) => {
         try {
-            // const user_id = localStorage.getItem('user');
+
             console.log("FUI A BUSCAR DATA DEL TIEMPO ", currentTime);
             const token = sessionStorage.getItem('token');
             const filename = localStorage.getItem('filename');
@@ -112,6 +146,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                         }
                         console.log("Times to fetch ", timesToProcess);
                         setTimeToFetch(timesToProcess);  
+                        await saveStimulus()
                     }
                 setLoading(false);
                 //Creemos que no hace falta este setProcessedVideo(true) pero en principio lo dejamos comentado
@@ -128,38 +163,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
             reader.readAsDataURL(videoFile);
         }
 
-        if (stimulusFile && videoFile) {
-            const stimulusReader = new FileReader();
-            stimulusReader.onload = async () => {
-                try {
-                    console.log("SUBO EL ESTIMULO");
-                    const token = sessionStorage.getItem('token');
-                    let APIURL = `http://localhost:8000/data/stimulus?match_file_name=${videoFile.name}`;
-                    if (expectedArousal && expectedValence) {
-                        APIURL += `&arousal=${expectedArousal}&valence=${expectedValence}`
-                    }
-                    console.log("api url ", APIURL);
-                                
-                    const formData = new FormData();
-                    formData.append('file', stimulusFile);
-                    const response = await fetch(APIURL, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'accept': 'application/json',
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-    
-                    if (response.status === 201) {
-                        console.log("Estimulo cargado");
-                    }
-                } catch (error) {
-                    console.log("Error ", error);
-                }
-            };
-            stimulusReader.readAsDataURL(videoFile);
-        }
+        
     };
     return (
         <SimpleAccordion
