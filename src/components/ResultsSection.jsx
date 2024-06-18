@@ -192,7 +192,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear,
                                 timeLineData={timeLineData()}
                             />
                         } 
-                        name="Exitación y valencia en el tiempo (modelo Russell)"/>
+                        name="Excitación y valencia en el tiempo (modelo Russell)"/>
                 </Grid> )}
                 {showTimeLine && (
                     <Grid item xs={12}>
@@ -228,7 +228,7 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear,
                                     </Grid>
                                 </Grid>
                             } 
-                            name="Valencia y exitación esperada vs obtenida"/>
+                            name="Valencia y excitación esperada vs obtenida"/>
                     </Grid>
                 )}
         </Grid>

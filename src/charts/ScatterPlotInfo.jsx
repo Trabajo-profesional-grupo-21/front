@@ -99,7 +99,7 @@ export const ScatterPlot = ({xpos, ypos}) => {
             type: 'scatter',
             data: {
                 datasets: [{
-                    label: 'Arousal',
+                    label: 'valor',
                     data: [{ x: xpos, y: ypos }],
                     backgroundColor: 'rgba(255, 26, 104, 0.2)',
                     borderColor: 'rgba(255, 26, 104, 1)',

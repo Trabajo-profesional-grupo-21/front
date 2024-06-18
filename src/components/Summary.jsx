@@ -50,7 +50,7 @@ export const Summary = ({timeLineData, receivedAllBatches,  expectedArousal, exp
             </Grid>
             <Grid item xs = {12} sx={{ marginBottom: 3 }}>
             <Typography  variant="h5" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.50)" }}>
-                    Exitación {!receivedAllBatches ? (
+                Excitación {!receivedAllBatches ? (
                     <CircularProgress
                         style={{
                             display: 'center',
