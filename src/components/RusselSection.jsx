@@ -40,7 +40,7 @@ export const RusselSection = ({valenceArousalData}) => {
         >
             <Grid item xs = {12}>
                 <Typography variant="h4" style={{ fontWeight: "bold", color: "rgba(0, 0, 0, 0.90)" }}>
-                    Modelo de Russel
+                    Modelo de Russell
                 </Typography>
             </Grid>
             <Grid item xs={6}>
