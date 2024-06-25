@@ -2,7 +2,7 @@ import { MuiFileInput } from 'mui-file-input'
 import { Grid } from '@mui/material'
 
 
-export const LoadingVideos = ({videoFile, setVideoFile, 
+export const LoadingVideos = ({videoFile, setVideoFile, setShowStimulus,
                                 showStimulus, stimulusFile,
                                 setStimulusFile, setClear, setUrlVideo, setUrlStimulus,
                                 setDisableUploadButton}) =>{
@@ -15,11 +15,11 @@ export const LoadingVideos = ({videoFile, setVideoFile,
         if (newFile) {
             url = URL.createObjectURL(newFile);
             console.log("URL VIDEO ", url);
-        } else {
-           setStimulusFile(null);
-           setUrlStimulus(null);
         }
         setUrlVideo(url);
+        setStimulusFile(null);
+        setUrlStimulus(null);
+        setShowStimulus(false);
     }
     const handleChangeStimulus = (newFile) => {
         setStimulusFile(newFile);

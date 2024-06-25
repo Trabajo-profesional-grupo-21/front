@@ -180,6 +180,7 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                 setUrlVideo={setUrlVideo}
                 setUrlStimulus={setUrlStimulus}
                 setDisableUploadButton={setDisableUploadButton}
+                setShowStimulus={setShowStimulus}
             >
             </LoadingVideos>
             {videoFile && (
