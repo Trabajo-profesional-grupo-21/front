@@ -24,6 +24,7 @@ export const Main = (props) => {
     const [expectedArousal, setExpectedArousal] = useState(null);
     const [expectedValence, setExpectedValence] = useState(null);
     const [disableUploadButton, setDisableUploadButton] = useState(false);
+    
     useEffect(() => {
         let videoInfo = localStorage.getItem('videoInfo')
         if (videoInfo) {
@@ -53,6 +54,7 @@ export const Main = (props) => {
             setFramesToProcess(frames);
             setFramesFetched(frames);
             setTotalBatches(parsedVideoInfo.total_batches);
+            setReceivedAllBatches(true);
         }
     })
 
