@@ -83,22 +83,17 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear,
                                 showTimeLine, receivedAllBatches,
                                 expectedArousal, expectedValence, 
                                 showScatterPlot}) =>{
-    console.log("Expected arusal", expectedArousal);
-    console.log("Expected valence ", expectedValence);
     const [emotionsData, setEmotionsData] = useState({0: data_init});
     const [valenceArousalData, setValenceArousalData] = useState({0:{"valence": -0.7, "arousal": 0.5}});
     const [unitAcctionsData, setUnitActions] = useState({0:actionUnits});
     const [timeLineVAData, setTimeLineVAData] = useState(timeLineVA);
 
     useEffect(() => {
-        console.log("EXISTE EL VIDEO ", clear);
         if (clear){
-            console.log("clearing data!!")
             setEmotionsData({0: data_init});
             setValenceArousalData({0:{"valence": 0.5, "arousal": 0.9}});
             setUnitActions({0:actionUnits});
             setTimeLineVAData(timeLineVA);
-            console.log("CurrentFrameIndex ", currentFrameIndex);
         }
     }, [clear])
     
@@ -109,7 +104,6 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear,
             const unitActionsInfo = frameData.ActionUnit;
 
             const formattedEmotions = Object.entries(emotions).map(([emotion, value]) => {
-                console.log("EMOTION ", emotion);
                 const translatedEmotion = emotionsDictionary[emotion.toUpperCase()];
                 const emotionName = translatedEmotion ? translatedEmotion : emotion.toUpperCase();
                 return [emotionName, parseFloat(value)];
@@ -120,14 +114,15 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear,
                 ...prevEmotionsData,
                 [parseInt(frameId)]: formattedEmotions
             }));
-
+            console.log("frame data aca", frameData)
             const valence = parseFloat(parseFloat(frameData.valence).toFixed(3));
             const arousal = parseFloat(parseFloat(frameData.arousal).toFixed(3));
             setValenceArousalData(prevValenceArousalData => ({
                 ...prevValenceArousalData,
                 [parseInt(frameId)]: { valence, arousal }
             }));
-
+            console.log("framee ", frameId);
+            console.log("Unit actions info ", unitAcctionsData);
             unitActionsInfo.sort((a, b) => b.Intensity - a.Intensity);
             unitActionsInfo.forEach(unit => {
                 unit.AUName = unitActionDictionary[unit.AUName] + "\n" + "(" + unit.AUName + ")"
@@ -142,7 +137,6 @@ export const ResultsSection = ({batchData, currentFrameIndex, frameRate, clear,
                 let updatedData = [...prevValenceArousalTimeData];
                 
                 updatedData.push([currentTime, arousal, valence]);
-                console.log("DATA: ", updatedData)
                 return updatedData;
             });
 

@@ -6,14 +6,12 @@ import IconButton from '@mui/material/IconButton';
 export const Stimulus = ({urlStimulus, stimulusPlayer, expectedArousal, 
                         expectedValence, setExpectedArousal, setExpectedValence, 
                         setNotify, disableUploadButton}) => {
-    console.log("DISABLE BUTTON ", disableUploadButton);
     const handleChangeArousal = (event) => {
         const newValue = event.target.value;
         // Solo permitir números, un punto decimal, y manejar el caso de un punto decimal al principio.
         if (/^-?\d*\.?\d*$/.test(newValue)) {
             const floatValue = parseFloat(newValue);
             // Permitir cadena vacía para borrar el input
-            console.log("Numero float" , floatValue);
             if (newValue === '') {
                 setExpectedArousal(null);
                 return

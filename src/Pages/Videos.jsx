@@ -46,7 +46,6 @@ const Videos = () => {
             throw new Error('Failed to fetch video information');
         }
         const videoInfo = await response.json();
-        console.log("VIDEO INFOOOOOOOOOOOO (PARA VER EL FILE NAME)", videoInfo);
         localStorage.setItem("videoInfo", JSON.stringify(videoInfo));
         localStorage.setItem("filename", videoId);
         navigate('/');

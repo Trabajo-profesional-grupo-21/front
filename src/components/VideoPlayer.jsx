@@ -56,8 +56,6 @@ export const VideoPlayer = ({
             console.error('Error:', error);
             if (attempts < maxAttempts) {
                 setTimeout(() => getVideoData(currentTime, attempts + 1), 3000); // Espera 1 segundo antes de reintentar
-            } else {
-                console.log("Ya hice 10 intentos");
             }
         }
     }
@@ -76,7 +74,6 @@ export const VideoPlayer = ({
     }, [framesFetched])
 
     const getActualFrame = (currentFrame) => {
-        console.log("Frames a pocesar" ,framesToProcess);
         let filteredIndex = framesToProcess.
         map(key => parseInt(key)).
         filter(number => number <= currentFrame).
@@ -88,7 +85,6 @@ export const VideoPlayer = ({
 
     const handlePlay = () => {
         setPause(false);
-        console.log("stitmulus player", stimulusPlayer);
         if (stimulusPlayer.current){
             stimulusPlayer.current.getInternalPlayer().play();
         }
@@ -102,7 +98,6 @@ export const VideoPlayer = ({
 
     const handleSeek = (seconds) => {
         if (stimulusPlayer.current){
-            console.log("SECONDS ", seconds);
             stimulusPlayer.current.seekTo(seconds);
         }
     }
@@ -112,7 +107,6 @@ export const VideoPlayer = ({
         if (!currentTime) return -1
         const currentFrame = Math.floor(currentTime * frameRate);
         let actualFrame = getActualFrame(currentFrame);
-        console.log("Frames fetch ", framesFetched);
         console.log("actual frame", actualFrame);
         if (framesFetched.includes(actualFrame)){
             setCurrentFrameIndex(actualFrame);
@@ -140,8 +134,8 @@ export const VideoPlayer = ({
                 setLastCall(timeToFetch);
             }
            
+            //TODO: fix!
             let notificationMsg = 'Todavia estamos procesando el video'
-            console.log("Process video ", processedVideo);
             if (!processedVideo) {
                 notificationMsg = 'Por favor, presiona el boton "subir" antes de reproducir el video'
             }

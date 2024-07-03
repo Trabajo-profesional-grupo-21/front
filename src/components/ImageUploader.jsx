@@ -22,11 +22,9 @@ const ImageUploader = ({
   expectedValence
 }) => {
 
-  console.log("DISABLE BUTTON: ",disableUploadButton )
   const [showStimulus, setShowStimulus] = useState(false);
 
   const handleUploadStimulus = (setShowStimulus) => {
-    console.log("Cargamos estimulo imagenes");
     setShowStimulus(true);
   } 
 
@@ -68,7 +66,6 @@ const ImageUploader = ({
 
             const jsonResponse = await response.json();
             if (response.status === 201) {
-              console.log("Estimulo de img subido ok")
               return 0;
             }
         } catch (error) {
@@ -101,7 +98,6 @@ const ImageUploader = ({
           });
 
           const jsonResponse = await response.json();
-          console.log(jsonResponse)
           if (response.status === 201) {
             const res = await uploadStimulus();
             if (res == 0){

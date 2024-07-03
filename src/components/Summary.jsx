@@ -10,9 +10,6 @@ const background = 'rgb(170,126,169)';
 // timeLineData := [[tiempo, arousal, valence], [tiempo, arousal, valence]]
 // [{ x: 0.5, y: 0.4 },{ x: 0, y: 0.3 } ]
 export const Summary = ({timeLineData, receivedAllBatches,  expectedArousal, expectedValence}) => {
-    console.log("recibi todos los batches ", receivedAllBatches);
-    console.log("EXPECTED AROUSAL ", expectedArousal);
-    console.log("EXPECTIVE VALENCE ", expectedValence);
     const avgValence = () => {
         let sum = timeLineData.reduce((acc, value, index) => {
             if (index === 0) {
@@ -25,7 +22,6 @@ export const Summary = ({timeLineData, receivedAllBatches,  expectedArousal, exp
     }
     
     const avgArousal = () => {
-        console.log("======CALCULO AROUSAL=========")
         let sum = timeLineData.reduce((acc, value, index) => {
             if (index === 0) {
                 return acc

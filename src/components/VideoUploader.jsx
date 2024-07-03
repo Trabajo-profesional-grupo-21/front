@@ -33,13 +33,11 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
             const stimulusReader = new FileReader();
             stimulusReader.onload = async () => {
                 try {
-                    console.log("SUBO EL ESTIMULO");
                     const token = sessionStorage.getItem('token');
                     let APIURL = `http://localhost:8000/data/stimulus?match_file_name=${videoFile.name}`;
                     if (expectedArousal && expectedValence) {
                         APIURL += `&arousal=${expectedArousal}&valence=${expectedValence}`
                     }
-                    console.log("api url ", APIURL);
                                 
                     const formData = new FormData();
                     formData.append('file', stimulusFile);
@@ -51,10 +49,6 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
                             Authorization: `Bearer ${token}`,
                         },
                     });
-    
-                    if (response.status === 201) {
-                        console.log("Estimulo cargado");
-                    }
                 } catch (error) {
                     console.log("Error ", error);
                 }
@@ -65,7 +59,6 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
     const getVideoData = async (currentTime, attempts = 0, amountTotalBatches) => {
         try {
 
-            console.log("FUI A BUSCAR DATA DEL TIEMPO ", currentTime);
             const token = sessionStorage.getItem('token');
             const filename = localStorage.getItem('filename');
             const url = `${APIURL}/video/time/${filename}/${currentTime}`;
@@ -110,7 +103,6 @@ export const VideoUploader = ({videoFile, setVideoFile, setFrameRate, setBatchDa
             const reader = new FileReader();
             reader.onload = async () => {
                 try {
-                    console.log("SUBO EL VIDEO");
                     const token = sessionStorage.getItem('token');
                     const APIURL = 'http://localhost:8000/data/video';
                     const formData = new FormData();

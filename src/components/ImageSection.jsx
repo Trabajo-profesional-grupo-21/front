@@ -45,7 +45,6 @@ export const ImageSection = ({preLoadedData, setBatchData, height,
         if (/^-?\d*\.?\d*$/.test(newValue)) {
             const floatValue = parseFloat(newValue);
             // Permitir cadena vacía para borrar el input
-            console.log("Numero float" , floatValue);
             if (newValue === '') {
                 setExpectedArousal(null);
                 return

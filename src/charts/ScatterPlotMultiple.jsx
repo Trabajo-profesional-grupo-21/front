@@ -7,7 +7,6 @@ const expectedDotColor = 'rgb(252,196,91)';
 
 export const ScatterPlotMultiple = ({valenceArousalData, expectedArousal, expectedValence}) => {
     const chartRef = useRef(null);
-    console.log("Info arousal y valencia", valenceArousalData);
     const [chartInstance, setChartInstance] = useState(null);
 
     useEffect(() => {

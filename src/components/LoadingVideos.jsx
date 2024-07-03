@@ -14,7 +14,6 @@ export const LoadingVideos = ({videoFile, setVideoFile, setShowStimulus,
         let url = null
         if (newFile) {
             url = URL.createObjectURL(newFile);
-            console.log("URL VIDEO ", url);
         }
         setUrlVideo(url);
         setStimulusFile(null);
